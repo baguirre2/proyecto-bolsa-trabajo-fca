@@ -1,0 +1,113 @@
+@charset "utf-8";
+/* CSS Document */
+
+#menu{
+	float:right;
+	background-color:#036;
+	font-size:22px;
+	font-family: "Yanone Kaffeesatz";
+	
+	height:90px;
+	width:900px;
+	
+	margin-right:130px;
+	position:relative;
+	
+	padding:0px 0px 0px 0px;
+	margin-right:78px;
+	
+	display:block;
+	margin: 0px auto;
+	margin-right: 100px;
+	margin-left: 0px;
+}
+
+ul li{
+	list-style:none;
+	float:left;
+	margin-top:10px;
+}
+
+li a{
+	background-color:#000D33;
+	margin:-35px 0px 6px 0px;
+	padding:30px 30px 10px 30px;
+	
+	font-size:22px;
+	text-decoration:none;
+	color:#FFF;
+	display:block; 
+	
+	line-height:42px;
+	text-transform:uppercase;
+	text-decoration:none;
+
+	border-bottom:solid;
+	border-bottom-width:thick;
+	border-bottom-color:#036;
+}
+
+li a:hover{ 
+	border-bottom-style:solid;
+	border-bottom-width:thick;
+	/*AMARILLO*/
+	border-bottom-color:#FC0;
+	/*AZUL
+	border-bottom-color:#09C;*/
+}
+
+li a:active{
+	background:#09C;
+}
+
+#menu ul li.active a{
+	border-bottom-style:solid;
+	border-bottom-width:thick;
+	border-bottom-color:#FC0;
+}
+
+#menu li ul{
+		background:#333333;
+		display:none;
+		height:auto;
+		padding:0px;
+		margin:0px;
+		border:0px;
+		position:absolute;
+		width:200px;
+		z-index:200;
+}
+
+#menu li:hover ul{
+		display:block;
+}
+		
+#menu li li {
+		display:block;
+		float:none;
+		margin:0px;
+		padding:0px;
+		width:200px;
+}
+		
+#menu li:hover li a{
+		background:none;
+		border-bottom:none;
+}
+		
+#menu li ul a{
+		display:block;	
+		height:auto;
+		font-size:18px;
+		font-style:normal;
+		margin:0px;
+		padding:0px 10px 3px 25px;
+		text-align:left;
+}
+
+#menu li ul a:hover, .menu li ul li:hover a{
+		background:#09C;
+		border:0px;
+		color:#FFF;
+}
+

@@ -1,0 +1,270 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{
+	margin-bottom:0px;
+	margin-left:0px;
+	margin-right:0px;
+	margin-top:0px;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:14px;
+	background-color:#F0F0F0;
+}
+
+
+/******** Fuente **********/
+@font-face {
+	font-family: 'Yanone Kaffeesatz';
+	src: url('Yanone Kaffeesatz Regular.otf');
+}
+
+
+/********* Encabezado *********/
+#encabezado{
+	display:block;
+	position:fixed;
+	background-color:#036;
+	height:90px;
+	width:100%;
+}
+
+#logo{
+	float:left;
+	display:inline;
+	height:120px;
+	width:140px;
+	position:absolute;
+	margin-left:110px;
+	margin-top:-0px;
+}
+
+#frmMenu {
+	display:none;
+}
+
+/********* Contenido *********/
+#contenido{
+	display:block;
+	background-color:#F0F0F0;
+	min-height: 600px;
+	height:auto;
+	padding: 130px 60px 60px 60px;
+	text-align:justify;
+}
+
+#contenido img{
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top: 150px;
+}
+
+
+/******* Formulario *********/
+label {
+	margin-right: 10px;
+}
+
+input[type=text], textarea{
+   	width: 250px;
+	height: 18px;
+}
+
+input[type=submit], input[type=button]{
+	width: auto;
+	height: 30px;
+	margin-top:15px;
+	padding-left: 15px;
+	padding-right: 15px;
+	border-style:none;
+	background:#036;
+	background:#666;
+	color:#FFF;
+	float:right;
+}
+
+input[type=submit] + input[type=submit]{
+	width: 90px;
+	height: 30px;
+	margin-top:15px;
+	margin-left: 10px;
+}
+
+input[type=submit]:hover, input[type=button]:hover{
+	background:#036;
+}
+
+form label {
+  display: inline-block;
+  line-height: 1.8;
+  vertical-align: top;
+  width: 120px;
+  text-align:right;
+  margin-left: 123px;
+}
+
+
+
+form fieldset ol {
+  margin: 0;
+  padding: 0;
+}
+
+form fieldset li {
+  list-style: none;
+  padding: 5px;
+  margin: 0;
+}
+
+form fieldset fieldset {
+  border: none;
+  margin: 3px 0 0;
+}
+
+form fieldset fieldset legend {
+  padding: 0 0 5px;
+  font-weight: normal;
+}
+
+form fieldset fieldset label {
+  display: block;
+  width: auto;
+}
+
+form em {
+  font-weight: bold;
+  font-style: normal;
+  color: #f00;
+}
+
+textarea{
+	width: 250px;
+	height: 50px;
+  	margin-left: 257px;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;
+	display:inherit;
+}
+
+
+form{
+  width: 600px;
+  padding:10px 10px 10px 10px;
+  margin:0 auto;
+  text-align: left;
+}
+
+h1, h2, h3{
+	width: 600px;
+	margin:0 auto;
+	margin-bottom:20px;
+	text-align:center;
+	text-transform:uppercase;
+	font-size:18px;
+}
+
+div{
+	margin-top:0px;
+}
+
+select{
+	height: 25px;
+	width: auto;	
+}
+
+/* Campo de fecha */
+input[type=text].fecha{
+	width: 90px;
+	margin-left:0px;
+	margin-right:0px;
+}
+
+/* Formato por  */
+input[type=text].row {
+  display: inline-block;
+  margin-right:-90px;
+  margin-left:0px;
+  color:#F00; 
+}
+
+select.row {
+  display: inline-block; 
+  margin-right:0px;
+  margin-left:0px;
+  padding-left:0px;
+  padding-right:0px;
+  color:#F00; 
+}
+
+input, textarea, select{
+	margin-right:20px;
+}
+
+input[type=submit], input[type=button]{
+	margin-bottom:20px;	
+}
+
+/******** Tabla *********/
+table{
+	margin-right: auto;
+	margin-left:auto;
+	border:outset;
+	border-bottom-color:#FFF;
+	border-right-color:#FFF;
+	border-collapse:separate;
+	background-color:#FFF;
+	
+	border-top-width: 20px;
+	border-left-width: 20px;
+	border-style: solid;
+	border-color:#FFF;
+
+}
+
+table tr td{
+	text-align:left;
+	border:none;
+}
+
+table th{
+	text-align:center;
+	background:#9DCEFF;
+	color:#FFF;
+	border:none;
+}
+
+	/** Listado **/
+.listado{
+	display:table;
+	margin: 0px 0px 0px -200px;
+	background-color:#FFF;
+	border:solid;
+	border-color:#9DCEFF;
+	border-collapse:collapse;
+	border-width:3px;
+}
+
+.listado td, .listado th{
+	border:solid;
+	border-color:#9DCEFF;
+	padding: 4px 3px 4px 3px;
+}
+
+	/** Listado de Profesores **/
+#Profesor{
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#Opciones{
+	margin-left:auto;
+	margin-right:auto;
+}
+
+
+
+/********** Pie ***********/
+#pie{
+	background:#00264B;
+	padding:21px 36px 44px;
+}
