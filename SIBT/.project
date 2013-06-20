@@ -31,11 +31,4 @@
 		<nature>org.eclipse.php.core.PHPNature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>SIBT</name>
-			<type>2</type>
-			<location>/var/www/SIBT</location>
-		</link>
-	</linkedResources>
 </projectDescription>

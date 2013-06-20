@@ -1,0 +1,22 @@
+<div id="resFrmRegis"></div>
+<form id="frmRegis">
+    <table>
+        <tbody>
+            <tr>
+                <td>Nombre Alumno: </td>
+                <td><input type="text" name="nomAlum" value="" placeholder="Nombre"/></td>
+            </tr>
+            <tr>
+                <td>Dirección</td>
+                <td><input type="text" name="dirAlum" value="" placeholder="Dirección"/></td>
+            </tr>
+            <tr>
+                <td>Telefono</td>
+                <td><input type="text" name="telAlum" value="" placeholder="Telefono"/></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="button" value="Registrar" onclick="ajax('controllers/gestionarCurriculum/CtlCurric.php', 'registrar', 'frmRegis', 'resFrmRegis')"/></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
