@@ -187,7 +187,7 @@ class InterfazBD2{
      *regresa 0 u falso si no se pudo insertar
      *(php evalua el 0 como falso)
      *Nota: No comprueba que se cuenten con los todos los campos obligatorios
-     *Nota: No inserta cadenas vacías ni NULL
+     *Nota: No inserta cadenas vacÃ­as ni NULL
      */
     function ejecutarInsert($nombre_tabla = NULL, $campos_valores = NULL,$col_id = NULL){
     	
@@ -234,7 +234,7 @@ class InterfazBD2{
      * @param array[string][mixed]:campos_valores array asociativo[nombre_campo] => valor
      * @param string:clausula clausula WHERE
      * @return bool: true si se ejecuto false de lo contrario
-     *Nota: No inserta cadenas vacías ni NULL
+     *Nota: No inserta cadenas vacÃ­as ni NULL
      */
     function ejecutarUpdate($nombre_tabla = NULL, $campos_valores = NULL,$clausula = NULL){
     	if(($nombre_tabla != NULL && $nombre_tabla != '')
