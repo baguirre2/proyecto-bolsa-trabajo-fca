@@ -3,6 +3,11 @@
 	
 	$db = new InterfazBD2();
 		
+  /**En el caso de las tablas de este proyecto
+  recuerden que: como las tablas estan en un
+esquema deben acceder a ellas con
+  esquema.nombre de la tabla*/
+  
 	/*Regresan false si hay un error*/
 	$db->ejecutarQuery("INSERT INTO ofertatrabajo(nombre,reclutador) VALUES('nueva oferta','reclutador 1')");
 	$db->ejecutarQuery("UPDATE ofertatrabajo SET nombre='otro nombre' WHERE nombre='nueva oferta'");
