@@ -1,5 +1,5 @@
 <?php
-/* Creación
+/** Creación
  * @author: Benjamín Aguirre García
  * Fecha de Creación: 21 de Junio de 2013
  * Proposito: Se trata de la entity Curso y se encarga de gestionar la conexión a la Base de Datos entre la aplicación y la tabla Curso  
@@ -9,9 +9,9 @@
  * @author Benjamín Aguirre García
  */
 
-include "IntefazBD.php";
+include "./IntefazBD.php";
 	
-class Curso extends InterfazBD {
+class Curso{
 		
 		private $nombre;
 		private $fechaCOnclusion;
@@ -23,8 +23,11 @@ class Curso extends InterfazBD {
 		}
 		
 		function obtener ($idAlumno) {
-			
+			$conn = new IntefazBD; 
 			$query = "SELECT * FROM curso WHERE al_id = " . $idAlumno;
+			
+			
+			
 		}
 		
 		function guardar ($idAlumno, $nombre, $fechaConclusio, $rutaImagen) {
