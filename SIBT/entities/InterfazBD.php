@@ -1,5 +1,5 @@
 <?php
-class InterfazBD{
+class InterfazBD {
     private $conexion;
     private $manejador;
     //"host=localhost port=5432 dbname=li307179654 user=lamb password=bar";

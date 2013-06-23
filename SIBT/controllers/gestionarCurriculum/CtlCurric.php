@@ -6,7 +6,7 @@
  */
 
 include '../../entities/InterfazBD.php';
-include '../../entities/Curso.php';
+include '';
 
 class CtlCurric {
     function __construct() {
@@ -19,11 +19,11 @@ class CtlCurric {
             case 1; include '../../boundaries/curriculum/menuCurr.html';
                 break;
             case "AgregarCurso";
-            	echo "Hola Mundo"; 
             	include '../../boundaries/curriculum/frmCursRegis.html';
             	break;
-            	
-            case "Cursos"; 
+            case "Cursos"; // Se muestran los Cursos Disponibles
+//             	error_reporting(E_ALL);
+//             	ini_set('display_errors', '1');
             	echo obtenerCursos($_SESSION['idUsuario']);
             	break;
             //Mostrar Formularo de Registro
@@ -93,8 +93,19 @@ class CtlCurric {
     }
    
     function obtenerCursos ($idAlumno)  {
-    	$strCrusos = "<table> <tr> <th colspan='3'> Cursos </th> </tr> <tr> <th> Nombre del Curso </th> <th> Fecha de Participación </th> <th> </th> </tr> ";
+    	$strCursos = "
+    		<table> 
+    			<thead>
+    				<tr> 
+    					<th colspan='3'> Cursos </th> 
+    				</tr> <tr> 
+    					<th> Nombre del Curso </th> <th> Fecha de Participación </th> <th>   </th> 
+    				</tr> 
+  				</thead>
+  			"; 
     	
+    	$Cursos1 = new Curso();
+   				
     	return $strCursos;
     }
     
