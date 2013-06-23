@@ -1,9 +1,15 @@
 <?php
 
+/**
+ * @author
+ * @version 1.0
+ */
+
 include '../../entities/InterfazBD.php';
+include '../../entities/Curso.php';
 
 class CtlCurric {
-    function __construct($_GET) {
+    function __construct() {
         
         $opc = $_GET['opc'];
         
@@ -12,13 +18,20 @@ class CtlCurric {
             //Mostrar menÃº
             case 1; include '../../boundaries/curriculum/menuCurr.html';
                 break;
-            
+            case "AgregarCurso";
+            	echo "Hola Mundo"; 
+            	include '../../boundaries/curriculum/frmCursRegis.html';
+            	break;
+            	
+            case "Cursos"; 
+            	echo obtenerCursos($_SESSION['idUsuario']);
+            	break;
             //Mostrar Formularo de Registro
             case 'infoAcademica'; 
 				           
             echo "<h1>&nbsp;</h1>";
-            //Llamar al modelo para listar la información académica que tiene el alumno
-            //Mostrar en cada una la opción de editar si está confirmado
+            //Llamar al modelo para listar la informaciï¿½n acadï¿½mica que tiene el alumno
+            //Mostrar en cada una la opciï¿½n de editar si estï¿½ confirmado
             $resultados = $this->listarGradosAcademicos();
             //var_dump($resultados);
             
@@ -38,7 +51,7 @@ class CtlCurric {
                         <th>Escuela</th>
                         <th>Promedio</th>
                         <th>Fecha inicio</th>
-                        <th>Fecha término</th>
+                        <th>Fecha tï¿½rmino</th>
                         <th>Acciones</th>
                         </tr>
                         </thead>
@@ -78,13 +91,19 @@ class CtlCurric {
     function registrarAlumno ($nom, $dir, $tel) {
         
     }
+   
+    function obtenerCursos ($idAlumno)  {
+    	$strCrusos = "<table> <tr> <th colspan='3'> Cursos </th> </tr> <tr> <th> Nombre del Curso </th> <th> Fecha de ParticipaciÃ³n </th> <th> </th> </tr> ";
+    	
+    	return $strCursos;
+    }
     
     public function listarGradosAcademicos($alumno = NULL){
     	$conexion = new InterfazBD();
     	$query = "SELECT * FROM ingsw.informacion_academica WHERE al_id=1 ";
     	$resultados = $conexion->consultar($query);
     	if($resultados != false){
-    		//echo "Conexión hecha";
+    		//echo "Conexiï¿½n hecha";
     		return $resultados;
     	}else{
     		echo "<p class=respuesta>No existen registros</p>";
@@ -94,5 +113,5 @@ class CtlCurric {
     }
 }
 
-new CtlCurric ($_GET);
+$CtlCurric1 = new CtlCurric ();
 ?>
