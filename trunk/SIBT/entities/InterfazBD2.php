@@ -3,7 +3,7 @@ class InterfazBD2{
     private $conexion;
     private $manejador;
     //"host=localhost port=5432 dbname=li307179654 user=lamb password=bar";
-    const CONSTRING = "host=localhost port=5432 dbname=li307179654 user=li307179654 password=307179654";
+    const CONSTRING = "host=localhost port=5432 dbname= user= password=";
     private $resultado;
 
     /**
