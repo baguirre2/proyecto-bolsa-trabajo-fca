@@ -1,12 +1,11 @@
 <?php
 
 /**
- * @author
  * @version 1.0
  */
-
+session_start();
 include '../../entities/InterfazBD.php';
-include '';
+include '../../entities/Curso.php';
 
 class CtlCurric {
     function __construct() {
@@ -14,17 +13,34 @@ class CtlCurric {
         $opc = $_GET['opc'];
         
         switch ($opc) {
-            
             //Mostrar menú
             case 1; include '../../boundaries/curriculum/menuCurr.html';
                 break;
+
             case "AgregarCurso";
-            	include '../../boundaries/curriculum/frmCursRegis.html';
+            	include '../../boundaries/curriculum/frmCursRegis.php';
             	break;
+
             case "Cursos"; // Se muestran los Cursos Disponibles
-//             	error_reporting(E_ALL);
-//             	ini_set('display_errors', '1');
-            	echo obtenerCursos($_SESSION['idUsuario']);
+            	$strCursos = $this->obtenerCursos($_SESSION['idUsuario']);			
+				if ($strCursos == null) {
+					include '../../boundaries/curriculum/frmCursRegis.php';	
+				} else {
+					echo $strCursos;
+				}
+            	break;
+            
+            case "RegistrarCurso";
+            	
+            	$nombreCurso = $_GET['nombreCurso'];
+            	$fechaParticipacion = $_GET['fechaParticipacion'];
+            	if ($fechaParticipacion == null) {
+            		$errMsj .= "Fecha Inválida <br>";
+            	$rutaImg = $_GET['rutaImg'];
+            	}
+            	$errMsj = "Error al Registrar";
+            	echo 'Registrando...';
+				include '../../boundaries/curriculum/frmCursRegis.php';
             	break;
             //Mostrar Formularo de Registro
             case 'infoAcademica'; 
@@ -51,11 +67,11 @@ class CtlCurric {
                         <th>Escuela</th>
                         <th>Promedio</th>
                         <th>Fecha inicio</th>
-                        <th>Fecha t�rmino</th>
+                        <th>Fecha término</th>
                         <th>Acciones</th>
                         </tr>
                         </thead>
-                        <tbody>".$registros."
+                        <tbody> $registros
                     	</tbody>
                         
                     ";
@@ -97,7 +113,7 @@ class CtlCurric {
     		<table> 
     			<thead>
     				<tr> 
-    					<th colspan='3'> Cursos </th> 
+    					<th colspan='3'> Cursos </th> 	
     				</tr> <tr> 
     					<th> Nombre del Curso </th> <th> Fecha de Participación </th> <th>   </th> 
     				</tr> 
@@ -105,7 +121,10 @@ class CtlCurric {
   			"; 
     	
     	$Cursos1 = new Curso();
-   				
+    	$arrCursos = $Cursos1->obtener($idAlumno);
+    	if ($arrCursos == null) {
+    		return null;
+    	} 
     	return $strCursos;
     }
     

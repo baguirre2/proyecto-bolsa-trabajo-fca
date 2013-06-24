@@ -9,7 +9,7 @@
  * @author Benjamín Aguirre García
  */
 
-include "./IntefazBD.php";
+include 'InterfazBD2.php';
 	
 class Curso{
 		
@@ -18,22 +18,22 @@ class Curso{
 		private $estadoAutorizacion;
 		private $Constancia; 
 
-		function __construct($nombre, $fechaConclusion, $estadoAutorizacion){
+		function __construct(){
 				
 		}
 		
+		
 		function obtener ($idAlumno) {
-			$conn = new IntefazBD; 
-			$query = "SELECT * FROM curso WHERE al_id = " . $idAlumno;
-			
-			
-			
+			$conn = new InterfazBD2(); 
+			$query = "SELECT * FROM curso WHERE al_id = $idAlumno";
+			return $conn->consultar($query);
+		}
+
+		function guardar ($idAlumno, $nombre, $fechaConclusion, $rutaImagen) {
+
 		}
 		
-		function guardar ($idAlumno, $nombre, $fechaConclusio, $rutaImagen) {
-			$Constancia = new Constancia($rutaImagen);
-			
-			$insert = "INSERT INTO curso (nombreVALUES (";			
+		function actualizar ($idAlumno, $nombre, $fechaConclusion, $rutaImagen) {
 			
 		}
 } 
