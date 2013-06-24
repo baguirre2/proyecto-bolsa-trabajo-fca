@@ -3,6 +3,11 @@ function ajax (url, opc, frm, div) {
     $("#" + div).load(url + "?opc=" + opc + "&" + getFormData(frm, 'silent', true));
 }
 
+function ajaxConId (url, opc, frm, div, id) {
+    
+    $("#" + div).load(url + "?opc=" + opc + "&id=" + id + "&" + getFormData(frm, 'silent', true));
+}
+
 function getFormData(objf, info, rval) {
     // La función getFormData recorre todos los elementos de un formulario
     // y va formando una cadena de formato "objeto=valor&objeto=valor&...".
@@ -38,19 +43,19 @@ function getFormData(objf, info, rval) {
             // si es un checkbox, verifica que esté chequeado
             if (formObj.elements[i].type == "checkbox"){
                 if (formObj.elements[i].checked == true){
-                    getstr += formObj.elements[i].name + "=" + formObj.elements[i].value + "&";
+                    getstr += formObj.elements[i].name + "=" + encodeURIComponent(formObj.elements[i].value) + "&";
                 }
                 continue;
             }
             // si es un radio, verifica que esté chequeado
             if (formObj.elements[i].type == "radio"){
                 if (formObj.elements[i].checked == true){
-                    getstr += formObj.elements[i].name + "=" + formObj.elements[i].value + "&";
+                    getstr += formObj.elements[i].name + "=" + encodeURIComponent(formObj.elements[i].value) + "&";
                 }
                 continue;
             }
             if (elemValLength.length > 0) {
-                getstr += formObj.elements[i].name + '=' + formObj.elements[i].value + '&';
+                getstr += formObj.elements[i].name + '=' + encodeURIComponent(formObj.elements[i].value) + '&';
             }
         }
     }
