@@ -4,6 +4,10 @@
  * @version 1.0
  */
 session_start();
+session_start();
+$_SESSION['id_alumno'] = 3;  //aquí irá el id del alumno que ingrese al SIBT
+$_SESSION['carrera_alumno'] = 'Informática'; //aquí irá la carrera del alumno que ingrese al SIBT
+session_destroy();
 include '../../entities/InterfazBD.php';
 include '../../entities/Curso.php';
 
