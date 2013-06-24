@@ -8,24 +8,9 @@
  * 
  */
 
-include './InterfazBD.php';
+include_once 'InterfazBD2.php';
 
 class Idioma {
-	private $idIdioma;
-	private $idioma;
-	private $nivelOral;
-	private $nivelEscrito;
-	private $nivelLectura; 
-	
-	/**
-	 * Constructor de Clase 
-	 * @author Benjamín Aguirre García
-	 */	
-	function __construct() {
-		
-	}
-	
-	
 	
 	/**
 	 * Guarda el Idioma con función al Alumno
@@ -40,12 +25,16 @@ class Idioma {
 	 */
 	
 	function guardarAlumno($idAlumno, $idioma, $nivelOral, $nivelEscrito, $nivelLectura) {
-		$conn = new InterfazBD(); 
 		
 	}
 	
 	function obtener ($idAlumno)  {
-		
+		$conn = new InterfazBD2();
+		$query = "SELECT * FROM ingsw.idioma AS id JOIN ingsw.idioma_alumno AS alid ON (id.id_id = alid.id_id) AND alid.al_id = $idAlumno;";
+		echo $query;
+		$res = $conn->consultar($query);
+		$conn->cerrarConexion();
+		return $res;	
 	}
 	
 }
