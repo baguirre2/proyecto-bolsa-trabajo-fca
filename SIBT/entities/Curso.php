@@ -96,18 +96,6 @@ class Curso{
 				return false;
 			}
 		}
-
-		
-		function laloBitch () {
-			
-			echo "Lalo es una BITCH";
-		}
-
-                
-                public function pruebaLalo () {
-                    return true;
-                }
-
 } 
 	
 ?>
