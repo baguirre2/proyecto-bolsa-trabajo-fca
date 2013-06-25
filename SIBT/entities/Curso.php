@@ -96,10 +96,20 @@ class Curso{
 				return false;
 			}
 		}
-                
-                function pruebaLAlo () {
+		
+		/**
+		 * @author Benjamin Aguirre Garcia
+		 */
+		
+		function benjaminPrueba () {
+			
+			return true;
+		}
+
+           
+		function pruebaLAlo () {
                     
-                }
+		}
 } 
 	
 ?>
