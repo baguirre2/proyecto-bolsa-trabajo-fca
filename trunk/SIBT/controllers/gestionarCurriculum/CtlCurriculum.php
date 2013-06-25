@@ -1,6 +1,7 @@
 <?php
 
 include_once '../../entities/InfoLaboral.php';
+include './../../entities/Certificacion.php';
 include_once '../../entities/InterfazBD2.php';
 
 class CtlCurriculum {
@@ -79,6 +80,41 @@ class CtlCurriculum {
                     $this->listarInfoLaboral($idAlum, "Ha ocurrido un error al registrar la informaci√≥n laboral");
                 }
 
+                break;
+                
+            case 'certi_listar';
+                echo "<h1>Mis certificaciones</h1>";
+                $certificacion = new Certificacion();
+                echo $certificacion->listarCertificaciones();
+                echo "<input type=\"button\" name=\"Agregar\" value=\"Agregar CertificaciÛn\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_registrar', 'vacio', 'contCurr');\">";
+                echo "<input type='button' value='Regresar' onclick='ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_listar', 'vacio', 'contCurr');'>";
+                break;
+                
+            case 'certi_registrar';
+                if(!isset($GET['ce_id']) && !isset($GET['btnAceptar']) ) {	//Si no se ha cargado el formulario se incluye
+                	include('../../boundaries/curriculum/frmCurrRegistroCertificacion.html');
+                } else if($GET['btnAceptar'] == 'Registrar' ) {
+                	$certificacion = new Certificacion();
+                	if($certificacion->registrarCertificacion($GET, 1)){
+                		echo "<h1 class=respuesta>Registro realizado con Èxito</h1><br/>";
+                	}else{
+                		echo "<h1 class=respuesta>Error al registrar</h1><br/>";
+                	}
+                }
+                break;
+                
+            case 'certi_editar';
+                $certificacion = new Certificacion();
+                if(!isset($registro) && !isset($GET['ce_id'])){
+                	$registro = $certificacion->buscarCertificacion($GET['id']);
+                	include('../../boundaries/curriculum/frmCurrRegistroCertificacion.html');
+                }else if($GET['btnAceptar'] == 'Editar' && isset($GET['ce_id'])){
+                	if($certificacion->editarCertificacion($GET)){
+                		echo "<h1 class=respuesta>Registro actualizado con Èxito</h1><br/>";
+                	}else{
+                		echo "<h1 class=respuesta>Error al actualizar</h1><br/>";
+                	}
+                }
                 break;
         }
     }
