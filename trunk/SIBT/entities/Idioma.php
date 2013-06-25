@@ -51,5 +51,19 @@ class Idioma {
 		$conn->cerrarConexion();
 		return $res;
 	}
+   
+        
+      
+  function pruebaError () {
+    
+    return false;
+  }
+  
+  function idiomaAlgoMas() {
+  
+    
+    return $strSOl;
+  
+  }
 	
 }
