@@ -18,32 +18,6 @@ class CtlCurriculum {
 
         switch ($opc) {
 
-            //Mostrar Formulario para registro
-            case 1;
-                include '../../boundaries/curriculum/menuCurr.html';
-                break;
-
-            //Mostrar Formularo de Registro
-            case 2;
-                include '../../boundaries/curriculum/frmCurrRegis.html';
-                break;
-
-            //Modificar
-            case 3;
-                echo "<h1>Modificar</h1>";
-                break;
-
-            //Listar
-            case 4;
-                echo "<h1>Listar</h1>";
-                break;
-
-            //Registrar
-            case 'registrar';
-                echo "<h1>He registrado tus datos $GET[nomAlum].
-                            Tu Dirección es: $GET[dirAlum]</h1>";
-                break;
-
             //Lista todas las Información Laboral del alumno
             case 'inLabListar';
                 //Se invoca el metodo que se encarga de generar la lista
