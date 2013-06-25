@@ -28,6 +28,9 @@ class Idioma {
 		
 	}
 	
+	
+	
+	
 	/**
 	 * 
 	 * Enter description here ...
@@ -60,5 +63,10 @@ class Idioma {
   function pruebaBenjamin () {
   
   }
+	
+	function grabarIdioma() {
+		
+		return null;
+	}
 	
 }
