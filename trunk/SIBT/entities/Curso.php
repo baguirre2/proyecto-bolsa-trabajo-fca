@@ -97,6 +97,10 @@ class Curso{
 				return false;
 			}
 		}
+                
+                public function pruebaLalo () {
+                    return true;
+                }
 } 
 	
 ?>
