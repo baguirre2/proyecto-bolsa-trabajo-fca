@@ -36,8 +36,8 @@ class Idioma {
 	function obtener ($idAlumno)  {
 		$conn = new InterfazBD2();
 		$query = "SELECT * FROM ingsw.idioma AS id JOIN ingsw.idioma_alumno AS alid ON (id.id_idioma = alid.id_id) AND alid.al_id = $idAlumno;";
-      $echo "Error Provocado";
-		$query = "SELECT * FROM ingsw.idioma AS id JOIN ingsw.idioma_alumno AS alid ON (id.id_idioma = alid.id_id) AND alid.al_id = $idAlumno;";      
+      echo "Error Provocado";
+		$query = "SELECT * FROM ingsw.idioma AS id JOIN ingsw.idioma_alumno AS alid ON (id.id_idioma = alid.id_id) AND alid.al_id = $idUsuario;";      
       $error = true;
 		$res = $conn->consultar($query);
 		$conn->cerrarConexion();
@@ -51,5 +51,14 @@ class Idioma {
 		$conn->cerrarConexion();
 		return $res;
 	}
+   
+  function generarIdioma() {
+  
+    return false;
+  }
+  
+  function pruebaBenjamin () {
+  
+  }
 	
 }
