@@ -21,28 +21,19 @@
 			<tr> 
 				<td>Cargar Imagen</td>
 				<td>:</td>
-				<td> <input type="file" id="rutaImg" name="rutaImg"  value="<?=$rutaImg?>"></td>
+				<td> <?php 
+				if (isset($rutaImg)) { 
+					echo "<input type=\"text\" id=\"rutaImg\" name=\"rutaImg\"  value=\"=$rutaImg\" readonly> 
+					 	  <td> <input type=\"button\" value=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarRuta' , 'frmRegistrarCurso	', 'contenido')\">";
+				} else {
+					echo "<input type=\"file\" id=\"rutaImg\" name=\"rutaImg\"  value=\"=$rutaImg\">";
+				}
+				?></td>
 			</tr>
 			<tr>
-				<td> <input type="button" value="<? if ($_GET['opc'] != "EditarCurso") { echo "Registrar Curso"; } else { echo "Actualizar";} ?>" id="Guardar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurric.php', '<? if ($_GET['opc'] != "EditarCurso") { echo "RegistrarCurso"; } else { echo "ActualizarCurso"; } ?>', 'frmRegistrarCurso', 'contenido')"></td>
+				<td> <input type="button" value="<? if ($_GET['opc'] != "EditarCurso") { echo "Registrar Curso"; } else { echo "Actualizar";} ?>" id="Guardar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', '<? if ($_GET['opc'] != "EditarCurso") { echo "RegistrarCurso"; } else { echo "ActualizarCurso"; } ?>', 'frmRegistrarCurso', 'contenido')"></td>
 				<td></td>
-            
-            
-            .-.-.-
-            .-.-
-            ññjkhhi
-            
-            hkijiluhj
-            
-            kkaslaksln
-            asdksac m
-            
-            askdnsadj
-            
-            asdknasdkj
-           ;: jeje
-            
-				<td><input type="button" value="Cancelar" id="Cancelar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurric.php', 1 , 'vacio', 'contenido')"></td>
+				<td><input type="button" value="Cancelar" id="Cancelar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')"></td>
 			</tr>
 		</table>
 	</form>
