@@ -32,7 +32,6 @@ class Curso{
 			$conn->cerrarConexion();
 			return $res;
 		}
-
 		
 		/**
 		 * 
@@ -46,7 +45,7 @@ class Curso{
 		 */
 		function guardar ($idAlumno, $nombre, $fechaConclusion, $rutaImagen) {
 			$conn = new InterfazBD2();
-			$insertquery = "INSERT INTO ingsw.curso (al_id, esau_id, cu_nombre, cu_fecha_conclusion, cu_ruta_constancia) VALUES ($idAlumno, '$nombre', '$fechaConclusion', '$rutaImagen')";
+// 			$insertquery = "INSERT INTO ingsw.curso (al_id, esau_id, cu_nombre, cu_fecha_conclusion, cu_ruta_constancia) VALUES ($idAlumno, '$nombre', '$fechaConclusion', '$rutaImagen')";
 			$insert = Array();
 			$insert['al_id'] = $idAlumno;
 			$insert['esau_id'] = 2;
@@ -97,10 +96,18 @@ class Curso{
 				return false;
 			}
 		}
+
+		
+		function laloBitch () {
+			
+			echo "Lalo es una BITCH";
+		}
+
                 
                 public function pruebaLalo () {
                     return true;
                 }
+
 } 
 	
 ?>
