@@ -28,13 +28,25 @@ class Idioma {
 		
 	}
 	
+	/**
+	 * 
+	 * Enter description here ...
+	 * @param $idAlumno
+	 */
 	function obtener ($idAlumno)  {
 		$conn = new InterfazBD2();
-		$query = "SELECT * FROM ingsw.idioma AS id JOIN ingsw.idioma_alumno AS alid ON (id.id_id = alid.id_id) AND alid.al_id = $idAlumno;";
-		echo $query;
+		$query = "SELECT * FROM ingsw.idioma AS id JOIN ingsw.idioma_alumno AS alid ON (id.id_idioma = alid.id_id) AND alid.al_id = $idAlumno;";
 		$res = $conn->consultar($query);
 		$conn->cerrarConexion();
-		return $res;	
+		return $res;
+	}
+	
+	function obtenerIdiomas () {
+		$conn = new InterfazBD2();
+		$query = "SELECT * FROM ingsw.idioma;";
+		$res = $conn->consultar($query);	
+		$conn->cerrarConexion();
+		return $res;
 	}
 	
 }
