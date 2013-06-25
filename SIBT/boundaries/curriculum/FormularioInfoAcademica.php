@@ -32,7 +32,7 @@ class FormularioInfoAcademica {
                     </tr>
                     <tr>
                         <td>Meses*</td>
-                        <td><input class="required numeric" type="text" name="anios" value="<?echo ( $infoLab == NULL ? "" : $infoLab['inla_anios_estancia'] )?>" placeholder="Meses"/></td>
+                        <td><input class="required numeric" type="number" name="anios" value="<?echo ( $infoLab == NULL ? "" : $infoLab['inla_anios_estancia'] )?>" placeholder="Meses"/></td>
                     </tr>
                     <tr>
                         <td colspan="2"><input type="button" value="<?echo ( $infoLab == NULL ? "Registrar" : "Modificar" )?>" onclick="ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', '<?echo ( $infoLab == NULL ? "inLabRegistrar" : "inLabModificar" )?>', 'frmRegis', 'contenido', <?echo ( $infoLab == NULL ? "0" : $infoLab['inla_id'] )?>)"/></td>
