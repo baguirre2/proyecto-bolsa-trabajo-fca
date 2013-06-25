@@ -98,6 +98,10 @@ class CtlCurriculum {
     //Recibe en un array todos lo datos necesarios para regitrar una nueva entrada de información laboral
     //Autor: García Solis Eduardo
     function agregarInfoLaboral($idAlum, $GET) {
+        
+        //Declaramos los datos NO obligatorios, para que no sean variables indefinidas
+        $GET['jefe'] = ( isset($GET['jefe']) ? $GET['jefe'] : "" );
+        $GET['logros'] = ( isset($GET['logros']) ? $GET['logros'] : "" );
 
         //Creamos un objeto para porder regitrar los datos de la infoLaboral
         $infoLab = new InfoLaboral();
@@ -108,6 +112,10 @@ class CtlCurriculum {
     //Recibe en un array todos lo datos necesarios para regitrar una nueva entrada de información laboral
     //Autor: García Solis Eduardo
     function modificarInfoLaboral($idInfoLab, $GET) {
+        
+        //Declaramos los datos NO obligatorios, para que no sean variables indefinidas
+        $GET['jefe'] = ( isset($GET['jefe']) ? $GET['jefe'] : "" );
+        $GET['logros'] = ( isset($GET['logros']) ? $GET['logros'] : "" );
 
         //Creamos un objeto para porder regitrar los datos de la infoLaboral
         $infoLab = new InfoLaboral();
