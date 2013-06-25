@@ -34,6 +34,14 @@
             
             hkijiluhj
             
+            kkaslaksln
+            asdksac m
+            
+            askdnsadj
+            
+            asdknasdkj
+           ;: jeje
+            
 				<td><input type="button" value="Cancelar" id="Cancelar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurric.php', 1 , 'vacio', 'contenido')"></td>
 			</tr>
 		</table>
