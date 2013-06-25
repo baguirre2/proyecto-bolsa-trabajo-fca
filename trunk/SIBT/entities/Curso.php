@@ -96,20 +96,6 @@ class Curso{
 				return false;
 			}
 		}
-		
-		/**
-		 * @author Benjamin Aguirre Garcia
-		 */
-		
-		function benjaminPrueba () {
-			
-			return true;
-		}
-
-           
-		function pruebaLAlo () {
-                    
-		}
 } 
 	
 ?>
