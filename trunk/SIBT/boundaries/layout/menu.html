@@ -13,22 +13,12 @@
     <img id="logo" src="webroot/images/Logotipo.png" alt="" />
     <div id="menu">
         <ul>
-            <li><a href="#">CURRICULUM</a>
+            <li><a href="#">Administrar CURRICULUM</a>
                 <ul>
-                    <li><a href='#' onclick="ajax('./controllers/gestionarCurriculum/CtlCurric.php', 1, 'vacio', 'contenido')">Administrar Curriculum</a></li>
-                    <li><a href='#'>Ver Curriculum</a></li>
-                    <li><a href='#'>Dar de Alta</a></li>
-                    <li><a href='#'>Modificar</a></li>
-                    <li><a href='#'>Dar de baja</a></li>
-                    <li><a href='#' onclick="ajax('./controllers/gestionarCurriculum/CtlCurric.php', 'Cursos', 'vacio', 'contenido')">Cursos</a></li>
-                    <li><a href='#' onclick="ajax('./controllers/gestionarCurriculum/CtlCurric.php', 'Idiomas', 'vacio', 'contenido')">Idiomas</a></li>
-                </ul>
-            </li>
-            <li class="active"><a href="#" >PROFESORES</a>
-                <ul>
-                    <li><a href='#'>Buscar</a></li>
-                    <li><a href='#'>Registrar</a></li>
-                    <li><a href='#'>Listar</a></li>
+                    <li><a href='#' onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'infoAcademica', 'vacio', 'contenido')">Mi Informacion Academica</a></li>
+                    <li><a href='#' onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_listar', 'vacio', 'contenido')">Mis certificaciones</a></li>
+                    <li><a href='#' onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'inLabListar', 'vacio', 'contenido')">Mi Información Laboral</a></li>
+                    <li><a href='#' onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'objProf', 'vacio', 'contenido')">Mi Objetivo Laboral</a></li>
                 </ul>
             </li>
         </ul>
