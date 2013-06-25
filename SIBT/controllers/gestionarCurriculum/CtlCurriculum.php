@@ -210,12 +210,12 @@ class CtlCurriculum {
 			case 'agregarObj'; include '../../boundaries/curriculum/frmObjAgre.html';
                 break;
 			case 'actualizarObj'; 
-				$transaccionBD = new InterfazBD();
+				$transaccionBD = new InterfazBD2();
 				$transaccionBD->insertar("UPDATE ingsw.alumno SET al_objetivos_profesionales = '$GET[txtEditar]' WHERE al_id = 5;");
 			echo "<h3>Tus datos se han actualizado.</h3>";
                 break;
 			case 'crearObj'; 
-				$transaccionBD = new InterfazBD();
+				$transaccionBD = new InterfazBD2();
 				$transaccionBD->insertar("UPDATE ingsw.alumno SET al_objetivos_profesionales = '$GET[objProfAgre]' WHERE al_id = 5;");
 			echo "<h3>Tus objetivo profesional se ha creado.</h3>";
                 break;
