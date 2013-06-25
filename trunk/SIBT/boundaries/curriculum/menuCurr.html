@@ -1,9 +1,10 @@
 <table>
     <tbody>
         <tr>
-            <td><input type="button" value="Registrar" onclick="ajax('controllers/gestionarCurriculum/CtlCurric.php', 2, 'vacio', 'contCurr')"></td>
-            <td><input type="button" value="Modificar" onclick="ajax('controllers/gestionarCurriculum/CtlCurric.php', 3, 'vacio', 'contCurr')"></td>
-            <td><input type="button" value="Listar" onclick="ajax('controllers/gestionarCurriculum/CtlCurric.php', 4, 'vacio', 'contCurr')"></td>
+            <td><input type="button" value="Mi Informacion Academica" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'infoAcademica', 'vacio', 'contenido')"></td>
+            <td><input type="button" value="Mis certificaciones" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_listar', 'vacio', 'contenido');"></td>
+            <td><input type="button" value="Mi Información Laboral" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'inLabListar', 'vacio', 'contenido')"></td>
+            <td><input type="button" value="Mi Objetivo Laboral" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'objProf', 'vacio', 'contenido')"></td>
         </tr>
     </tbody>
 </table>
