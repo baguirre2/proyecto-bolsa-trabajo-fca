@@ -1,0 +1,15 @@
+<div id="resFrmEdit"></div>
+<form id="frmEdit">
+    <table align="left">
+        <tbody>
+            <tr>
+				<td>Objetivo Profesional:</td>
+                <td><textarea name="txtEditar"  cols="45" rows="5" ><? echo "$GET[editObjProf]"; ?></textarea></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="Actualizar" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'actualizarObj', 'frmEdit', 'resFrmEdit')"/></td>
+                <td><input type="button" value="Cancelar" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'objProf', 'vacio', 'contenido')"/></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
