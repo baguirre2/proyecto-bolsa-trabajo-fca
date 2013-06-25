@@ -2,8 +2,8 @@
 class InterfazBD2{
     private $conexion;
     private $manejador;
-    //"host=localhost port=5432 dbname=li307179654 user=lamb password=bar";
-    const CONSTRING = "host=localhost port=5432 dbname= user= password=";
+    //"host=localhost port=5432 dbname= user=lamb password=bar";
+    const CONSTRING = "host=localhost port=5432 dbname=SIBT user=postgres password=mufasa";
     private $resultado;
 
     /**
@@ -12,7 +12,7 @@ class InterfazBD2{
     */
     function __construct($manejador = NULL) {
 
-            $this->manejador = manejador;
+            $this->manejador = $manejador;
 
             switch($this->manejador){
 
@@ -178,47 +178,6 @@ class InterfazBD2{
     }
     
     /**
-     * @author 23/06/2013
-     * @param string:nombre_tabla
-     * @return array[int][string]:catalogo regresa los valores de un catalogo
-     * como un arreglo id=>valor
-     * regresa un arreglo nulo si no hay datos o si la tabla no es un catalogo
-     */
-    function toCatalogoConsulta($query = NULL){
-    	$resultado = array();
-    	if($query != NULL &&  $query != ''){
-    		$tmp_res = $this->consultar($query);
-    		if($tmp_res != false && empty($tmp_res) != true && (count($tmp_res[0]) == 2)){
-    			 
-    			/*Asumimos que la llave primaria tiene el subfijo id y la buscamos*/
-    			$nombre_columnas =  array_keys($tmp_res[0]);
-    
-    			$nom_col_id = '';
-    			$nom_otra_col = '';
-    
-    			foreach($nombre_columnas as $columna){
-    					
-    				if(preg_match('/.*id$/',$columna)){
-    					$nom_col_id = $columna;
-    				}else{
-    					$nom_otra_col = $columna;
-    				}
-    			}
-    
-    			if($nom_col_id != '' && $nom_otra_col != ''){
-    					
-    				foreach($tmp_res as $fila){
-    					$resultado[$fila[$nom_col_id]]	= $fila[$nom_otra_col];
-    				}
-    
-    			}
-    		}
-    	}
-    	return $resultado;
-    	 
-    }
-    
-    /**
      * @author 22/06/2013
      * Arma el query del INSERT y lo ejecuta
      * @param string:nombre_tabla el nombre de la tabla
@@ -228,7 +187,7 @@ class InterfazBD2{
      *regresa 0 u falso si no se pudo insertar
      *(php evalua el 0 como falso)
      *Nota: No comprueba que se cuenten con los todos los campos obligatorios
-     *Nota: No inserta cadenas vacías ni NULL
+     *Nota: No inserta cadenas vac�as ni NULL
      */
     function ejecutarInsert($nombre_tabla = NULL, $campos_valores = NULL,$col_id = NULL){
     	
@@ -242,18 +201,14 @@ class InterfazBD2{
 			    	
 			    	foreach($campos_valores as $clave => $valor){
 			    	
-			    		/**
-			    		 * Comprueba que no se trate de una cadena vacía o un NULL
-			    		 * */
-			    		if($valor != '' && $valor != NULL){
 				    		if($str_campos != ''){
 				    			$str_campos .= ',';
 				    			$str_values .= ',';
 				    		}
-			    		
+				    	
 				    		$str_campos .= $clave;
 				    		$str_values .= $valor;
-			    		}
+			    	
 			    			
     				}/*Fin foreach*/
     	
@@ -279,7 +234,7 @@ class InterfazBD2{
      * @param array[string][mixed]:campos_valores array asociativo[nombre_campo] => valor
      * @param string:clausula clausula WHERE
      * @return bool: true si se ejecuto false de lo contrario
-     *Nota: No inserta cadenas vacías ni NULL
+     *Nota: No inserta cadenas vac�as ni NULL
      */
     function ejecutarUpdate($nombre_tabla = NULL, $campos_valores = NULL,$clausula = NULL){
     	if(($nombre_tabla != NULL && $nombre_tabla != '')
@@ -289,17 +244,15 @@ class InterfazBD2{
     		$campos_valores = $this->preprocesar($campos_valores);
     		$str_campos = "";
     		
-    		/**
-    		 * Comprueba que no se trate de una cadena vacía o un NULL
-    		 * */
+    	
     		foreach($campos_valores as $clave => $valor){
-    			if($valor != '' && $valor != NULL){
-    				if($str_campos != ""){
-    					$str_campos += ",";
-    				}
-    			 
-    				$str_campos .=	$clave."=".$valor;
+    	
+    			if($str_campos != ""){
+    				$str_campos += ",";
     			}
+    			 
+    			$str_campos .=	$clave."=".$valor;
+    	
     	
     		}/*Fin foreach*/
     		
@@ -321,17 +274,11 @@ class InterfazBD2{
      * Agrega comillas a los datos que lo necesitan
      * en una cadena insert (varchar || char, time || date)
      * @param array[string][mixed]:datos array asociativo[nombre_campo] => valor
-     * Cambio: 24/06/2013
      * */
     function preprocesar($datos){
     	foreach($datos as $clave => $valor){
-    		if(is_numeric($valor) == false){
-    			
-    			if($valor == NULL){
-    				$valor = 'NULL';
-    			}else{
-    					$datos[$clave] = "'".utf8_encode($valor)."'";
-    			}
+    		if(is_numeric($valor) == false && $valor != NULL){
+    			$datos[$clave] = "'".utf8_encode($valor)."'";
     		}
     	}
     	

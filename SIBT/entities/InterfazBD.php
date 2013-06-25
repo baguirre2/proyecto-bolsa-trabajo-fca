@@ -1,9 +1,9 @@
 <?php
-class InterfazBD {
+class InterfazBD{
     private $conexion;
     private $manejador;
     //"host=localhost port=5432 dbname=li307179654 user=lamb password=bar";
-    const CONSTRING = "host=localhost port=5432 dbname=l user= password=CONSTRASEÑA";
+    const CONSTRING = "host=localhost port=5432 dbname=SIBT user=postgres password=mufasa";
     private $resultado;
 
     /**
@@ -11,7 +11,7 @@ class InterfazBD {
     */
     function __construct($manejador = NULL) {
 
-            $this->manejador = manejador;
+            $this->manejador = $manejador;
 
             switch($this->manejador){
 

@@ -1,11 +1,15 @@
 function ajax (url, opc, frm, div) {
     
-    $("#" + div).load(url + "?opc=" + opc + "&" + getFormData(frm, 'silent', true));
+    if (validar2(frm)) {
+        $("#" + div).load(url + "?opc=" + opc + "&" + getFormData(frm, 'silent', true));        
+    }
 }
 
 function ajaxConId (url, opc, frm, div, id) {
     
-    $("#" + div).load(url + "?opc=" + opc + "&id=" + id + "&" + getFormData(frm, 'silent', true));
+    if (validar2(frm)) {
+        $("#" + div).load(url + "?opc=" + opc + "&id=" + id + "&" + getFormData(frm, 'silent', true));
+    }   
 }
 
 function getFormData(objf, info, rval) {
@@ -71,4 +75,27 @@ function getFormData(objf, info, rval) {
             return true;
         }
     }
+}
+
+function validar2(formulario_id){
+    $('etiqueta.error').remove();
+    var valido = true;
+    $('#'+formulario_id+' .required').each(function(index,element){
+
+            if( $(this).val() == null || $(this).val() == ""){
+                    valido = false;
+                    $(this).after("<etiqueta class='error'>Campo Obligatorio</etiqueta>");
+            }
+    });
+
+    $('#'+formulario_id+' .numeric').each(function(index,element){
+
+            if( ($(this).val() != null || $(this).val() != "") 
+                            && /^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test($(this).val()) == false){
+                    valido = false;
+                    $(this).after("<etiqueta class='error'>Por favor introduzca un n&uacute;mero</etiqueta>");
+            }
+    });
+
+    return valido;
 }
