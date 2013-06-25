@@ -120,7 +120,6 @@ class CtlCurriculum {
             	break;
             	
             case "EditarCurso";
-            	echo "pass";
 				$this->editarCursos();
             	break;
             	
@@ -285,8 +284,8 @@ class CtlCurriculum {
         } else {
             echo $strIdiomas;
             echo "	<table width='1000'> <tr>
-    					<td>  <input type=\"button\" value=\"Agregar Idioma\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurric.php', 'AgregarCurso' , 'vacio', 'contenido')\">
-    					 <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurric.php', 1 , 'vacio', 'contenido')\"> </td>
+    					<td>  <input type=\"button\" value=\"Agregar Idioma\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarCurso' , 'vacio', 'contenido')\">
+    					 <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')\"> </td>
 					</tr> </table>";
         }
     }
@@ -323,7 +322,7 @@ class CtlCurriculum {
     					<form id='$row[cu_id]'>
     					<td align='center'> $row[cu_nombre] <input type='hidden' value='$row[cu_id]' name='idCurso' id='idCuso'> </td>
     					<td align='center'> $row[cu_fecha_conclusion] </td>
-    					<td> <input type=\"button\" value=\"Editar\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurric.php', 'EditarCurso' , '$row[cu_id]', 'contenido')\" </td>
+    					<td> <input type=\"button\" value=\"Editar\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarCurso' , '$row[cu_id]', 'contenido')\" </td>
     					</form>
 					</tr>";
             }
@@ -365,7 +364,7 @@ class CtlCurriculum {
     					<td align='center'> $row[id_nivel_escrito] </td>
     					<td align='center'> $row[id_nivel_oral] </td>
     					<td align='center'> $row[id_nivel_lectura] </td>
-    					<td> <input type=\"button\" value=\"Editar\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurric.php', 'EditarCurso' , '$row[id_id]', 'contenido')\" </td>
+    					<td> <input type=\"button\" value=\"Editar\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarCurso' , '$row[id_id]', 'contenido')\" </td>
     					</form>
 					</tr>";
             }
