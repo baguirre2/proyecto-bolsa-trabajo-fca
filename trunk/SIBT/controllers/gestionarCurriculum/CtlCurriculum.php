@@ -1,8 +1,11 @@
 <?php
 
+session_start();
 include_once '../../entities/InfoLaboral.php';
-include './../../entities/Certificacion.php';
+include_once './../../entities/Certificacion.php';
 include_once '../../entities/InterfazBD2.php';
+include_once '../../entities/Curso.php';
+include_once '../../entities/Idioma.php';
 
 class CtlCurriculum {
 
@@ -138,6 +141,23 @@ class CtlCurriculum {
                 $this->registrarCurso();
                 break;
 
+            case "Cursos"; // Se muestran los Cursos Disponibles
+            	$this->menuCursos();
+            	break;
+            	
+            case "EditarCurso";
+            	echo "pass";
+				$this->editarCursos();
+            	break;
+            	
+            case "ActualizarCurso";
+				$this->actualizarCursos();	
+            	break;
+            	            
+            case "EditarRuta";
+            	$this->editarRuta();
+            	break;
+            	            	
             //Mostrar la información académica del alumno, una la opción de editar si está confirmado
             case 'infoAcademica';
 
@@ -415,6 +435,67 @@ class CtlCurriculum {
         } else {
             echo "El curso ha sido registrado";
         }
+    }
+
+   function menuCursos() {
+		$strCursos = $this->obtenerCursos($_SESSION['idUsuario']);
+		if ($strCursos == null) {
+			include '../../boundaries/curriculum/frmRegisCurso.php';
+		} else {
+			echo $strCursos;
+			echo  "	<table width='1000'> <tr>
+    					<td>  <input type=\"button\" value=\"Agregar Curso\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarCurso' , 'vacio', 'contenido')\">
+    					 <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')\"> </td>
+					</tr> </table>";		
+		}    	
+    }
+    
+    function editarRuta() {
+		$nombreCurso = $_GET['nombreCurso'];
+        $fechaParticipacion = $_GET['fechaParticipacion'];
+        include '../../boundaries/curriculum/frmRegisCurso.php';
+    }
+    
+    function editarCursos() {
+		$idCurso = $_GET['idCurso'];
+       	$curso1 = new Curso();
+       	$curso  = $curso1->obtenerCurso($idCurso);
+       	$nombreCurso = $curso[0][cu_nombre];
+       	$fechaParticipacion = $curso[0][cu_fecha_conclusion];
+       	$rutaImg = $curso[0][cu_ruta_constancia];
+		include '../../boundaries/curriculum/frmRegisCurso.php';    	
+    }
+    
+    function actualizarCursos() {
+		$idCurso = $_GET['idCurso'];
+        $nombreCurso = $_GET['nombreCurso'];            	
+		$fechaParticipacion = $_GET['fechaParticipacion'];
+		$rutaImg = $_GET['rutaImg'];
+		$err = false;
+		if (!isset($nombreCurso)) {
+			$errMsj .= "Debe tener un nombre el Curso <br>";
+			$err = true;
+		}            	
+		if (!isset($fechaParticipacion)) {
+			$errMsj .= "Fecha Inválida <br>";
+			$err = true;
+		}
+		if (!isset($rutaImg)) {
+			$errMsj .= "Debes Ingresar una ruta <br>";
+			$err = true;
+		}
+		if ($err == false) {
+			$curso1 = new Curso();
+			if (!$curso1->actualizar($idCurso, $nombreCurso, $fechaParticipacion, $rutaImg)) {
+				$err = true;
+				$errMsj = "Ocurrió un error inesperado";	
+			}
+		}            	
+		if ($err) {
+			include '../../boundaries/curriculum/frmRegisCurso.php';
+		} else {
+			echo "El curso ha sido modificado";
+		}    	    
     }
 
     /**
