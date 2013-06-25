@@ -83,7 +83,7 @@ class Certificacion{
 				$registros .= "<td>".$resultados[$i]['ce_anio']."</td>";
 				$registros .= ($resultados[$i]['esau_id'] != 1)?
 				"<td>
-              						  <input type=\"button\" name=\"btnEditar\"  value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'vacio', 'contCurr', '".$resultados[$i]['ce_id']."');\">
+              						  <input type=\"button\" name=\"btnEditar\"  value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'vacio', 'contenido', '".$resultados[$i]['ce_id']."');\">
               						  </td></tr>" :"<td> </td></tr>";
 			}
 	
