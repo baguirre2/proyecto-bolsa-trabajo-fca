@@ -471,12 +471,24 @@ class CtlCurriculum {
 		}    	
     }
     
+    
+    /**
+     * 
+     * Permite editar la ruta de la imagen de constancia.
+     * @author Benjamín Aguirre García
+     *  
+     */
     function editarRuta() {
 		$nombreCurso = $_GET['nombreCurso'];
         $fechaParticipacion = $_GET['fechaParticipacion'];
         include '../../boundaries/curriculum/frmRegisCurso.php';
     }
     
+    /**
+     * 
+     * Permite obtener los datos del curso para ser editados.
+     * @author Benjamín Aguirre García
+     */
     function editarCursos() {
 		$idCurso = $_GET['idCurso'];
        	$curso1 = new Curso();
@@ -487,6 +499,13 @@ class CtlCurriculum {
 		include '../../boundaries/curriculum/frmRegisCurso.php';    	
     }
     
+    
+    /**
+     * 
+     * Valida la actualización del Curso y realiza la actualización, si hay errores incluye el formulario de actualización.
+     * "@author Benjamín Aguirre García
+     * 
+     */
     function actualizarCursos() {
 		$idCurso = $_GET['idCurso'];
         $nombreCurso = $_GET['nombreCurso'];            	
