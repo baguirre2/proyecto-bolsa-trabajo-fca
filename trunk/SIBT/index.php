@@ -1,3 +1,19 @@
+<?php
+
+/**
+ * En este caso se usará esta parte para las pruebas hasta que se tenga desarrollado el modulo de Usuarios.
+ * @author Benjamín Aguirre García
+ * 
+ */
+//Se inicia la sesión en PHP. 
+session_start();
+// Se debe de poder almacenar el tipo de usuario, seleccionen con el que van a probar. 
+// Alumno, Coordinador, Profesor, Reclutador
+$_SESSION['TipoUsuario'] = 'Alumno'; 
+// Aqui pongan el id del Usuario con el que están haciendo pruebas, 
+$_SESSION['idUsuario'] = 1;
+
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
