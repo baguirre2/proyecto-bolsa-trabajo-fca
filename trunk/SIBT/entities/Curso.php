@@ -46,14 +46,15 @@ class Curso{
 		 */
 		function guardar ($idAlumno, $nombre, $fechaConclusion, $rutaImagen) {
 			$conn = new InterfazBD2();
-			$insertquery = "INSERT INTO ingsw.curso (al_id, esau_id, cu_nombre, cu_fecha_conclusion, cu_ruta_constancia) VALUES ($idAlumno, '$nombre', '$fechaConclusion', '$rutaImagen')";
-			$insert = Array();
-			$insert['al_id'] = $idAlumno;
-			$insert['esau_id'] = 2;
-			$insert['cu_nombre'] = $nombre;
-			$insert['cu_fecha_conclusion'] = $fechaConclusion;
-			$insert['cu_ruta_constancia'] = $rutaImagen;
-			$res = $conn->ejecutarInsert("ingsw.curso", $insert, "cu_id");
+			$insertquery = "INSERT INTO ingsw.curso (al_id, esau_id, cu_nombre, cu_fecha_conclusion, cu_ruta_constancia) VALUES ($idAlumno, 2 , '$nombre', '$fechaConclusion', '$rutaImagen')";
+//			$insert = Array();
+//			$insert['al_id'] = $idAlumno;
+//			$insert['esau_id'] = 2;
+//			$insert['cu_nombre'] = $nombre;
+//			$insert['cu_fecha_conclusion'] = $fechaConclusion;
+//			$insert['cu_ruta_constancia'] = $rutaImagen;
+//			$res = $conn->ejecutarInsert("ingsw.curso", $insert, "cu_id");
+			$res = $conn->insertar($insertquery, "cu_id");
 			$conn->cerrarConexion();
 			if ($res == null) {
 				return false;
