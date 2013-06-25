@@ -86,7 +86,8 @@ class CtlCurriculum {
                 echo "<h1>Mis certificaciones</h1>";
                 $certificacion = new Certificacion();
                 echo $certificacion->listarCertificaciones();
-                echo "<input type=\"button\" name=\"Agregar\" value=\"Agregar Certificaci�n\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_registrar', 'vacio', 'contenido');\">";
+
+                echo "<input type=\"button\" name=\"Agregar\" value=\"Agregar Certificaci�n\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_registrar', 'vacio', 'contenido');\">";
                 echo "<input type='button' value='Regresar' onclick='ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_listar', 'vacio', 'contenido');'>";
                 break;
                 
@@ -96,7 +97,7 @@ class CtlCurriculum {
                 } else if($GET['btnAceptar'] == 'Registrar' ) {
                 	$certificacion = new Certificacion();
                 	if($certificacion->registrarCertificacion($GET, 1)){
-                		echo "<h1 class=respuesta>Registro realizado con �xito</h1><br/>";
+                		echo "<h1 class=respuesta>Registro realizado con �xito</h1><br/>";
                 	}else{
                 		echo "<h1 class=respuesta>Error al registrar</h1><br/>";
                 	}
@@ -110,12 +111,32 @@ class CtlCurriculum {
                 	include('../../boundaries/curriculum/frmCurrRegistroCertificacion.html');
                 }else if($GET['btnAceptar'] == 'Editar' && isset($GET['ce_id'])){
                 	if($certificacion->editarCertificacion($GET)){
-                		echo "<h1 class=respuesta>Registro actualizado con �xito</h1><br/>";
+                		echo "<h1 class=respuesta>Registro actualizado con �xito</h1><br/>";
                 	}else{
                 		echo "<h1 class=respuesta>Error al actualizar</h1><br/>";
                 	}
                 }
                 break;
+                
+//          Idiomas y Cursos 
+
+            case "AgregarIdioma"; 
+            	include '../../boundaries/curriculum/frmRegisIdioma.php';
+            	break;
+                
+            case "Idiomas"; 
+            	$this->menuIdiomas();
+            	break;            	
+            	
+            case "RegistrarIdioma";
+				break;
+            case "AgregarCurso";
+            	include '../../boundaries/curriculum/frmRegisCurso.php';
+            	break;                
+            
+            case "RegistrarCurso";
+            	$this->registrarCurso();
+            	break;                
         }
     }
 
@@ -175,6 +196,184 @@ class CtlCurriculum {
         //Objeto que arma la lista apartir de un array
         new ListaInfoLaboral($lista, $mensaje);
     }
+    
+    function registrarIdioma() {
+		$nombreIdioma = $_GET['nombreIdioma'];
+       	$porcentajeEscritura = $_GET['escritura'];
+       	$porcentajeLectura = $_GET['lectura'];
+       	$porcentajeOral = $_GET['oral'];
+       	$err = false;
+   		if (!isset($nombreIdioma)) {
+       		$errMsj .= "Debe tener un nombre el Idioma <br>";
+       		$err = true;
+       	}   
+       	if (!isset($porcentajeEscritura) || !isset($porcentajeLectura) || !isset($porcentajeOral)) {
+       		$errMsj .= "No se ha llenado el mínimo de campos obligatorios <br>";	
+      		$err = true;
+      	} else {
+      		if (!is_numeric($porcentajeEscritura) && !is_numeric($porcentajeLectura) && !is_numeric($porcentajeOral)) {
+				$errMsj = "Debe ser numerico";
+				$err = true;            			
+        	} else {
+				if ($porcentajeEscritura>100 || $porcentajeLectura>100 || $porcentajeOral>100) {
+            		$errMsj .= "El porcentaje no puede ser mayor a 100";	
+            		$err = true;
+            	}
+        	}
+        }
+        if ($err == false) {
+        	$idioma1 = new Idioma();
+        	if (!$idioma1->guardarAlumno($_SESSION['idUsuario'], $idioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura)) {
+            	$err = true;
+            	$errMsj = "Ocurrió un error inesperado";	
+            }
+        }
+        if ($err) {
+            include '../../boundaries/curriculum/frmRegisIdioma.php';	
+		} else {
+        	echo "El idioma ha sido registrado";
+		}    	
+    }
+    /**
+     * 
+     * Menu de Idiomas, si ya hay idiomas registrados los muestra, si no hay idiomas disponibles se muestra el formulario de registro de Idioma.
+     * @author Benjamín Aguirre García
+     * 
+     */
+	function menuIdiomas() {
+		$strIdiomas = $this->obtenerIdiomas($_SESSION['idUsuario']);
+		if ($strIdiomas == null) {
+			include '../../boundaries/curriculum/frmRegisIdioma.php';
+		} else {
+			echo $strIdiomas;
+			echo  "	<table width='1000'> <tr>
+    					<td>  <input type=\"button\" value=\"Agregar Idioma\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurric.php', 'AgregarCurso' , 'vacio', 'contenido')\">
+    					 <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurric.php', 1 , 'vacio', 'contenido')\"> </td>
+					</tr> </table>";		
+		}	
+	}
+   
+    /**
+     * 
+     * Se obtienen los cursos y se les da un formato para ser mostrados al usuario.
+     * @author Benjamín Aguirre García
+     * @param $idAlumno id del Alumno actual.
+     * @return $strCursos Cadena que contiene los cursos con su formato de tabla, si no se encuentran cursos regresa nulo.
+     */
+    function obtenerCursos ($idAlumno)  {
+    	$strCursos = "
+    		<table width='1000'> 
+    			<thead>
+    				<tr> 
+    					<th colspan='3'> Cursos </th> 	
+    				</tr> <tr> 
+    					<th> Nombre del Curso </th> <th> Fecha de Participación </th> <th>   </th> 
+    				</tr> 
+  				</thead>
+  			"; 
+    	
+    	$Cursos1 = new Curso();
+    	$arrCursos = $Cursos1->obtener($idAlumno);
+    	if ($arrCursos == null) {
+    		$strCursos = null;
+    	} else {
+    		$strCursos .= "<tbody>";
+
+			foreach ($arrCursos as $row) {
+				$strCursos .= "
+    				<tr>
+    					<form id='$row[cu_id]'>
+    					<td align='center'> $row[cu_nombre] <input type='hidden' value='$row[cu_id]' name='idCurso' id='idCuso'> </td>
+    					<td align='center'> $row[cu_fecha_conclusion] </td>
+    					<td> <input type=\"button\" value=\"Editar\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurric.php', 'EditarCurso' , '$row[cu_id]', 'contenido')\" </td>
+    					</form>
+					</tr>";		
+			}
+			$strCursos .= "</tbody></table>";
+    	}
+    	return $strCursos;
+    }
+
+    /**
+     * 
+     * Obtiene los idiomas y les da formato de tabla para ser mostradas al usuario.
+     * @author Benjamín Aguirre García
+     * @param $idAlumno id del Alumno.
+     * @return $strIdiomas Regresa los idiomas asociados al Alumno. So no cuenta con Idiomas regresa nulo. 
+     */
+    function obtenerIdiomas ($idAlumno) {
+    	$strIdiomas = "
+    		<table width='1000'> 
+    			<thead>
+    				<tr> 
+    					<th colspan='3'> Cursos </th> 	
+    				</tr> <tr> 
+    					<th> Nombre del Curso </th> <th> Fecha de Participación </th> <th>   </th> 
+    				</tr> 
+  				</thead>
+  			"; 
+    	$idioma1 = new Idioma();
+    	$arrIdiomas =$idioma1->obtener($_SESSION['idUsuario']);
+    	if ($arrIdiomas== null) {
+    		$strIdiomas = null;
+    	} else {
+    		$strCursos .= "<tbody>";
+
+			foreach ($arrIdiomas as $row) {
+				$strIdiomas .= "
+    				<tr>
+    					<form id='$row[id_id]'>
+    					<td align='center'> $row[id_nombre] <input type='hidden' value='$row[id_id]' name='idCurso' id='idCuso'> </td>
+    					<td align='center'> $row[id_nivel_escrito] </td>
+    					<td align='center'> $row[id_nivel_oral] </td>
+    					<td align='center'> $row[id_nivel_lectura] </td>
+    					<td> <input type=\"button\" value=\"Editar\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurric.php', 'EditarCurso' , '$row[id_id]', 'contenido')\" </td>
+    					</form>
+					</tr>";		
+			}
+			$strIdiomas .= "</tbody></table>";
+    	}
+    	return $strIdiomas;
+    }    
+
+    /**
+	 * 
+	 * Verifica los datos de un cruso y registra el curso a un alumno.
+	 * @author Benjamín Aguirre García
+	 * 
+	 */        
+	function registrarCurso () {
+			$nombreCurso = $_GET['nombreCurso'];
+            $fechaParticipacion = $_GET['fechaParticipacion'];
+            $rutaImg = $_GET['rutaImg'];
+            $err = false;
+        	if (!isset($nombreCurso)) {
+            	$errMsj .= "Debe tener un nombre el Curso <br>";
+            	$err = true;
+            }            	
+            if (!isset($fechaParticipacion)) {
+            	$errMsj .= "Fecha Inválida <br>";
+            	$err = true;
+            }
+            if (!isset($rutaImg)) {
+            	$errMsj .= "Debes Ingresar una ruta <br>";
+            	$err = true;
+            }
+            if ($err == false) {
+            	$Cuso1 = new Curso();
+            	if (!$Cuso1->guardar($_SESSION['idUsuario'], $nombreCurso, $fechaParticipacion, $rutaImg)) {
+            		$err = true;
+            		$errMsj = "Ocurrió un error inesperado";	
+            	}
+            }
+            if ($err) {
+            	include '../../boundaries/curriculum/frmRegisCurso.php';	
+            } else {
+            	echo "El curso ha sido registrado";
+            }        	
+		}
+    
+    
 }
 
 new CtlCurriculum($_GET);
