@@ -5,7 +5,7 @@
 	<form id="frmRegistrarCurso">
 		<table>
 			<tr>
-				<th colspan="4"> <? if ($_GET['opc'] != "EditarCurso") { echo "Registrar Curso"; } else { echo "Actualizar Curso"; } ?> </th>
+				<th colspan="3"> <? if ($_GET['opc'] != "EditarCurso") { echo "Registrar Curso"; } else { echo "Actualizar Curso"; } ?> </th>
 			</tr>
 			
 			<tr>
@@ -21,24 +21,29 @@
 			<tr> 
 				<td>Cargar Imagen</td>
 				<td>:</td>
-				<td> <?php 
-				if (isset($rutaImg)) { 
-					echo "<input type=\"text\" id=\"rutaImg\" name=\"rutaImg\"  value=\"=$rutaImg\" readonly> 
-					 	  <td> <input type=\"button\" value=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarRuta' , 'frmRegistrarCurso	', 'contenido')\">";
-				} else {
-					echo "<input type=\"file\" id=\"rutaImg\" name=\"rutaImg\"  value=\"=$rutaImg\">";
-				}
-				?></td>
+				<td> <input type="file" id="rutaImg" name="rutaImg"  value="<?=$rutaImg?>"></td>
 			</tr>
 			<tr>
-				<td> <input type="button" value="<? if ($_GET['opc'] != "EditarCurso") { echo "Registrar Curso"; } else { echo "Actualizar";} ?>" id="Guardar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', '<? if ($_GET['opc'] != "EditarCurso") { echo "RegistrarCurso"; } else { echo "ActualizarCurso"; } ?>', 'frmRegistrarCurso', 'contenido')"></td>
+				<td> <input type="button" value="<? if ($_GET['opc'] != "EditarCurso") { echo "Registrar Curso"; } else { echo "Actualizar";} ?>" id="Guardar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurric.php', '<? if ($_GET['opc'] != "EditarCurso") { echo "RegistrarCurso"; } else { echo "ActualizarCurso"; } ?>', 'frmRegistrarCurso', 'contenido')"></td>
 				<td></td>
-				<td><input type="button" value="Cancelar" id="Cancelar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')"></td>
-				<jajajaj> <jejjeje> 
+            
+            
+            .-.-.-
+            .-.-
+            ññjkhhi
+            
+            hkijiluhj
+            
+            kkaslaksln
+            asdksac m
+            
+            askdnsadj
+            
+            asdknasdkj
+           ;: jeje
+            
+				<td><input type="button" value="Cancelar" id="Cancelar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurric.php', 1 , 'vacio', 'contenido')"></td>
 			</tr>
 		</table>
 	</form>
 <div>
-<?php 
-
-?>

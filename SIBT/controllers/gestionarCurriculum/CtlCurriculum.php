@@ -1,11 +1,8 @@
 <?php
 
-session_start();
 include_once '../../entities/InfoLaboral.php';
 include './../../entities/Certificacion.php';
 include_once '../../entities/InterfazBD2.php';
-include_once '../../entities/Curso.php';
-include_once '../../entities/Idioma.php';
 
 class CtlCurriculum {
 
@@ -139,23 +136,7 @@ class CtlCurriculum {
             
             case "RegistrarCurso";
             	$this->registrarCurso();
-            	break;      
-
-            case "Cursos"; // Se muestran los Cursos Disponibles
-            	$this->menuCrusos();
-            	break;
-
-            case "EditarCurso";
-				$this->editarCursos();
-            	break;
-            	
-            case "ActualizarCurso";
-				$this->actualizarCursos();	
-            	break;
-            	            
-            case "EditarRuta";
-            	$this->editarRuta();
-            	break;            	
+            	break;                
         }
     }
 
@@ -303,8 +284,8 @@ class CtlCurriculum {
     				<tr>
     					<form id='$row[cu_id]'>
     					<td align='center'> $row[cu_nombre] <input type='hidden' value='$row[cu_id]' name='idCurso' id='idCuso'> </td>
-    					<td ali				gn='center'> $row[cu_fecha_conclusion] </td>
-    					<td> <input type=\"button\" value=\"Editar\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarCurso' , '$row[cu_id]', 'contenido')\" </td>
+    					<td align='center'> $row[cu_fecha_conclusion] </td>
+    					<td> <input type=\"button\" value=\"Editar\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurric.php', 'EditarCurso' , '$row[cu_id]', 'contenido')\" </td>
     					</form>
 					</tr>";		
 			}
@@ -389,70 +370,10 @@ class CtlCurriculum {
             	include '../../boundaries/curriculum/frmRegisCurso.php';	
             } else {
             	echo "El curso ha sido registrado";
-            } 
+            }        	
 		}
     
-		
-    function menuCrusos() {
-		$strCursos = $this->obtenerCursos($_SESSION['idUsuario']);
-		if ($strCursos == null) {
-			include '../../boundaries/curriculum/frmRegisCurso.php';
-		} else {
-			echo $strCursos;
-			echo  "	<table width='1000'> <tr>
-    					<td>  <input type=\"button\" value=\"Agregar Curso\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarCurso' , 'vacio', 'contenido')\">
-    					 <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')\"> </td>
-					</tr> </table>";		
-		}    	
-    }
     
-    function editarRuta() {
-		$nombreCurso = $_GET['nombreCurso'];
-        $fechaParticipacion = $_GET['fechaParticipacion'];
-        include '../../boundaries/curriculum/frmRegisCurso.php';
-    }
-    
-    function editarCursos() {
-		$idCurso = $_GET['idCurso'];
-       	$curso1 = new Curso();
-       	$curso  = $curso1->obtenerCurso($idCurso);
-       	$nombreCurso = $curso[0][cu_nombre];
-       	$fechaParticipacion = $curso[0][cu_fecha_conclusion];
-       	$rutaImg = $curso[0][cu_ruta_constancia];
-		include '../../boundaries/curriculum/frmRegisCurso.php';    	
-    }
-    
-    function actualizarCursos() {
-		$idCurso = $_GET['idCurso'];
-        $nombreCurso = $_GET['nombreCurso'];            	
-		$fechaParticipacion = $_GET['fechaParticipacion'];
-		$rutaImg = $_GET['rutaImg'];
-		$err = false;
-		if (!isset($nombreCurso)) {
-			$errMsj .= "Debe tener un nombre el Curso <br>";
-			$err = true;
-		}            	
-		if (!isset($fechaParticipacion)) {
-			$errMsj .= "Fecha Inválida <br>";
-			$err = true;
-		}
-		if (!isset($rutaImg)) {
-			$errMsj .= "Debes Ingresar una ruta <br>";
-			$err = true;
-		}
-		if ($err == false) {
-			$curso1 = new Curso();
-			if (!$curso1->actualizar($idCurso, $nombreCurso, $fechaParticipacion, $rutaImg)) {
-				$err = true;
-				$errMsj = "Ocurrió un error inesperado";	
-			}
-		}            	
-		if ($err) {
-			include '../../boundaries/curriculum/frmRegisCurso.php';
-		} else {
-			echo "El curso ha sido modificado";
-		}    	
-    }
 }
 
 new CtlCurriculum($_GET);
