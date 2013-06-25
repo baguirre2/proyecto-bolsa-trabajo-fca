@@ -26,6 +26,14 @@
 			<tr>
 				<td> <input type="button" value="<? if ($_GET['opc'] != "EditarCurso") { echo "Registrar Curso"; } else { echo "Actualizar";} ?>" id="Guardar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurric.php', '<? if ($_GET['opc'] != "EditarCurso") { echo "RegistrarCurso"; } else { echo "ActualizarCurso"; } ?>', 'frmRegistrarCurso', 'contenido')"></td>
 				<td></td>
+            
+            
+            .-.-.-
+            .-.-
+            ññjkhhi
+            
+            hkijiluhj
+            
 				<td><input type="button" value="Cancelar" id="Cancelar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurric.php', 1 , 'vacio', 'contenido')"></td>
 			</tr>
 		</table>
