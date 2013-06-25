@@ -144,21 +144,21 @@ class CtlCurriculum {
                 break;
 
             case "Cursos"; // Se muestran los Cursos Disponibles
-            	$this->menuCursos();
-            	break;
-            	
+                $this->menuCursos();
+                break;
+
             case "EditarCurso";
-				$this->editarCursos();
-            	break;
-            	
+                $this->editarCursos();
+                break;
+
             case "ActualizarCurso";
-				$this->actualizarCursos();	
-            	break;
-            	            
+                $this->actualizarCursos();
+                break;
+
             case "EditarRuta";
-            	$this->editarRuta();
-            	break;
-            	            	
+                $this->editarRuta();
+                break;
+
             //Mostrar la información académica del alumno, una la opción de editar si está confirmado
             case 'infoAcademica';
 
@@ -202,28 +202,30 @@ class CtlCurriculum {
                 $this->listarEstudiosFCA($id_nivel);
                 break;
             //Mi objetivo profesional
-            case 'objProf'; include '../../boundaries/curriculum/objProf.php';
+            case 'objProf';
+                include '../../boundaries/curriculum/objProf.php';
                 break;
-				
-			case 'editObj'; include '../../boundaries/curriculum/frmObjEdit.html';
+
+            case 'editObj';
+                include '../../boundaries/curriculum/frmObjEdit.html';
                 break;
-			case 'agregarObj'; include '../../boundaries/curriculum/frmObjAgre.html';
+            case 'agregarObj';
+                include '../../boundaries/curriculum/frmObjAgre.html';
                 break;
-			case 'actualizarObj'; 
-				$transaccionBD = new InterfazBD2();
-				$transaccionBD->insertar("UPDATE ingsw.alumno SET al_objetivos_profesionales = '$GET[txtEditar]' WHERE al_id = 5;");
-			echo "<h3>Tus datos se han actualizado.</h3>";
+            case 'actualizarObj';
+                $transaccionBD = new InterfazBD2();
+                $transaccionBD->insertar("UPDATE ingsw.alumno SET al_objetivos_profesionales = '$GET[txtEditar]' WHERE al_id = 5;");
+                echo "<h3>Tus datos se han actualizado.</h3>";
                 break;
-			case 'crearObj'; 
-				$transaccionBD = new InterfazBD2();
-				$transaccionBD->insertar("UPDATE ingsw.alumno SET al_objetivos_profesionales = '$GET[objProfAgre]' WHERE al_id = 5;");
-			echo "<h3>Tus objetivo profesional se ha creado.</h3>";
+            case 'crearObj';
+                $transaccionBD = new InterfazBD2();
+                $transaccionBD->insertar("UPDATE ingsw.alumno SET al_objetivos_profesionales = '$GET[objProfAgre]' WHERE al_id = 5;");
+                echo "<h3>Tus objetivo profesional se ha creado.</h3>";
                 break;
-			// Fin Mi objetivo profesional
+            // Fin Mi objetivo profesional
         }
     }
 
-    
     //Recibe el ID de la info laboral que se quiere modificar, muestra los valores para su futura edición
     //Autor: García Solis Eduardo
     function mostrarFrmModificar($idInfoLab) {
@@ -458,20 +460,19 @@ class CtlCurriculum {
         }
     }
 
-   function menuCursos() {
-		$strCursos = $this->obtenerCursos($_SESSION['idUsuario']);
-		if ($strCursos == null) {
-			include '../../boundaries/curriculum/frmRegisCurso.php';
-		} else {
-			echo $strCursos;
-			echo  "	<table width='1000'> <tr>
+    function menuCursos() {
+        $strCursos = $this->obtenerCursos($_SESSION['idUsuario']);
+        if ($strCursos == null) {
+            include '../../boundaries/curriculum/frmRegisCurso.php';
+        } else {
+            echo $strCursos;
+            echo "	<table width='1000'> <tr>
     					<td>  <input type=\"button\" value=\"Agregar Curso\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarCurso' , 'vacio', 'contenido')\">
     					 <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')\"> </td>
-					</tr> </table>";		
-		}    	
+					</tr> </table>";
+        }
     }
-    
-    
+
     /**
      * 
      * Permite editar la ruta de la imagen de constancia.
@@ -479,27 +480,26 @@ class CtlCurriculum {
      *  
      */
     function editarRuta() {
-		$nombreCurso = $_GET['nombreCurso'];
+        $nombreCurso = $_GET['nombreCurso'];
         $fechaParticipacion = $_GET['fechaParticipacion'];
         include '../../boundaries/curriculum/frmRegisCurso.php';
     }
-    
+
     /**
      * 
      * Permite obtener los datos del curso para ser editados.
      * @author Benjamín Aguirre García
      */
     function editarCursos() {
-		$idCurso = $_GET['idCurso'];
-       	$curso1 = new Curso();
-       	$curso  = $curso1->obtenerCurso($idCurso);
-       	$nombreCurso = $curso[0][cu_nombre];
-       	$fechaParticipacion = $curso[0][cu_fecha_conclusion];
-       	$rutaImg = $curso[0][cu_ruta_constancia];
-		include '../../boundaries/curriculum/frmRegisCurso.php';    	
+        $idCurso = $_GET['idCurso'];
+        $curso1 = new Curso();
+        $curso = $curso1->obtenerCurso($idCurso);
+        $nombreCurso = $curso[0][cu_nombre];
+        $fechaParticipacion = $curso[0][cu_fecha_conclusion];
+        $rutaImg = $curso[0][cu_ruta_constancia];
+        include '../../boundaries/curriculum/frmRegisCurso.php';
     }
-    
-    
+
     /**
      * 
      * Valida la actualización del Curso y realiza la actualización, si hay errores incluye el formulario de actualización.
@@ -507,35 +507,35 @@ class CtlCurriculum {
      * 
      */
     function actualizarCursos() {
-		$idCurso = $_GET['idCurso'];
-        $nombreCurso = $_GET['nombreCurso'];            	
-		$fechaParticipacion = $_GET['fechaParticipacion'];
-		$rutaImg = $_GET['rutaImg'];
-		$err = false;
-		if (!isset($nombreCurso)) {
-			$errMsj .= "Debe tener un nombre el Curso <br>";
-			$err = true;
-		}            	
-		if (!isset($fechaParticipacion)) {
-			$errMsj .= "Fecha Inválida <br>";
-			$err = true;
-		}
-		if (!isset($rutaImg)) {
-			$errMsj .= "Debes Ingresar una ruta <br>";
-			$err = true;
-		}
-		if ($err == false) {
-			$curso1 = new Curso();
-			if (!$curso1->actualizar($idCurso, $nombreCurso, $fechaParticipacion, $rutaImg)) {
-				$err = true;
-				$errMsj = "Ocurrió un error inesperado";	
-			}
-		}            	
-		if ($err) {
-			include '../../boundaries/curriculum/frmRegisCurso.php';
-		} else {
-			echo "El curso ha sido modificado";
-		}    	    
+        $idCurso = $_GET['idCurso'];
+        $nombreCurso = $_GET['nombreCurso'];
+        $fechaParticipacion = $_GET['fechaParticipacion'];
+        $rutaImg = $_GET['rutaImg'];
+        $err = false;
+        if (!isset($nombreCurso)) {
+            $errMsj .= "Debe tener un nombre el Curso <br>";
+            $err = true;
+        }
+        if (!isset($fechaParticipacion)) {
+            $errMsj .= "Fecha Inválida <br>";
+            $err = true;
+        }
+        if (!isset($rutaImg)) {
+            $errMsj .= "Debes Ingresar una ruta <br>";
+            $err = true;
+        }
+        if ($err == false) {
+            $curso1 = new Curso();
+            if (!$curso1->actualizar($idCurso, $nombreCurso, $fechaParticipacion, $rutaImg)) {
+                $err = true;
+                $errMsj = "Ocurrió un error inesperado";
+            }
+        }
+        if ($err) {
+            include '../../boundaries/curriculum/frmRegisCurso.php';
+        } else {
+            echo "El curso ha sido modificado";
+        }
     }
 
     /**
