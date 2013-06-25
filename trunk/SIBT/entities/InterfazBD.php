@@ -22,7 +22,7 @@ class InterfazBD{
                     break;
 
                     default:
-                    $this->conexion = pg_pconnect(self::CONSTRING);
+                    $this->conexion =  pg_pconnect(self::CONSTRING);
                     break;
             }
     }
