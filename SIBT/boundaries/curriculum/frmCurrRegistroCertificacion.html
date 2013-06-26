@@ -1,0 +1,49 @@
+<!-- 
+ * Archivo: Formulario frmCurrRegistroCertificacion
+ * Autor:	Emmanuel García C.
+ * Fecha:	Sabado 23/Junio/2013
+ * Modificaciones: 
+ * -
+ * -
+ -->
+
+<div id="resFrmRegistroCurriculum"></div>
+
+<form id="frmRegistroCurriculum" name="frmRegistroCurriculum">
+    <table>
+        <tbody>
+            <tr>
+                <td>Nombre de la certificaci&oacuten:* </td>
+                <td><input class="required" type="text" name="ce_nombre" value="<?php echo isset($registro[0]['ce_nombre'])? $registro[0]['ce_nombre'] : ''; ?>" placeholder="Nombre"/></td>
+            </tr>
+            
+            <tr>
+                <td>Descripci&oacuten: </td>
+                <td><input type="text" class="required" name="ce_descripcion" value="<?php echo isset($registro[0]['ce_descripcion'])? $registro[0]['ce_descripcion'] : ''; ?>" placeholder="Descripción"/></td>
+            </tr>
+            <tr>
+                <td>Empresa/Instituci&oacuten:* </td>
+                <td><input class="required" type="text" name="ce_empresa" value="<?php echo isset($registro[0]['ce_empresa'])? $registro[0]['ce_empresa'] : ''; ?>" placeholder="Institución"/></td>
+            </tr>
+            <tr>
+                <td>Duraci&oacuten de la certificaci&oacuten:* </td>
+                <td><input class="required" type="text" name="ce_duracion" value="<?php echo isset($registro[0]['ce_duracion'])? $registro[0]['ce_duracion'] : ''; ?>" placeholder="Duración"/></td>
+            </tr>
+            <tr>
+                <td>A&ntildeo de la certificaci&oacuten:* </td>
+                <td><input class="required" type="text" name="ce_anio" value="<?php echo isset($registro[0]['ce_anio'])? $registro[0]['ce_anio'] : ''; ?>" placeholder="Año"/></td>
+                <td><input type="hidden" name="ce_id" value="<?php echo isset($registro[0]['ce_id'])? $registro[0]['ce_id'] : 'false'; ?>"></td>
+            </tr>
+            <tr>
+            	<?php
+            		if(isset($registro[0]['ce_id'])){
+            	?>
+                	<td><input type="button" name="btnAceptar" value="Editar" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'frmRegistroCurriculum', 'contenido');"/></td>
+                <?php }else{ ?>
+                	<td><input type="button" name="btnAceptar" value="Registrar" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_registrar', 'frmRegistroCurriculum', 'contenido');"/></td>
+           		<?php } ?>
+            	<td><input type="button" value="Cancelar" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_listar', 'vacio', 'contenido');"/></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
