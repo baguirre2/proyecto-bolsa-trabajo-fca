@@ -328,7 +328,6 @@ class CtlCurriculum {
         $alumnoIdioma = $_GET['AlumnoIdioma'];
         $idioma1 = new Idioma();
         $arrDatos = $idioma1->obtenerDatosIdioma($alumnoIdioma);
-        print_r($arrDatos);
         $porcentajeEscritura = $arrDatos[0][id_nivel_escrito];
         $porcentajeLectura = $arrDatos[0][id_nivel_lectura];
         
