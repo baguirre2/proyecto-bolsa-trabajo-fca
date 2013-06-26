@@ -11,15 +11,32 @@ class InfoAcademica {
     private $fechaTerm;
     private $rutaConsta;
     
-    public function listar () {
+    public function __construct() {
+        ;
+    }
+
+        //Autor: Eduardo García Solis
+    //Obtienes toda la información de acuerdo a su estado de validación
+    public function listarPorEstado($idEstado) {
+
         $conn = new InterfazBD();
-        
-        $res = $conn->consultar("SELECT inlab.inla_id, inLab.inla_empresa, inlab.inla_puesto, inlab.inla_anios_estancia 
-                                    FROM ingsw.informacion_laboral AS inLab JOIN ingsw.alumno AS alu ON (inLab.al_id=alu.al_id) 
-                                        WHERE alu.al_id=$idAlumno");
-        
+
+        $res = $conn->consultar("SELECT 
+                                    inac_id, 
+                                    inac_universidad, 
+                                    inac_escuela, 
+                                    persona.pe_nombre, 
+                                    persona.pe_apellido_paterno,
+                                    persona.pe_apellido_materno 
+                                FROM 
+                                    ingsw.informacion_academica AS infoAca 
+                                    JOIN ingsw.alumno ON (infoAca.al_id=alumno.al_id) 
+                                    JOIN ingsw.persona ON (persona.pe_id=alumno.pe_id) 
+                                WHERE 
+                                    esau_id=$idEstado");
+
         $conn->cerrarConexion();
-        
+
         return $res;
     }
 }

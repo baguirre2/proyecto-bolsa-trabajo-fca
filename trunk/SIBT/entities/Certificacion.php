@@ -1,138 +1,171 @@
-<?php 
+<?php
 
 /*
  * Archivo: Class Certificacion
- * Autor:	Emmanuel García C.
+ * Autor:	Emmanuel Garcï¿½a C.
  * Fecha:	Lunes 25/Junio/2013
  * Modificaciones: 
  * -
  * -
  */
 
-class Certificacion{
+class Certificacion {
 
-	function __construct() {
-	}
-	
-	/*
-	 * Método:	registrarCertificacion
-	 * Autor:	Emmanuel García
-	 * Descripción:
-	 * Esta función recibe los datos del formulario de frmRegistroCertificacion.html
-	 * y el id del alumno que se encuentra en sesión en ese momento.
-	 * Se conecta a la interfaz de conexión e intenta insertar el registro, si es
-	 * exitoso devuelve true, de lo contrario false.
-	 */
-	public function registrarCertificacion($GET, $alumno = NULL) {
-		$conexion = new InterfazBD();
-		$alumno = ($alumno != NULL)? $alumno : 1;
-		$query = "INSERT INTO ingsw.certificacion (al_id, esau_id, ce_nombre, ce_descripcion, ce_empresa, ce_duracion, ce_anio)
-    			 VALUES (".$alumno.", 2,'".$GET['ce_nombre']."','".$GET['ce_descripcion']."','".$GET['ce_empresa']."','".$GET['ce_duracion']."','".$GET['ce_anio']."')";
-		if($conexion->insertar($query) != false){
-			return true;
-		}else{
-			return false;
-		}
-		$conexion->cerrarConexion();
-	}
-	
-	/*
-	 * Método:	editarCertificacion
-	 * Autor:	Emmanuel García
-	 * Descripción:
-	 * Esta función recibe los datos del formulario de frmRegistroCertificacion.html
-	 * Se conecta a la interfaz de conexión e intenta actualizar los datos de un registro
-	 * de certificación, si es exitoso devuelve true, de lo contrario false.
-	*/
-	public function editarCertificacion($GET) {
-		$conexion = new InterfazBD();
-		$query = "UPDATE ingsw.certificacion
-    			  SET ce_nombre = '".$GET['ce_nombre']."', ce_descripcion = '".$GET['ce_descripcion']."', ce_empresa = '".$GET['ce_empresa']."',
-    			  	  ce_duracion = '".$GET['ce_duracion']."', ce_anio = '".$GET['ce_anio']."'
-    			  WHERE ce_id = '".$GET['ce_id']."';";
-		if($conexion->insertar($query) != false){
-			return true;
-		}else{
-			return false;
-		}
-		$conexion->cerrarConexion();
-	}
-	
-	/*
-	 * Método:	listarCertificaciones
-	 * Autor:	Emmanuel García
-	 * Descripción:
-	 * Esta función recibe el id del alumno que esta en sesión
-	 * Se conecta a la interfaz de conexión y busca los registros de las 
-	 * certificaciones de ese Alumno, si existen registros devuelve todos en forma de tabla, 
-	 * de lo contrario un mensaje indicando que se encontraron registros.
-	*/
-	public function listarCertificaciones($alumno = NULL){
-		$conexion = new InterfazBD();
-		$alumno = ($alumno != NULL)? $alumno : 1;
-		$query = "SELECT * FROM ingsw.certificacion WHERE al_id = ".$alumno.";";
-		$resultados = $conexion->consultar($query);
-		if($resultados != false){
-			//echo "Conexión hecha";
-			$registros = "";
-			for ($i=0; $i <= count($resultados)-1; $i++) {
-				$registros .= "<tr><td>".$resultados[$i]['ce_nombre']."</td>";
-				$registros .= "<td>".$resultados[$i]['ce_descripcion']."</td>";
-				$registros .= "<td>".$resultados[$i]['ce_empresa']."</td>";
-				$registros .= "<td>".$resultados[$i]['ce_duracion']."</td>";
-				$registros .= "<td>".$resultados[$i]['ce_anio']."</td>";
-				$registros .= ($resultados[$i]['esau_id'] != 1)?
-				"<td>
-              						  <input type=\"button\" name=\"btnEditar\"  value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'vacio', 'contenido', '".$resultados[$i]['ce_id']."');\">
-              						  </td></tr>" :"<td> </td></tr>";
-			}
-	
-			$respuesta = "
+    function __construct() {
+        
+    }
+
+    /*
+     * Mï¿½todo:	registrarCertificacion
+     * Autor:	Emmanuel Garcï¿½a
+     * Descripciï¿½n:
+     * Esta funciï¿½n recibe los datos del formulario de frmRegistroCertificacion.html
+     * y el id del alumno que se encuentra en sesiï¿½n en ese momento.
+     * Se conecta a la interfaz de conexiï¿½n e intenta insertar el registro, si es
+     * exitoso devuelve true, de lo contrario false.
+     */
+
+    public function registrarCertificacion($GET, $alumno = NULL) {
+        $conexion = new InterfazBD();
+        $alumno = ($alumno != NULL) ? $alumno : 1;
+        $query = "INSERT INTO ingsw.certificacion (al_id, esau_id, ce_nombre, ce_descripcion, ce_empresa, ce_duracion, ce_anio)
+    			 VALUES (" . $alumno . ", 2,'" . $GET['ce_nombre'] . "','" . $GET['ce_descripcion'] . "','" . $GET['ce_empresa'] . "','" . $GET['ce_duracion'] . "','" . $GET['ce_anio'] . "')";
+        if ($conexion->insertar($query) != false) {
+            return true;
+        } else {
+            return false;
+        }
+        $conexion->cerrarConexion();
+    }
+
+    /*
+     * Mï¿½todo:	editarCertificacion
+     * Autor:	Emmanuel Garcï¿½a
+     * Descripciï¿½n:
+     * Esta funciï¿½n recibe los datos del formulario de frmRegistroCertificacion.html
+     * Se conecta a la interfaz de conexiï¿½n e intenta actualizar los datos de un registro
+     * de certificaciï¿½n, si es exitoso devuelve true, de lo contrario false.
+     */
+
+    public function editarCertificacion($GET) {
+        $conexion = new InterfazBD();
+        $query = "UPDATE ingsw.certificacion
+    			  SET ce_nombre = '" . $GET['ce_nombre'] . "', ce_descripcion = '" . $GET['ce_descripcion'] . "', ce_empresa = '" . $GET['ce_empresa'] . "',
+    			  	  ce_duracion = '" . $GET['ce_duracion'] . "', ce_anio = '" . $GET['ce_anio'] . "'
+    			  WHERE ce_id = '" . $GET['ce_id'] . "';";
+        if ($conexion->insertar($query) != false) {
+            return true;
+        } else {
+            return false;
+        }
+        $conexion->cerrarConexion();
+    }
+
+    /*
+     * Mï¿½todo:	listarCertificaciones
+     * Autor:	Emmanuel Garcï¿½a
+     * Descripciï¿½n:
+     * Esta funciï¿½n recibe el id del alumno que esta en sesiï¿½n
+     * Se conecta a la interfaz de conexiï¿½n y busca los registros de las 
+     * certificaciones de ese Alumno, si existen registros devuelve todos en forma de tabla, 
+     * de lo contrario un mensaje indicando que se encontraron registros.
+     */
+
+    public function listarCertificaciones($alumno = NULL) {
+        $conexion = new InterfazBD();
+        $alumno = ($alumno != NULL) ? $alumno : 1;
+        $query = "SELECT * FROM ingsw.certificacion WHERE al_id = " . $alumno . ";";
+        $resultados = $conexion->consultar($query);
+        if ($resultados != false) {
+            //echo "Conexiï¿½n hecha";
+            $registros = "";
+            for ($i = 0; $i <= count($resultados) - 1; $i++) {
+                $registros .= "<tr><td>" . $resultados[$i]['ce_nombre'] . "</td>";
+                $registros .= "<td>" . $resultados[$i]['ce_descripcion'] . "</td>";
+                $registros .= "<td>" . $resultados[$i]['ce_empresa'] . "</td>";
+                $registros .= "<td>" . $resultados[$i]['ce_duracion'] . "</td>";
+                $registros .= "<td>" . $resultados[$i]['ce_anio'] . "</td>";
+                $registros .= ($resultados[$i]['esau_id'] != 1) ?
+                        "<td>
+              						  <input type=\"button\" name=\"btnEditar\"  value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'vacio', 'contenido', '" . $resultados[$i]['ce_id'] . "');\">
+              						  </td></tr>" : "<td> </td></tr>";
+            }
+
+            $respuesta = "
                         <table>
                         <thead>
                         <tr>
-                        <th>Nombre Certificación</th>
-                    	<th>Descripción</th>
-                        <th>Empresa/Institución</th>
-                        <th>Duración</th>
-                        <th>Año Certificación</th>
+                        <th>Nombre Certificaciï¿½n</th>
+                    	<th>Descripciï¿½n</th>
+                        <th>Empresa/Instituciï¿½n</th>
+                        <th>Duraciï¿½n</th>
+                        <th>Aï¿½o Certificaciï¿½n</th>
                         <th>Acciones</th>
                         </tr>
                         </thead>
-                        <tbody>".$registros."
+                        <tbody>" . $registros . "
                     	</tbody>
                         </table>
                     ";
-			return $respuesta;
-		}else{
-			echo "<h2 class=respuesta>No existen registros</h2>";
-			return false;
-		}
-		$conexion->cerrarConexion();
-	}
-	
-	/*
-	 * Método:	buscarCertificacion
-	 * Autor:	Emmanuel García
-	 * Descripción:
-	 * Esta función recibe el id de la certificación que se puede editar
-	 * Se conecta a la interfaz de conexión y busca el registro de la
-	 * certificación a editar, si existe el registro devuelve el registro,
-	 * de lo contrario un mensaje indicando que no se encontró el registro.
-	*/
-	public function buscarCertificacion($ce_id = NULL){
-		$conexion = new InterfazBD();
-		$query = "SELECT * FROM ingsw.certificacion
-    			  WHERE ce_id = '".$ce_id."'; ";
-		$registro = $conexion->consultar($query);
-		if($registro != false){
-			//echo "Registro encontrado";
-			return $registro;
-		}else{
-			echo "<p class=respuesta>No se encontró el registro</p>";
-			return false;
-		}
-		$conexion->cerrarConexion();
-	}
+            return $respuesta;
+        } else {
+            echo "<h2 class=respuesta>No existen registros</h2>";
+            return false;
+        }
+        $conexion->cerrarConexion();
+    }
+
+    /*
+     * Mï¿½todo:	buscarCertificacion
+     * Autor:	Emmanuel Garcï¿½a
+     * Descripciï¿½n:
+     * Esta funciï¿½n recibe el id de la certificaciï¿½n que se puede editar
+     * Se conecta a la interfaz de conexiï¿½n y busca el registro de la
+     * certificaciï¿½n a editar, si existe el registro devuelve el registro,
+     * de lo contrario un mensaje indicando que no se encontrï¿½ el registro.
+     */
+
+    public function buscarCertificacion($ce_id = NULL) {
+        $conexion = new InterfazBD();
+        $query = "SELECT * FROM ingsw.certificacion
+    			  WHERE ce_id = '" . $ce_id . "'; ";
+        $registro = $conexion->consultar($query);
+        if ($registro != false) {
+            //echo "Registro encontrado";
+            return $registro;
+        } else {
+            echo "<p class=respuesta>No se encontrï¿½ el registro</p>";
+            return false;
+        }
+        $conexion->cerrarConexion();
+    }
+
+    //Autor: Eduardo GarcÃ­a Solis
+    //Obtienes todas las certificaciones de acuerdo a su estado de validaciÃ³n
+    public function listarPorEstado($idEstado) {
+
+        $conn = new InterfazBD();
+
+        $res = $conn->consultar("SELECT 
+                                    certificacion.ce_id, 
+                                    persona.pe_nombre, 
+                                    persona.pe_apellido_paterno,
+                                    persona.pe_apellido_materno,
+                                    certificacion.ce_nombre, 
+                                    certificacion.ce_empresa
+                                FROM 
+                                    ingsw.certificacion JOIN  
+                                    ingsw.alumno ON (alumno.al_id = certificacion.al_id) 
+                                    JOIN ingsw.persona ON (alumno.pe_id = persona.pe_id) 
+                                    JOIN ingsw.estado_autorizacion ON (certificacion.esau_id = estado_autorizacion.esau_id)
+                                WHERE 
+                                certificacion.esau_id=$idEstado");
+
+        $conn->cerrarConexion();
+
+        return $res;
+    }
+
 }
+
 ?>
