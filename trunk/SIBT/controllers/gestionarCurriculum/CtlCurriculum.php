@@ -212,6 +212,7 @@ class CtlCurriculum {
                 $id_nivel = $GET['id'];
                 $this->listarEstudiosFCA($id_nivel);
                 break;
+            
             //Mi objetivo profesional
             case 'objProf';
                 include '../../boundaries/curriculum/objProf.php';
@@ -225,13 +226,16 @@ class CtlCurriculum {
                 break;
             case 'actualizarObj';
                 $transaccionBD = new InterfazBD2();
+                $GET['txtEditar'] = isset($GET['txtEditar']) ? $GET['txtEditar'] : "";
                 $transaccionBD->ejecutarQuery("UPDATE ingsw.alumno SET al_objetivos_profesionales = '$GET[txtEditar]' WHERE al_id = 1");
                 echo "<h3>Tus datos se han actualizado.</h3>";
+                include '../../boundaries/curriculum/objProf.php';
                 break;
             case 'crearObj';
                 $transaccionBD = new InterfazBD2();
                 $transaccionBD->ejecutarQuery("UPDATE ingsw.alumno SET al_objetivos_profesionales = '$GET[objProfAgre]' WHERE al_id = 1");
                 echo "<h3>Tus objetivo profesional se ha creado.</h3>";
+                include '../../boundaries/curriculum/objProf.php';
                 break;
 
             // Fin Mi objetivo profesional
