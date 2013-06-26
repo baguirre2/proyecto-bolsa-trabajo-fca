@@ -3,7 +3,7 @@
 echo "<h1>Mi objetivo Profesional</h1>";
 $objProf = new InterfazBD2();
 //$contador = 0;
-$res = $objProf->consultar('select * from ingsw.alumno where al_id = 1');
+$res = $objProf->consultar("select * from ingsw.alumno where al_id = $idAlum");
 //while ($row  = $res[0]) {
 if ($res != FALSE) {
         $row = $res[0];
