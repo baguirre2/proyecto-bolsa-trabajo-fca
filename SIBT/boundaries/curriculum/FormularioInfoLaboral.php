@@ -2,7 +2,7 @@
 /**
 * Autor: Eduardo García Solis
 */
-class FormularioInfoAcademica {
+class FormularioInfoLaboral {
 
     function __construct($infoLab = NULL) {
         ?>
