@@ -318,6 +318,13 @@ class CtlCurriculum {
         new ListaInfoLaboral($lista, $mensaje);
     }
 
+    
+    /**
+     * 
+     * Valida los datos de actualización del idioma, si encuentra nulo la ruta de la imagen no envia los datos de constancia, si encuentra errores durante la validación
+     * incluye el formulario y muestra los errores encontrados. 
+     * @author Benjamín Aguirre García
+     */
 	function actualizarIdioma () {
 		
 		
@@ -345,6 +352,11 @@ class CtlCurriculum {
 	    }
 	}
 
+	/**
+	 * 
+	 * Obtiene los datos del Idioma seleccionado a partir del id de alumno_idioma e incluye el formulario de registro.
+	 * @author Benjamín Aguirre García 
+	 */
 	function editarIdioma () {
         $alumnoIdioma = $_GET['AlumnoIdioma'];
         $idioma1 = new Idioma();
@@ -359,7 +371,6 @@ class CtlCurriculum {
 		$idIdioma =  $arrDatos[0][id_idioma];
 		include '../../boundaries/curriculum/frmRegisIdioma.php';
 	}    	
-   
 	
 	/**
 	 * 
