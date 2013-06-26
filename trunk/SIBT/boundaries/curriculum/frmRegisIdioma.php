@@ -5,46 +5,81 @@
 	<form id="frmRegistrarIdioma">
 		<table>
 			<tr>
-				<th colspan="3"> <? if ($_GET['opc'] != "EditarIdioma") { echo "Registrar Idioma"; } else { echo "Actualizar Idioma"; } ?> </th>
+				<th colspan="4"> <? if (verify()) { echo "Registrar Idioma"; } else { echo "Actualizar Idioma"; } ?> </th>
 			</tr>
-			
 			<tr>
 				<td>Idioma</td>
-				<td>: <input type='hidden' value='<?=$idIdioma?>' name='idIdioma' id='idIdioma'> </td>
-				<td><?php echo getIdiomas($idIdioma); ?></td>
+				<td>: <input type='hidden' value='<?php if (isset($alumnoIdioma)) { echo $alumnoIdioma; }?>' name='AlumnoIdioma' id='AlumnoIdioma'>  </td>
+				<td><?php if (isset($idIdioma)) { echo getIdiomas($idIdioma);  } else { echo getIdiomas(0); }?></td>
 			</tr>
 			<tr>
 				<td> Porcentaje de Escritura </td>
 				<td>:</td>
-				<td> <?echo setSelect($porcentajeEscritura, "escritura");?> 	</td>
+				<td> <?if (isset($porcentajeEscritura)) { echo setSelect($porcentajeEscritura, "escritura");  } else { echo setSelect(0, "escritura"); } ?> 	</td>
 			</tr>				
 			<tr> 
 				<td> Porcentaje de Oral </td>
 				<td>:</td>
-				<td> <input type="number" id="oral" name="oral"  value="<?=$porcentajeOral?>"></td>
+				<td> <? if (isset($porcentajeOral)) { echo setSelect($porcentajeOral, "oral");  } else { echo setSelect(0, "oral"); } ?> </td>
 			</tr>
 			<tr> 
 				<td> Porcentaje Lectura </td>
 				<td>:</td>
-				<td> <input type="number" id="lectura" name="lectura"  value="<?=$porcentajeLectura?>"></td>
-			</tr>			
+				<td> <? if (isset($porcentajeLectura)) { echo setSelect($porcentajeLectura, "lectura");  } else { echo setSelect(0, "lectura"); } ?>  </td>
+			</tr>
 			<tr>
-				<td> <input type="button" value="<? if ($_GET['opc'] != "EditarIdioma") { echo "Registrar Idioma"; } else { echo "Actualizar";} ?>" id="Guardar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurric.php', '<? if ($_GET['opc'] != "EditarIdioma") { echo "RegistrarIdioma"; } else { echo "ActualizarIdioma"; } ?>', 'frmRegistrarIdioma', 'contenido'); validarFrm('frmRegistrarIdioma');"></td>
+				<th colspan="3"> Información de Constancia </th>
+			</tr>
+			<tr>
+				<td> Institucion </td>
+				<td> : </td>
+				<td> <input type="text" name="institucion" id="institucion" value="<?php if (isset($institucion)) { echo $institucion; } ?>"> </td>
+			</tr>
+			<tr>
+				<td> Anio </td>
+				<td> : </td>
+				<td> <input type="text" name="anio" value="<?php if (isset($anio)) { echo $anio; } ?>" id="anio"> </td>
+			</tr>
+			<tr>
+				<td> Cargar Constancia </td>
+				<td> : </td>
+				<td><?php if (isset($rutaImg)) { 
+					echo "<input type=\"text\" id=\"rutaImg\" name=\"rutaImg\"  value=\"=$rutaImg\" readonly> 
+					 	  <td> <input type=\"button\" value=\"Editar\" id=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarRuta' , 'frmRegistrarIdioma', 'contenido')\">";
+					} else {
+						echo "<input type=\"file\" id=\"rutaImg\" name=\"rutaImg\"  value=\"=$rutaImg\">";
+					}
+				?> </td>
+			</tr>
+			<tr>
+				<td> <input type="button" value="<? if (verify()) { echo "Registrar Idioma"; } else { echo "Actualizar"; } ?>" id="Guardar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', '<? if (verify()) { echo "RegistrarIdioma"; } else { echo "ActualizarIdioma"; } ?>', 'frmRegistrarIdioma', 'contenido')"></td>
 				<td></td>
-				<td><input type="button" value="Cancelar" id="Cancelar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurric.php', 1 , 'vacio', 'contenido')"></td>
+				<td><input type="button" value="Cancelar" id="Cancelar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')"></td>
 			</tr>
 		</table>
 	</form>
 <div>
-<?php 
+
+<?php
+
+	function verify() {
+		
+		if ($_GET['opc'] != "EditarIdioma" && $_GET['opc'] != "ActualizarIdioma" && $_GET['opc'] != "EditarRuta") {
+			return true;
+		} else { 
+			return false;
+		}
+		
+	}
+
 	function setSelect($value, $name_id) {
 		$strSelect = "<select name='$name_id' id='$name_id'>";
-		for ($i = 1; $i <= 100; $i = $i + 10) {
+		for ($i = 0; $i <= 100; $i = $i + 10) {
 			$selected = "";
 			if ($value == $i) {
 				$selected = "selected";
 			} 
-			$strSelect .="<option value='$i' $selected > $i" ;
+			$strSelect .="<option value='$i' $selected > $i %" ;
 		}
 		$strSelect .= "</select>";
 		return  $strSelect;
@@ -54,7 +89,7 @@
 		include_once '../../entities/Idioma.php';
 		$idioma1 = new Idioma();
 		$arrIdiomas = $idioma1->obtenerIdiomas();
-		$strSelect = "<select name='idIdioma' id='idIdioma'> <option value='0' selected> ---";
+		$strSelect = "<select name='idIdioma' id='idIdioma'> <option value='0' selected readonly> ---";
 		foreach ($arrIdiomas as $valor) {
 			$selected = "";
 			if ($value == $valor[id_idioma]) {
