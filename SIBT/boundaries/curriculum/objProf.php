@@ -1,9 +1,9 @@
 
 <?
 echo "<h1>Mi objetivo Profesional</h1>";
-$objProf = new InterfazBD();
+$objProf = new InterfazBD2();
 $contador = 0;
-$res = $objProf->consultar('select * from ingsw.alumno where al_id = 5');
+$res = $objProf->consultar('select * from ingsw.alumno where al_id = 1');
 while ($row  = $res[$contador]) {
 	$alCuenta = $row[al_num_cuenta];
 	$ObjetivoProf = $row[al_objetivos_profesionales];
