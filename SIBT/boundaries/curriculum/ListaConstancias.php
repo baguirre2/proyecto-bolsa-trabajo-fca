@@ -11,6 +11,8 @@ class ListaConstancias {
         
         <? if ($listCerts != FALSE) {
         ?>
+<form id="frmCert" name="frmCert">
+    <input type="hidden" name="tipo" id="tipo" value="cert"/>
         <table>
             <thead>
                 <tr>
@@ -30,17 +32,19 @@ class ListaConstancias {
                             <td>$row[pe_nombre] $row[pe_apellido_paterno] $row[pe_apellido_materno]</td>
                             <td>$row[ce_nombre]</td>
                             <td>$row[ce_empresa]</td>
-                            <td><input type='button' value='Ver' onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstCerti', 'vacio', 'contenido', $row[ce_id])\"/></td>
+                            <td><input type='button' value='Ver' onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstMostrar', 'frmCert', 'contenido', $row[ce_id])\"/></td>
                         </tr>";
                 }
                 ?>
             </tbody>
-        </table><br>
+        </table></form><br>
         <? }
         ?>
 
         <? if ($listInfoAca != FALSE) {
         ?>
+<form id="frmInfoLab" name="frmInfoLab">
+    <input type="hidden" name="tipo" id="tipo" value="infoLab"/>
         <table>
             <thead>
                 <tr>
@@ -60,17 +64,19 @@ class ListaConstancias {
                             <td>$row[pe_nombre] $row[pe_apellido_paterno] $row[pe_apellido_materno]</td>
                             <td>$row[inac_universidad]</td>
                             <td>$row[inac_escuela]</td>
-                            <td><input type='button' value='Ver' onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstCerti', 'vacio', 'contenido', $row[inac_id])\"/></td>
+                            <td><input type='button' value='Ver' onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstMostrar', 'frmInfoLab', 'contenido', $row[inac_id])\"/></td>
                         </tr>";
                 }
                 ?>
             </tbody>
-        </table><br>
+        </table></form><br>
         <? }
         ?>
 
         <? if ($listCurs != FALSE) {
         ?>
+<form id="frmCurs" name="frmCurs">
+    <input type="hidden" name="tipo" id="tipo" value="curs"/>
         <table>
             <thead>
                 <tr>
@@ -88,17 +94,19 @@ class ListaConstancias {
                     echo "<tr>
                             <td>$row[pe_nombre] $row[pe_apellido_paterno] $row[pe_apellido_materno]</td>
                             <td>$row[cu_nombre]</td>
-                            <td><input type='button' value='Ver' onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstCerti', 'vacio', 'contenido', $row[cu_id])\"/></td>
+                            <td><input type='button' value='Ver' onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstMostrar', 'frmCurs', 'contenido', $row[cu_id])\"/></td>
                         </tr>";
                 }
                 ?>
             </tbody>
-        </table><br>
+        </table></form><br>
         <? }
         ?>
         
         <? if ($listIdio != FALSE) {
         ?>
+<form id="frmIdio" name="frmIdio">
+    <input type="hidden" name="tipo" id="tipo" value="idio"/>
         <table>
             <thead>
                 <tr>
@@ -122,12 +130,12 @@ class ListaConstancias {
                             <td>$row[id_nivel_oral]</td>
                             <td>$row[id_nivel_escrito]</td>
                             <td>$row[id_nivel_lectura]</td>
-                            <td><input type='button' value='Ver' onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstCerti', 'vacio', 'contenido', $row[idal_id])\"/></td>
+                            <td><input type='button' value='Ver' onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstMostrar', 'frmIdio', 'contenido', $row[idal_id])\"/></td>
                         </tr>";
                 }
                 ?>
             </tbody>
-        </table>
+        </table></form>
         <? }
         ?>
         

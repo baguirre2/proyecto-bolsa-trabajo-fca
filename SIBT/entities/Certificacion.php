@@ -2,11 +2,8 @@
 
 /*
  * Archivo: Class Certificacion
- * Autor:	Emmanuel García C.
- * Fecha:	Lunes 24/Junio/2013
- * Modificaciones: 
- * -
- * -
+ * Autor: Emmanuel GarcÃ­a C.
+ * Fecha: Lunes 24/Junio/2013
  */
 
 class Certificacion{
@@ -15,12 +12,12 @@ class Certificacion{
 	}
 	
 	/*
-	 * Método:	registrarCertificacion
-	 * Autor:	Emmanuel García
-	 * Descripción:
-	 * Esta función recibe los datos del formulario de frmRegistroCertificacion.html
-	 * y el id del alumno que se encuentra en sesión en ese momento.
-	 * Se conecta a la interfaz de conexión e intenta insertar el registro, si es
+	 * Mï¿½todo:	registrarCertificacion
+	 * Autor:	Emmanuel GarcÃ­a
+	 * Descripciï¿½n:
+	 * Esta funciï¿½n recibe los datos del formulario de frmRegistroCertificacion.html
+	 * y el id del alumno que se encuentra en sesiï¿½n en ese momento.
+	 * Se conecta a la interfaz de conexiï¿½n e intenta insertar el registro, si es
 	 * exitoso devuelve true, de lo contrario false.
 	 */
 	public function registrarCertificacion($GET, $alumno = NULL) {
@@ -38,12 +35,12 @@ class Certificacion{
 	}
 	
 	/*
-	 * Método:	editarCertificacion
-	 * Autor:	Emmanuel García
-	 * Descripción:
-	 * Esta función recibe los datos del formulario de frmRegistroCertificacion.html
-	 * Se conecta a la interfaz de conexión e intenta actualizar los datos de un registro
-	 * de certificación, si es exitoso devuelve true, de lo contrario false.
+	 * Mï¿½todo:	editarCertificacion
+	 * Autor:	Emmanuel Garcï¿½a
+	 * Descripciï¿½n:
+	 * Esta funciï¿½n recibe los datos del formulario de frmRegistroCertificacion.html
+	 * Se conecta a la interfaz de conexiï¿½n e intenta actualizar los datos de un registro
+	 * de certificaciï¿½n, si es exitoso devuelve true, de lo contrario false.
 	*/
 	public function editarCertificacion($GET) {
 		$conexion = new InterfazBD();
@@ -61,11 +58,11 @@ class Certificacion{
 	}
 	
 	/*
-	 * Método:	listarCertificaciones
-	 * Autor:	Emmanuel García
-	 * Descripción:
-	 * Esta función recibe el id del alumno que esta en sesión
-	 * Se conecta a la interfaz de conexión y busca los registros de las 
+	 * Mï¿½todo:	listarCertificaciones
+	 * Autor:	Emmanuel Garcï¿½a
+	 * Descripciï¿½n:
+	 * Esta funciï¿½n recibe el id del alumno que esta en sesiï¿½n
+	 * Se conecta a la interfaz de conexiï¿½n y busca los registros de las 
 	 * certificaciones de ese Alumno, si existen registros devuelve todos en forma de tabla, 
 	 * de lo contrario un mensaje indicando que se encontraron registros.
 	*/
@@ -75,7 +72,7 @@ class Certificacion{
 		$query = "SELECT * FROM ingsw.certificacion WHERE al_id = ".$alumno.";";
 		$resultados = $conexion->consultar($query);
 		if($resultados != false){
-			//echo "Conexión hecha";
+			//echo "Conexiï¿½n hecha";
 			$registros = "";
 			for ($i=0; $i <= count($resultados)-1; $i++) {
 				$registros .= "<tr><td>".$resultados[$i]['ce_nombre']."</td>";
@@ -92,9 +89,9 @@ class Certificacion{
 			if(!isset($msg)){
 				$msg = "";
 			}else if($msg == 1){
-				$msg = "<h1 class=respuesta>Registro realizado con éxito</h1><br/>";
+				$msg = "<h1 class=respuesta>Registro realizado con ï¿½xito</h1><br/>";
 			}else if($msg == 2){
-				$msg = "<h1 class=respuesta>Registro actualizado con éxito</h1><br/>";
+				$msg = "<h1 class=respuesta>Registro actualizado con ï¿½xito</h1><br/>";
 			}
 			
 			$respuesta = $msg;
@@ -102,11 +99,11 @@ class Certificacion{
                         <table>
                         <thead>
                         <tr>
-                        <th>Nombre Certificación</th>
-                    	<th>Descripción</th>
-                        <th>Empresa/Institución</th>
-                        <th>Duración</th>
-                        <th>Año Certificación</th>
+                        <th>Nombre Certificaciï¿½n</th>
+                    	<th>Descripciï¿½n</th>
+                        <th>Empresa/Instituciï¿½n</th>
+                        <th>Duraciï¿½n</th>
+                        <th>Aï¿½o Certificaciï¿½n</th>
                         <th>Acciones</th>
                         </tr>
                         </thead>
@@ -114,7 +111,7 @@ class Certificacion{
                     	</tbody>
                         </table>
                     ";
-			$respuesta.="<input type=\"button\" name=\"Agregar\" value=\"Agregar Certificación\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_registrar', 'vacio', 'contenido');\">";
+			$respuesta.="<input type=\"button\" name=\"Agregar\" value=\"Agregar Certificaciï¿½n\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_registrar', 'vacio', 'contenido');\">";
 			$conexion->cerrarConexion();
 			return $respuesta;
 		}else{
@@ -126,31 +123,31 @@ class Certificacion{
 	}
 	
 	/*
-	 * Método:	buscarCertificacion
-	 * Autor:	Emmanuel García
-	 * Descripción:
-	 * Esta función recibe el id de la certificación que se puede editar
-	 * Se conecta a la interfaz de conexión y busca el registro de la
-	 * certificación a editar, si existe el registro devuelve el registro,
-	 * de lo contrario un mensaje indicando que no se encontró el registro.
+	 * Mï¿½todo:	buscarCertificacion
+	 * Autor:	Emmanuel Garcï¿½a
+	 * Descripciï¿½n:
+	 * Esta funciï¿½n recibe el id de la certificaciï¿½n que se puede editar
+	 * Se conecta a la interfaz de conexiï¿½n y busca el registro de la
+	 * certificaciï¿½n a editar, si existe el registro devuelve el registro,
+	 * de lo contrario un mensaje indicando que no se encontrï¿½ el registro.
 	*/
 	public function buscarCertificacion($ce_id = NULL){
 		$conexion = new InterfazBD();
 		$query = "SELECT * FROM ingsw.certificacion
-    			  WHERE ce_id = '".$ce_id."'; ";
+    			  WHERE ce_id = '".$ce_id."'";
 		$registro = $conexion->consultar($query);
 		if($registro != false){
 			//echo "Registro encontrado";
 			return $registro;
 		}else{
-			echo "<p class=respuesta>No se encontró el registro</p>";
+			echo "<p class=respuesta>No se encontrï¿½ el registro</p>";
 			return false;
 		}
 		$conexion->cerrarConexion();
 	}
-	
-	//Autor: Eduardo García Solis
-	//Obtienes todas las certificaciones de acuerdo a su estado de validación
+
+                //Autor: Eduardo Garcï¿½a Solis
+	//Obtienes todas las certificaciones de acuerdo a su estado de validaciï¿½n
 	public function listarPorEstado($idEstado) {
 	
 		$conn = new InterfazBD();
