@@ -5,7 +5,7 @@
 	<form id="frmRegistrarCurso">
 		<table>
 			<tr>
-				<th colspan="3"> <? if ($_GET['opc'] != "EditarCurso") { echo "Registrar Curso"; } else { echo "Actualizar Curso"; } ?> </th>
+				<th colspan="3"> <? if (!isset($idCurso)) { echo "Registrar Curso"; } else { echo "Actualizar Curso"; } ?> </th>
 			</tr>
 			
 			<tr>
@@ -26,12 +26,12 @@
 					echo "<input type=\"text\" id=\"rutaImg\" name=\"rutaImg\"  value=\"=$rutaImg\" readonly> 
 					 	  <td> <input type=\"button\" value=\"Editar\" id=\"Editar\" name=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarRuta' , 'frmRegistrarCurso', 'contenido')\">";
 				} else {
-					echo "<input type=\"file\" id=\"rutaImg\" name=\"rutaImg\"  value=\"=$rutaImg\">";
+					echo "<input type=\"file\" id=\"rutaImg\" name=\"rutaImg\"  value=\"$rutaImg\">";
 				}
 				?></td>
 			</tr>
 			<tr>
-				<td> <input type="button" value="<? if ($_GET['opc'] != "EditarCurso") { echo "Registrar Curso"; } else { echo "Actualizar";} ?>" id="Guardar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', '<? if ($_GET['opc'] != "EditarCurso") { echo "RegistrarCurso"; } else { echo "ActualizarCurso"; } ?>', 'frmRegistrarCurso', 'contenido')"></td>
+				<td> <input type="button" value="<? if (!isset($idCurso)) { echo "Registrar Curso"; } else { echo "Actualizar";} ?>" id="Guardar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', '<? if (!isset($idCurso)) { echo "RegistrarCurso"; } else { echo "ActualizarCurso"; } ?>', 'frmRegistrarCurso', 'contenido')"></td>
 				<td></td>
 				<td><input type="button" value="Cancelar" id="Cancelar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')"></td>
 			</tr>
