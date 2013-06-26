@@ -135,7 +135,17 @@ class CtlCurriculum {
                 break;
 
             case "RegistrarIdioma";
+            	$this->registrarIdioma();
                 break;
+
+            case "ActualizarIdioma";
+            	$this->actualizarIdioma();
+                break;
+
+            case "EditarIdioma";
+            	$this->editarIdioma();
+                break;
+                                
             case "AgregarCurso";
                 include '../../boundaries/curriculum/frmRegisCurso.php';
                 break;
@@ -144,7 +154,7 @@ class CtlCurriculum {
                 $this->registrarCurso();
                 break;
 
-            case "Cursos"; // Se muestran los Cursos Disponibles
+            case "Cursos"; 
                 $this->menuCursos();
                 break;
 
@@ -296,33 +306,57 @@ class CtlCurriculum {
         new ListaInfoLaboral($lista, $mensaje);
     }
 
+	function actualizarIdioma () {
+		$alumnoIdioma = $_GET['AlumnoIdioma'];
+		$idIdioma = $_GET['idIdioma'];
+    	$porcentajeEscritura = $_GET['escritura'];
+	    $porcentajeLectura = $_GET['lectura'];
+        $porcentajeOral = $_GET['oral'];
+    	$anio = $_GET['anio'];
+    	$rutaImg = $_GET['rutaImg'];
+	    $institucion = $_GET['institucion'];
+	    $idioma1 = new Idioma();
+	    if ($idioma1->actualizar($idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $alumnoIdioma, $institucion, $anio, $rutaImg)) {
+	    	echo "Se ha actualizado la información del Idioma";
+	    } else {
+	    	$errMsj = "Ha ocurrido un error";
+	    	include '../../boundaries/curriculum/frmRegisIdioma.php';
+	    }
+	}
+
+	function editarIdioma () {
+        $alumnoIdioma = $_GET['AlumnoIdioma'];
+        $idioma1 = new Idioma();
+        $arrDatos = $idioma1->obtenerDatosIdioma($alumnoIdioma);
+        print_r($arrDatos);
+        $porcentajeEscritura = $arrDatos[0][id_nivel_escrito];
+        $porcentajeLectura = $arrDatos[0][id_nivel_lectura];
+        
+        $porcentajeOral = $arrDatos[0][id_nivel_oral];
+        $anio = $arrDatos[0][idal_anio];
+        $rutaImg = $arrDatos[0][idal_ruta_constancia];
+        $institucion = $arrDatos[0][idal_institucion];
+		$idIdioma =  $arrDatos[0][id_idioma];
+		include '../../boundaries/curriculum/frmRegisIdioma.php';
+	}    	
+   
     function registrarIdioma() {
-        $nombreIdioma = $_GET['nombreIdioma'];
+        $idIdioma = $_GET['idIdioma'];
         $porcentajeEscritura = $_GET['escritura'];
         $porcentajeLectura = $_GET['lectura'];
         $porcentajeOral = $_GET['oral'];
+        $anio = $_GET['anio'];
+        $rutaImg = $_GET['rutaImg'];
+        $institucion = $_GET['institucion'];
         $err = false;
-        if (!isset($nombreIdioma)) {
-            $errMsj .= "Debe tener un nombre el Idioma <br>";
-            $err = true;
+        if ($idIdioma == 0) {
+        	$errMsj = "Debes de Seleccionar un Idioma";
+        	$err = true;
         }
-        if (!isset($porcentajeEscritura) || !isset($porcentajeLectura) || !isset($porcentajeOral)) {
-            $errMsj .= "No se ha llenado el mínimo de campos obligatorios <br>";
-            $err = true;
-        } else {
-            if (!is_numeric($porcentajeEscritura) && !is_numeric($porcentajeLectura) && !is_numeric($porcentajeOral)) {
-                $errMsj = "Debe ser numerico";
-                $err = true;
-            } else {
-                if ($porcentajeEscritura > 100 || $porcentajeLectura > 100 || $porcentajeOral > 100) {
-                    $errMsj .= "El porcentaje no puede ser mayor a 100";
-                    $err = true;
-                }
-            }
-        }
+        
         if ($err == false) {
             $idioma1 = new Idioma();
-            if (!$idioma1->guardarAlumno($_SESSION['idUsuario'], $idioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura)) {
+            if (!$idioma1->guardarIdiomaAlumno($_SESSION['idUsuario'], $idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $rutaImg, $institucion, $anio)) {
                 $err = true;
                 $errMsj = "Ocurrió un error inesperado";
             }
@@ -347,7 +381,7 @@ class CtlCurriculum {
         } else {
             echo $strIdiomas;
             echo "	<table width='1000'> <tr>
-    					<td>  <input type=\"button\" value=\"Agregar Idioma\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarCurso' , 'vacio', 'contenido')\">
+    					<td>  <input type=\"button\" value=\"Agregar Idioma\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarIdioma' , 'vacio', 'contenido')\">
     					 <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')\"> </td>
 					</tr> </table>";
         }
@@ -406,9 +440,9 @@ class CtlCurriculum {
     		<table width='1000'> 
     			<thead>
     				<tr> 
-    					<th colspan='3'> Cursos </th> 	
+    					<th colspan='5'> Idiomas </th> 	
     				</tr> <tr> 
-    					<th> Nombre del Curso </th> <th> Fecha de Participación </th> <th>   </th> 
+    					<th> Idioma </th> <th> Escritura </th> <th> Lectura </th> <th> Oral </th> <th>   </th> 
     				</tr> 
   				</thead>
   			";
@@ -422,12 +456,12 @@ class CtlCurriculum {
             foreach ($arrIdiomas as $row) {
                 $strIdiomas .= "
     				<tr>
-    					<form id='$row[id_id]'>
-    					<td align='center'> $row[id_nombre] <input type='hidden' value='$row[id_id]' name='idCurso' id='idCuso'> </td>
-    					<td align='center'> $row[id_nivel_escrito] </td>
-    					<td align='center'> $row[id_nivel_oral] </td>
-    					<td align='center'> $row[id_nivel_lectura] </td>
-    					<td> <input type=\"button\" value=\"Editar\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarCurso' , '$row[id_id]', 'contenido')\" </td>
+    					<form id='$row[idal_id]'>
+    					<td align='center'> $row[id_nombre] <input type='hidden' value='$row[idal_id]' name='AlumnoIdioma' id='AlumnoIdioma'> </td>
+    					<td align='center'> $row[id_nivel_escrito] % </td>
+    					<td align='center'> $row[id_nivel_oral] % </td>
+    					<td align='center'> $row[id_nivel_lectura] % </td>
+    					<td> <input type=\"button\" value=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarIdioma' , '$row[idal_id]', 'contenido')\" </td>
     					</form>
 					</tr>";
             }
@@ -473,13 +507,18 @@ class CtlCurriculum {
         }
     }
 
-    function menuCursos() {
-        $strCursos = $this->obtenerCursos($_SESSION['idUsuario']);
-        if ($strCursos == null) {
-            include '../../boundaries/curriculum/frmRegisCurso.php';
-        } else {
-            echo $strCursos;
-            echo "	<table width='1000'> <tr>
+    /**
+     * 
+     * Si ya hay cursos asociados al Alumno los muestra, si no se dirige directamente a Registrar Curso.
+     * @author Benjamín Aguirre García
+     */
+   function menuCursos() {
+		$strCursos = $this->obtenerCursos($_SESSION['idUsuario']);
+		if ($strCursos == null) {
+			include '../../boundaries/curriculum/frmRegisCurso.php';
+		} else {
+			echo $strCursos;
+			echo  "	<table width='1000'> <tr>
     					<td>  <input type=\"button\" value=\"Agregar Curso\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarCurso' , 'vacio', 'contenido')\">
     					 <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')\"> </td>
 					</tr> </table>";
@@ -488,14 +527,27 @@ class CtlCurriculum {
 
     /**
      * 
-     * Permite editar la ruta de la imagen de constancia.
+     * Permite editar la ruta de la imagen de constancias.
      * @author Benjamín Aguirre García
      *  
      */
     function editarRuta() {
-        $nombreCurso = $_GET['nombreCurso'];
-        $fechaParticipacion = $_GET['fechaParticipacion'];
-        include '../../boundaries/curriculum/frmRegisCurso.php';
+    	$idCurso = $_GET['idCurso'];
+    	$alumnoIdioma = $_GET['AlumnoIdioma'];
+    	if(isset($idCurso)) {
+			$nombreCurso = $_GET['nombreCurso'];
+    	    $fechaParticipacion = $_GET['fechaParticipacion'];
+        	include '../../boundaries/curriculum/frmRegisCurso.php';
+    	}
+    	if(isset($alumnoIdioma)) {
+        	$idIdioma = $_GET['idIdioma'];
+    	    $porcentajeEscritura = $_GET['escritura'];
+	        $porcentajeLectura = $_GET['lectura'];
+        	$porcentajeOral = $_GET['oral'];
+    	    $anio = $_GET['anio'];
+	        $institucion = $_GET['institucion'];
+        	include '../../boundaries/curriculum/frmRegisIdioma.php';
+    	}
     }
 
     /**
