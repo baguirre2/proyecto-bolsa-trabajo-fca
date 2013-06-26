@@ -89,38 +89,34 @@ class CtlCurriculum {
                 break;
 
             case 'certi_listar';
-                echo "<h1>Mis certificaciones</h1>";
                 $certificacion = new Certificacion();
                 echo $certificacion->listarCertificaciones();
-
-                echo "<input type=\"button\" name=\"Agregar\" value=\"Agregar Certificaci�n\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_registrar', 'vacio', 'contenido');\">";
-                echo "<input type='button' value='Regresar' onclick='ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_listar', 'vacio', 'contenido');'>";
                 break;
-
+                
             case 'certi_registrar';
-                if (!isset($GET['ce_id']) && !isset($GET['btnAceptar'])) { //Si no se ha cargado el formulario se incluye
-                    include('../../boundaries/curriculum/frmCurrRegistroCertificacion.html');
-                } else if ($GET['btnAceptar'] == 'Registrar') {
-                    $certificacion = new Certificacion();
-                    if ($certificacion->registrarCertificacion($GET, 1)) {
-                        echo "<h1 class=respuesta>Registro realizado con �xito</h1><br/>";
-                    } else {
-                        echo "<h1 class=respuesta>Error al registrar</h1><br/>";
-                    }
+                if(!isset($GET['ce_id']) && !isset($GET['btnAceptar']) ) {	//Si no se ha cargado el formulario se incluye
+                	include('../../boundaries/curriculum/frmCurrRegistroCertificacion.html');
+                } else if($GET['btnAceptar'] == 'Registrar' ) {
+                	$certificacion = new Certificacion();
+                	if($certificacion->registrarCertificacion($GET, $idAlum)){
+                		echo $certificacion->listarCertificaciones(1, null);
+                	}else{
+                		echo "<h1 class=respuesta>Error al registrar</h1><br/>";
+                	}
                 }
                 break;
-
+                
             case 'certi_editar';
                 $certificacion = new Certificacion();
-                if (!isset($registro) && !isset($GET['ce_id'])) {
-                    $registro = $certificacion->buscarCertificacion($GET['id']);
-                    include('../../boundaries/curriculum/frmCurrRegistroCertificacion.html');
-                } else if ($GET['btnAceptar'] == 'Editar' && isset($GET['ce_id'])) {
-                    if ($certificacion->editarCertificacion($GET)) {
-                        echo "<h1 class=respuesta>Registro actualizado con �xito</h1><br/>";
-                    } else {
-                        echo "<h1 class=respuesta>Error al actualizar</h1><br/>";
-                    }
+                if(!isset($registro) && !isset($GET['ce_id'])){
+                	$registro = $certificacion->buscarCertificacion($GET['id']);
+                	include('../../boundaries/curriculum/frmCurrRegistroCertificacion.html');
+                }else if($GET['btnAceptar'] == 'Editar' && isset($GET['ce_id'])){
+                	if($certificacion->editarCertificacion($GET)){
+                		echo $certificacion->listarCertificaciones(2, null);
+                	}else{
+                		echo "<h1 class=respuesta>Error al actualizar</h1><br/>";
+                	}
                 }
                 break;
 
