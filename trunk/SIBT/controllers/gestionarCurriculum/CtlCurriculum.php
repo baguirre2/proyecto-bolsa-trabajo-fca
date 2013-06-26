@@ -73,8 +73,8 @@ class CtlCurriculum {
             //Obtiene los datos de la información laboral y los muestra para su edición
             case 'inLabFrmRegistrar';
                 //Incluimos la boundary formulario de infoAcademica y luego creamos un objeto de ella
-                include_once '../../boundaries/curriculum/FormularioInfoAcademica.php';
-                new FormularioInfoAcademica();
+                include_once '../../boundaries/curriculum/FormularioInfoLaboral.php';
+                new FormularioInfoLaboral();
                 break;
 
             case 'inLabRegistrar';
@@ -264,13 +264,13 @@ class CtlCurriculum {
     //Recibe el ID de la info laboral que se quiere modificar, muestra los valores para su futura edición
     //Autor: García Solis Eduardo
     function mostrarFrmModificar($idInfoLab) {
-        include_once '../../boundaries/curriculum/FormularioInfoAcademica.php';
+        include_once '../../boundaries/curriculum/FormularioInfoLaboral.php';
 
         //Creamos un objeto para obtener los datos de la infoLaboral
         $infoLab = new InfoLaboral();
         $infoLab = $infoLab->obtener($idInfoLab);
 
-        new FormularioInfoAcademica($infoLab[0]);
+        new FormularioInfoLaboral($infoLab[0]);
     }
 
     //Recibe en un array todos lo datos necesarios para regitrar una nueva entrada de información laboral
