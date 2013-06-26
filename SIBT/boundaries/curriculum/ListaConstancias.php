@@ -9,7 +9,7 @@ class ListaConstancias {
     public function __construct($listCerts, $listInfoAca, $listIdio, $listCurs) {
         ?>
         
-        <? if (count($listCerts) != 0) {
+        <? if ($listCerts != FALSE) {
         ?>
         <table>
             <thead>
@@ -39,7 +39,7 @@ class ListaConstancias {
         <? }
         ?>
 
-        <? if (count($listInfoAca) != 0) {
+        <? if ($listInfoAca != FALSE) {
         ?>
         <table>
             <thead>
@@ -69,7 +69,7 @@ class ListaConstancias {
         <? }
         ?>
 
-        <? if (count($listCurs) != 0) {
+        <? if ($listCurs != FALSE) {
         ?>
         <table>
             <thead>
@@ -97,7 +97,7 @@ class ListaConstancias {
         <? }
         ?>
         
-        <? if (count($listIdio) != 0) {
+        <? if ($listIdio != FALSE) {
         ?>
         <table>
             <thead>
