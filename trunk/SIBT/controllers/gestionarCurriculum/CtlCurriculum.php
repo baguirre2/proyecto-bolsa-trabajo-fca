@@ -218,11 +218,24 @@ class CtlCurriculum {
                 $transaccionBD->insertar("UPDATE ingsw.alumno SET al_objetivos_profesionales = '$GET[txtEditar]' WHERE al_id = 5;");
                 echo "<h3>Tus datos se han actualizado.</h3>";
                 break;
+
+			case 'actualizarObj'; 
+				$transaccionBD = new InterfazBD2();
+				$transaccionBD->insertar("UPDATE ingsw.alumno SET al_objetivos_profesionales = '$GET[txtEditar]' WHERE al_id = 5;");
+			echo "<h3>Tus datos se han actualizado.</h3>";
+
             case 'crearObj';
                 $transaccionBD = new InterfazBD2();
                 $transaccionBD->insertar("UPDATE ingsw.alumno SET al_objetivos_profesionales = '$GET[objProfAgre]' WHERE al_id = 5;");
                 echo "<h3>Tus objetivo profesional se ha creado.</h3>";
+
                 break;
+
+			case 'crearObj'; 
+				$transaccionBD = new InterfazBD2();
+				$transaccionBD->insertar("UPDATE ingsw.alumno SET al_objetivos_profesionales = '$GET[objProfAgre]' WHERE al_id = 5;");
+			echo "<h3>Tus objetivo profesional se ha creado.</h3>";
+
             // Fin Mi objetivo profesional
             
             /**
@@ -230,6 +243,7 @@ class CtlCurriculum {
              */
             case 'valiConst';
                 $this->listarConstancias();
+
                 break;
             /**
              *FIN VALIDAR COSNTANCIAS 
