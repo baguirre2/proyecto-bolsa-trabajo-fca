@@ -6,6 +6,7 @@ include_once './../../entities/Certificacion.php';
 include_once '../../entities/InterfazBD2.php';
 include_once '../../entities/Curso.php';
 include_once '../../entities/Idioma.php';
+include_once '../../entities/InfoAcademica.php';
 
 class CtlCurriculum {
 
@@ -223,6 +224,16 @@ class CtlCurriculum {
                 echo "<h3>Tus objetivo profesional se ha creado.</h3>";
                 break;
             // Fin Mi objetivo profesional
+            
+            /**
+             *INICIO VALIDAR COSNTANCIAS 
+             */
+            case 'valiConst';
+                $this->listarConstancias();
+                break;
+            /**
+             *FIN VALIDAR COSNTANCIAS 
+             */
         }
     }
 
@@ -687,6 +698,24 @@ class CtlCurriculum {
         }
 
         $conexion->cerrarConexion();
+    }
+    
+    public function listarConstancias () {
+        include_once '../../boundaries/curriculum/ListaConstancias.php';
+        
+        $listCert = new Certificacion();
+        $listCert = $listCert->listarPorEstado(2);
+        
+        $listInfAca = new InfoAcademica();
+        $listInfAca = $listInfAca->listarPorEstado(2);
+        
+        $listCurs = new Curso();
+        $listCurs = $listCurs->listarPorEstado(2);
+        
+        $listIdio = new Idioma();
+        $listIdio = $listIdio->listarPorEstado(2);
+        
+        new ListaConstancias($listCert, $listInfAca, $listIdio, $listCurs);
     }
 
 }

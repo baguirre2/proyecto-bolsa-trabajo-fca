@@ -48,4 +48,34 @@ class Idioma {
 		$conn->cerrarConexion();
 		return $res;
 	}
+        
+    //Autor: Eduardo García Solis
+    //Obtienes todas los idiomas de acuerdo a su estado de validación
+    public function listarPorEstado($idEstado) {
+
+        $conn = new InterfazBD();
+
+        $res = $conn->consultar("SELECT  
+                                    idal_id,
+                                    persona.pe_nombre, 
+                                    persona.pe_apellido_paterno,
+                                    persona.pe_apellido_materno,
+                                    id_nombre,
+                                    id_nivel_oral,
+                                    id_nivel_escrito,
+                                    id_nivel_lectura
+                                FROM 
+                                    ingsw.idioma_alumno JOIN  
+                                    ingsw.alumno ON (alumno.al_id = idioma_alumno.al_id) 
+                                    JOIN ingsw.persona ON (alumno.pe_id = persona.pe_id) 
+                                    JOIN ingsw.estado_autorizacion ON (idioma_alumno.esau_id = estado_autorizacion.esau_id) 
+                                    JOIN ingsw.nivel_idioma ON (idioma_alumno.id_id=nivel_idioma.id_id) 
+                                    JOIN ingsw.idioma ON (idioma.id_idioma=nivel_idioma.id_id)
+                                WHERE 
+                                    idioma_alumno.esau_id=$idEstado");
+
+        $conn->cerrarConexion();
+
+        return $res;
+    }
 }
