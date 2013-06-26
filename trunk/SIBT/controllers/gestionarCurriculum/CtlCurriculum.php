@@ -92,31 +92,31 @@ class CtlCurriculum {
                 $certificacion = new Certificacion();
                 echo $certificacion->listarCertificaciones();
                 break;
-                
+
             case 'certi_registrar';
-                if(!isset($GET['ce_id']) && !isset($GET['btnAceptar']) ) {	//Si no se ha cargado el formulario se incluye
-                	include('../../boundaries/curriculum/frmCurrRegistroCertificacion.html');
-                } else if($GET['btnAceptar'] == 'Registrar' ) {
-                	$certificacion = new Certificacion();
-                	if($certificacion->registrarCertificacion($GET, $idAlum)){
-                		echo $certificacion->listarCertificaciones(1, null);
-                	}else{
-                		echo "<h1 class=respuesta>Error al registrar</h1><br/>";
-                	}
+                if (!isset($GET['ce_id']) && !isset($GET['btnAceptar'])) { //Si no se ha cargado el formulario se incluye
+                    include('../../boundaries/curriculum/frmCurrRegistroCertificacion.html');
+                } else if ($GET['btnAceptar'] == 'Registrar') {
+                    $certificacion = new Certificacion();
+                    if ($certificacion->registrarCertificacion($GET, $idAlum)) {
+                        echo $certificacion->listarCertificaciones(1, null);
+                    } else {
+                        echo "<h1 class=respuesta>Error al registrar</h1><br/>";
+                    }
                 }
                 break;
-                
+
             case 'certi_editar';
                 $certificacion = new Certificacion();
-                if(!isset($registro) && !isset($GET['ce_id'])){
-                	$registro = $certificacion->buscarCertificacion($GET['id']);
-                	include('../../boundaries/curriculum/frmCurrRegistroCertificacion.html');
-                }else if($GET['btnAceptar'] == 'Editar' && isset($GET['ce_id'])){
-                	if($certificacion->editarCertificacion($GET)){
-                		echo $certificacion->listarCertificaciones(2, null);
-                	}else{
-                		echo "<h1 class=respuesta>Error al actualizar</h1><br/>";
-                	}
+                if (!isset($registro) && !isset($GET['ce_id'])) {
+                    $registro = $certificacion->buscarCertificacion($GET['id']);
+                    include('../../boundaries/curriculum/frmCurrRegistroCertificacion.html');
+                } else if ($GET['btnAceptar'] == 'Editar' && isset($GET['ce_id'])) {
+                    if ($certificacion->editarCertificacion($GET)) {
+                        echo $certificacion->listarCertificaciones(2, null);
+                    } else {
+                        echo "<h1 class=respuesta>Error al actualizar</h1><br/>";
+                    }
                 }
                 break;
 
@@ -131,29 +131,45 @@ class CtlCurriculum {
                 break;
 
             case "RegistrarIdioma";
-            	$this->registrarIdioma();
+                $this->registrarIdioma();
                 break;
 
             case "ActualizarIdioma";
-            	$this->actualizarIdioma();
+                $this->actualizarIdioma();
                 break;
 
             case "AgregarConstancia";
-            	if (isset($_GET['idIdioma'])) { $idIdioma = $_GET['idIdioma']; }
-				if (isset($_GET['escritura'])) { $porcentajeEscritura = $_GET['escritura']; }
-				if (isset($_GET['lectura'])) { $porcentajeLectura = $_GET['lectura']; }
-				if (isset($_GET['oral'])) { $porcentajeOral = $_GET['oral']; }
-				if (isset($_GET['anio'])) { $anio = $_GET['anio']; }
-				if (isset($_GET['rutaImg'])) { $rutaImg = $_GET['rutaImg']; }
-				if (isset($_GET['institucion'])) { $institucion = $_GET['institucion']; }
-				if (isset($_GET['AlumnoIdioma']))	{ $alumnoIdioma = $_GET['AlumnoIdioma']; }	
-            	include '../../boundaries/curriculum/frmRegisIdioma.php';
-            	break;
-                
-            case "EditarIdioma";
-            	$this->editarIdioma();
+                if (isset($_GET['idIdioma'])) {
+                    $idIdioma = $_GET['idIdioma'];
+                }
+                if (isset($_GET['escritura'])) {
+                    $porcentajeEscritura = $_GET['escritura'];
+                }
+                if (isset($_GET['lectura'])) {
+                    $porcentajeLectura = $_GET['lectura'];
+                }
+                if (isset($_GET['oral'])) {
+                    $porcentajeOral = $_GET['oral'];
+                }
+                if (isset($_GET['anio'])) {
+                    $anio = $_GET['anio'];
+                }
+                if (isset($_GET['rutaImg'])) {
+                    $rutaImg = $_GET['rutaImg'];
+                }
+                if (isset($_GET['institucion'])) {
+                    $institucion = $_GET['institucion'];
+                }
+                if (isset($_GET['AlumnoIdioma'])) {
+                    $alumnoIdioma = $_GET['AlumnoIdioma'];
+                }
+                include '../../boundaries/curriculum/frmRegisIdioma.php';
                 break;
-                                
+
+            case "EditarIdioma";
+                $this->editarIdioma();
+                break;
+
             case "AgregarCurso";
                 include '../../boundaries/curriculum/frmRegisCurso.php';
                 break;
@@ -162,7 +178,7 @@ class CtlCurriculum {
                 $this->registrarCurso();
                 break;
 
-            case "Cursos"; 
+            case "Cursos";
                 $this->menuCursos();
                 break;
 
@@ -220,7 +236,7 @@ class CtlCurriculum {
                 $id_nivel = $GET['id'];
                 $this->listarEstudiosFCA($id_nivel);
                 break;
-            
+
             //Mi objetivo profesional
             case 'objProf';
                 include '../../boundaries/curriculum/objProf.php';
@@ -247,16 +263,22 @@ class CtlCurriculum {
                 break;
 
             // Fin Mi objetivo profesional
-            
+
             /**
-             *INICIO VALIDAR COSNTANCIAS 
+             * INICIO VALIDAR COSNTANCIAS 
              */
             case 'valiConst';
                 $this->listarConstancias();
 
                 break;
+
+            //Recuperad Datos Constancia Certificaciones
+            case 'valiEstMostrar';
+                
+                $this->mostrarConstancia($GET['tipo'], $GET['id']);
+                break;
             /**
-             *FIN VALIDAR COSNTANCIAS 
+             * FIN VALIDAR COSNTANCIAS 
              */
         }
     }
@@ -317,7 +339,6 @@ class CtlCurriculum {
         //Objeto que arma la lista apartir de un array
         new ListaInfoLaboral($lista, $mensaje);
     }
-
     
     /**
      * 
@@ -363,11 +384,12 @@ class CtlCurriculum {
         $arrDatos = $idioma1->obtenerDatosIdioma($alumnoIdioma);
         $porcentajeEscritura = $arrDatos[0][id_nivel_escrito];
         $porcentajeLectura = $arrDatos[0][id_nivel_lectura];
-        
+
         $porcentajeOral = $arrDatos[0][id_nivel_oral];
         $anio = $arrDatos[0][idal_anio];
         $rutaImg = $arrDatos[0][idal_ruta_constancia];
         $institucion = $arrDatos[0][idal_institucion];
+
 		$idIdioma =  $arrDatos[0][id_idioma];
 		include '../../boundaries/curriculum/frmRegisIdioma.php';
 	}    	
@@ -378,27 +400,42 @@ class CtlCurriculum {
 	 * y los errores encontrados, de lo contrario intenta registrar el idioma si lo hace muestra un mensaje al usuario.
 	 * @author Benjamín Aguirre García 
 	 */	
+
     function registrarIdioma() {
-    	
-    	if (isset($_GET['idIdioma'])) { $idIdioma = $_GET['idIdioma']; }
-		if (isset($_GET['escritura'])) { $porcentajeEscritura = $_GET['escritura']; }
-		if (isset($_GET['lectura'])) { $porcentajeLectura = $_GET['lectura']; }
-		if (isset($_GET['oral'])) { $porcentajeOral = $_GET['oral']; }
-		if (isset($_GET['anio'])) { $anio = $_GET['anio']; }
-		if (isset($_GET['rutaImg'])) { $rutaImg = $_GET['rutaImg']; }
-		if (isset($_GET['institucion'])) { $institucion = $_GET['institucion']; }
+
+        if (isset($_GET['idIdioma'])) {
+            $idIdioma = $_GET['idIdioma'];
+        }
+        if (isset($_GET['escritura'])) {
+            $porcentajeEscritura = $_GET['escritura'];
+        }
+        if (isset($_GET['lectura'])) {
+            $porcentajeLectura = $_GET['lectura'];
+        }
+        if (isset($_GET['oral'])) {
+            $porcentajeOral = $_GET['oral'];
+        }
+        if (isset($_GET['anio'])) {
+            $anio = $_GET['anio'];
+        }
+        if (isset($_GET['rutaImg'])) {
+            $rutaImg = $_GET['rutaImg'];
+        }
+        if (isset($_GET['institucion'])) {
+            $institucion = $_GET['institucion'];
+        }
         $err = false;
         if ($idIdioma == 0) {
-        	$errMsj = "Debes de Seleccionar un Idioma";
-        	$err = true;
+            $errMsj = "Debes de Seleccionar un Idioma";
+            $err = true;
         }
-        
+
         if ($err == false) {
             $idioma1 = new Idioma();
             if (!isset($rutaImg)) {
-            	$res = $idioma1->guardarIdiomaAlumno($_SESSION['idUsuario'], $idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura);
+                $res = $idioma1->guardarIdiomaAlumno($_SESSION['idUsuario'], $idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura);
             } else {
-            	$res = $idioma1->guardarIdiomaAlumno($_SESSION['idUsuario'], $idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $rutaImg, $institucion, $anio);
+                $res = $idioma1->guardarIdiomaAlumno($_SESSION['idUsuario'], $idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $rutaImg, $institucion, $anio);
             }
             if (!res) {
                 $err = true;
@@ -556,13 +593,13 @@ class CtlCurriculum {
      * Si ya hay cursos asociados al Alumno los muestra, si no se dirige directamente a Registrar Curso.
      * @author Benjamín Aguirre García
      */
-   function menuCursos() {
-		$strCursos = $this->obtenerCursos($_SESSION['idUsuario']);
-		if ($strCursos == null) {
-			include '../../boundaries/curriculum/frmRegisCurso.php';
-		} else {
-			echo $strCursos;
-			echo  "	<table width='1000'> <tr>
+    function menuCursos() {
+        $strCursos = $this->obtenerCursos($_SESSION['idUsuario']);
+        if ($strCursos == null) {
+            include '../../boundaries/curriculum/frmRegisCurso.php';
+        } else {
+            echo $strCursos;
+            echo "	<table width='1000'> <tr>
     					<td>  <input type=\"button\" value=\"Agregar Curso\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarCurso' , 'vacio', 'contenido')\">
     					 <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')\"> </td>
 					</tr> </table>";
@@ -576,23 +613,23 @@ class CtlCurriculum {
      *  
      */
     function editarRuta() {
-    	$idCurso = $_GET['idCurso'];
-    	$alumnoIdioma = $_GET['AlumnoIdioma'];
-    	if(isset($idCurso)) {
-			$nombreCurso = $_GET['nombreCurso'];
-    	    $fechaParticipacion = $_GET['fechaParticipacion'];
-        	include '../../boundaries/curriculum/frmRegisCurso.php';
-    	}
-    	if(isset($alumnoIdioma)) {
-        	$idIdioma = $_GET['idIdioma'];
-    	    $porcentajeEscritura = $_GET['escritura'];
-	        $porcentajeLectura = $_GET['lectura'];
-        	$porcentajeOral = $_GET['oral'];
-    	    $anio = $_GET['anio'];
-    		$rutaImg = $_GET['rutaImg'];
-	        $institucion = $_GET['institucion'];
-        	include '../../boundaries/curriculum/frmRegisIdioma.php';
-    	}
+        $idCurso = $_GET['idCurso'];
+        $alumnoIdioma = $_GET['AlumnoIdioma'];
+        if (isset($idCurso)) {
+            $nombreCurso = $_GET['nombreCurso'];
+            $fechaParticipacion = $_GET['fechaParticipacion'];
+            include '../../boundaries/curriculum/frmRegisCurso.php';
+        }
+        if (isset($alumnoIdioma)) {
+            $idIdioma = $_GET['idIdioma'];
+            $porcentajeEscritura = $_GET['escritura'];
+            $porcentajeLectura = $_GET['lectura'];
+            $porcentajeOral = $_GET['oral'];
+            $anio = $_GET['anio'];
+            $rutaImg = $_GET['rutaImg'];
+            $institucion = $_GET['institucion'];
+            include '../../boundaries/curriculum/frmRegisIdioma.php';
+        }
     }
 
     /**
@@ -798,23 +835,60 @@ class CtlCurriculum {
 
         $conexion->cerrarConexion();
     }
-    
-    public function listarConstancias () {
+
+    public function listarConstancias() {
         include_once '../../boundaries/curriculum/ListaConstancias.php';
-        
+
         $listCert = new Certificacion();
         $listCert = $listCert->listarPorEstado(2);
-        
+
         $listInfAca = new InfoAcademica();
         $listInfAca = $listInfAca->listarPorEstado(2);
-        
+
         $listCurs = new Curso();
         $listCurs = $listCurs->listarPorEstado(2);
-        
+
         $listIdio = new Idioma();
         $listIdio = $listIdio->listarPorEstado(2);
-        
+
         new ListaConstancias($listCert, $listInfAca, $listIdio, $listCurs);
+    }
+
+    public function mostrarConstancia($tipoCosnt, $idConsta) {
+        
+        switch ($tipoCosnt) {
+            case 'cert';
+                include_once '../../boundaries/curriculum/MostrarCertific.php';
+                
+                $certificado = new Certificacion();
+                $certificado = $certificado->buscarCertificacion($idConsta);
+                new MostrarCertific($certificado[0]);
+                break;
+            
+            case 'infoLab';
+                include_once '../../boundaries/curriculum/MostrarCertific.php';
+                
+                $certificado = new Certificacion();
+                $certificado = $certificado->buscarCertificacion($idConsta);
+                new MostrarCertific($certificado[0]);
+                break;
+            
+            case 'curs';
+                include_once '../../boundaries/curriculum/MostrarCurso.php';
+                
+                $curso = new Curso();
+                $curso = $curso->obtenerCurso($idConsta);
+                new MostrarCurso($curso[0]);
+                break;
+            
+            case 'idio';
+                include_once '../../boundaries/curriculum/MostrarIdioma.php';
+                
+                $idioma = new Idioma();
+                $idioma = $idioma->obtenerDatosIdioma($idConsta);
+                new MostrarIdioma($idioma[0]);
+                break;
+        }
     }
 
 }
