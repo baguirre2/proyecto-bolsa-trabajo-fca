@@ -24,7 +24,7 @@ class Idioma {
 	 * @return $guardado Regresa verdadero o falso, si fue almacenado en la Base de Datos regresa Verdadero (true) si no regresa Falso (false). 
 	 */
 	
-	function guardarIdiomaAlumno($idAlumno, $idioma, $nivelOral, $nivelEscrito, $nivelLectura, $rutaImg, $institucion, $anio) {
+	function guardarIdiomaAlumno($idAlumno, $idioma, $nivelOral, $nivelEscrito, $nivelLectura, $rutaImg = null, $institucion = null, $anio = null) {
 		$conn = new InterfazBD2();
 		$insert = Array();
 		$insert['id_idioma'] = $idioma;
@@ -39,10 +39,14 @@ class Idioma {
 			$insert = Array();
 			$insert['id_id'] = $res;
 			$insert['al_id'] = $idAlumno;
-			$insert['esau_id'] = 3;
-			$insert['idal_ruta_constancia'] = $rutaImg;
-			$insert['idal_institucion'] = $institucion;
-			$insert['idal_anio'] = $anio;
+			if ($rutaImg == null) {
+				$insert['esau_id'] = 3;
+			} else { 
+				$insert['idal_ruta_constancia'] = $rutaImg;
+				$insert['idal_institucion'] = $institucion;
+				$insert['idal_anio'] = $anio;
+				$insert['esau_id'] = 2;
+			}
 			$res = $conn->ejecutarInsert("ingsw.idioma_alumno", $insert, "idal_id");
 			if ($res == null) {
 				$conn->cerrarConexion();
@@ -76,13 +80,16 @@ class Idioma {
 
 	
 	
-	function actualizar($idioma, $nivelOral, $nivelEscrito, $nivelLectura, $idiomaAlumno, $institucion, $anio, $rutaImg) {
+	function actualizar($idioma, $nivelOral, $nivelEscrito, $nivelLectura, $idiomaAlumno, $institucion = null, $anio = null, $rutaImg = null) {
 		$conn = new InterfazBD2();
 		$query = "SELECT id_id FROM ingsw.idioma_alumno WHERE idal_id = $idiomaAlumno;";
-		$nivelIdioma = $conn->consultar($query);		
-		$update = "UPDATE ingsw.idioma_alumno SET idal_ruta_constancia = '$rutaImg', idal_institucion='$institucion', idal_anio=$anio WHERE idal_id = $idiomaAlumno;";
-//		echo $update;
-		$res = $conn->ejecutarQuery($update);
+		$nivelIdioma = $conn->consultar($query);
+		if ($rutaImg != null) {		
+			$update = "UPDATE ingsw.idioma_alumno SET idal_ruta_constancia = '$rutaImg', idal_institucion='$institucion', idal_anio=$anio, esau_id=2 WHERE idal_id = $idiomaAlumno;";
+			$res = $conn->ejecutarQuery($update);
+		} else {
+			$res = true;
+		}
 		if (!$res) {
 			$conn->cerrarConexion();
 			return false;
@@ -97,7 +104,6 @@ class Idioma {
 		}
 		$conn->cerrarConexion();		
 		return true;
-		
 	}
 	
 	function obtenerDatosIdioma ($alumnoIdioma) {

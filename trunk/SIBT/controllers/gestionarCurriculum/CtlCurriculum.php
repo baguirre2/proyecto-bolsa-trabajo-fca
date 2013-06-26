@@ -142,6 +142,18 @@ class CtlCurriculum {
             	$this->actualizarIdioma();
                 break;
 
+            case "AgregarConstancia";
+            	if (isset($_GET['idIdioma'])) { $idIdioma = $_GET['idIdioma']; }
+				if (isset($_GET['escritura'])) { $porcentajeEscritura = $_GET['escritura']; }
+				if (isset($_GET['lectura'])) { $porcentajeLectura = $_GET['lectura']; }
+				if (isset($_GET['oral'])) { $porcentajeOral = $_GET['oral']; }
+				if (isset($_GET['anio'])) { $anio = $_GET['anio']; }
+				if (isset($_GET['rutaImg'])) { $rutaImg = $_GET['rutaImg']; }
+				if (isset($_GET['institucion'])) { $institucion = $_GET['institucion']; }
+				if (isset($_GET['AlumnoIdioma']))	{ $alumnoIdioma = $_GET['AlumnoIdioma']; }	
+            	include '../../boundaries/curriculum/frmRegisIdioma.php';
+            	break;
+                
             case "EditarIdioma";
             	$this->editarIdioma();
                 break;
@@ -311,16 +323,25 @@ class CtlCurriculum {
     }
 
 	function actualizarIdioma () {
-		$alumnoIdioma = $_GET['AlumnoIdioma'];
-		$idIdioma = $_GET['idIdioma'];
-    	$porcentajeEscritura = $_GET['escritura'];
-	    $porcentajeLectura = $_GET['lectura'];
-        $porcentajeOral = $_GET['oral'];
-    	$anio = $_GET['anio'];
-    	$rutaImg = $_GET['rutaImg'];
-	    $institucion = $_GET['institucion'];
+		
+		
+		if (isset($_GET['idIdioma'])) { $idIdioma = $_GET['idIdioma']; }
+		if (isset($_GET['escritura'])) { $porcentajeEscritura = $_GET['escritura']; }
+		if (isset($_GET['lectura'])) { $porcentajeLectura = $_GET['lectura']; }
+		if (isset($_GET['oral'])) { $porcentajeOral = $_GET['oral']; }
+		if (isset($_GET['anio'])) { $anio = $_GET['anio']; }
+		if (isset($_GET['rutaImg'])) { $rutaImg = $_GET['rutaImg']; }
+		if (isset($_GET['institucion'])) { $institucion = $_GET['institucion']; }
+		if (isset($_GET['AlumnoIdioma']))	{ $alumnoIdioma = $_GET['AlumnoIdioma']; }	
+		
+		
 	    $idioma1 = new Idioma();
-	    if ($idioma1->actualizar($idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $alumnoIdioma, $institucion, $anio, $rutaImg)) {
+	    if (isset($rutaImg)) {  
+	    	$res = $idioma1->actualizar($idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $alumnoIdioma, $institucion, $anio, $rutaImg);
+	    } else {
+	    	$idioma1->actualizar($idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $alumnoIdioma);
+	    }
+	    if ($res) {
 	    	echo "Se ha actualizado la información del Idioma";
 	    } else {
 	    	$errMsj = "Ha ocurrido un error";
@@ -343,14 +364,22 @@ class CtlCurriculum {
 		include '../../boundaries/curriculum/frmRegisIdioma.php';
 	}    	
    
+	
+	/**
+	 * 
+	 * Gestiona las validaciones del registro de Idioma, si encuentra errores incluye el formulario de registro con los datos ingresados
+	 * y los errores encontrados, de lo contrario intenta registrar el idioma si lo hace muestra un mensaje al usuario.
+	 * @author Benjamín Aguirre García 
+	 */	
     function registrarIdioma() {
-        $idIdioma = $_GET['idIdioma'];
-        $porcentajeEscritura = $_GET['escritura'];
-        $porcentajeLectura = $_GET['lectura'];
-        $porcentajeOral = $_GET['oral'];
-        $anio = $_GET['anio'];
-        $rutaImg = $_GET['rutaImg'];
-        $institucion = $_GET['institucion'];
+    	
+    	if (isset($_GET['idIdioma'])) { $idIdioma = $_GET['idIdioma']; }
+		if (isset($_GET['escritura'])) { $porcentajeEscritura = $_GET['escritura']; }
+		if (isset($_GET['lectura'])) { $porcentajeLectura = $_GET['lectura']; }
+		if (isset($_GET['oral'])) { $porcentajeOral = $_GET['oral']; }
+		if (isset($_GET['anio'])) { $anio = $_GET['anio']; }
+		if (isset($_GET['rutaImg'])) { $rutaImg = $_GET['rutaImg']; }
+		if (isset($_GET['institucion'])) { $institucion = $_GET['institucion']; }
         $err = false;
         if ($idIdioma == 0) {
         	$errMsj = "Debes de Seleccionar un Idioma";
@@ -359,7 +388,12 @@ class CtlCurriculum {
         
         if ($err == false) {
             $idioma1 = new Idioma();
-            if (!$idioma1->guardarIdiomaAlumno($_SESSION['idUsuario'], $idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $rutaImg, $institucion, $anio)) {
+            if (!isset($rutaImg)) {
+            	$res = $idioma1->guardarIdiomaAlumno($_SESSION['idUsuario'], $idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura);
+            } else {
+            	$res = $idioma1->guardarIdiomaAlumno($_SESSION['idUsuario'], $idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $rutaImg, $institucion, $anio);
+            }
+            if (!res) {
                 $err = true;
                 $errMsj = "Ocurrió un error inesperado";
             }
@@ -548,6 +582,7 @@ class CtlCurriculum {
 	        $porcentajeLectura = $_GET['lectura'];
         	$porcentajeOral = $_GET['oral'];
     	    $anio = $_GET['anio'];
+    		$rutaImg = $_GET['rutaImg'];
 	        $institucion = $_GET['institucion'];
         	include '../../boundaries/curriculum/frmRegisIdioma.php';
     	}
