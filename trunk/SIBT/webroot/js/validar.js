@@ -3,7 +3,7 @@ function validar(formulario_id){
 		var valido = true;
 		$('#'+formulario_id+' .required').each(function(index,element){
 			
-			if( $(this).val() == null || $(this).val() == ""){
+			if( $(this).val() == null || $(this).val() == "" || $(this).val() == "Seleccionar"){
 				valido = false;
 				$(this).after("<label class='error'>Campo Obligatorio</label>");
 			}
@@ -11,7 +11,7 @@ function validar(formulario_id){
 
 		$('#'+formulario_id+' .numeric').each(function(index,element){
 			
-			if( ($(this).val() != null || $(this).val() != "") 
+			if( ($(this).val() != null || $(this).val() != "" ) 
 					&& /^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test($(this).val()) == false){
 				valido = false;
 				$(this).after("<label class='error'>Por favor introduzca un n&uacute;mero</label>");
