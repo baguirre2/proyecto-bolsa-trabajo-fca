@@ -16,7 +16,7 @@
 			<tr>
 				<td> Fecha de Participación </td>
 				<td>:</td>
-				<td> <input type="date" id="fechaParticipacion" value="<? if (isset($fechaParticipacion)) { echo $fechaParticipacion; } ?>" name="fechaParticipacion"></td>
+				<td> <input type="date" id="fechaParticipacion" value="<? if (isset($fechaParticipacion)) { echo $fechaParticipacion; } ?>" name="fechaParticipacion" class='required'></td>
 			</tr>				
 			<tr> 
 				<td>Cargar Imagen</td>
@@ -26,7 +26,7 @@
 					echo "<input type=\"text\" id=\"rutaImg\" name=\"rutaImg\"  value=\"=$rutaImg\" readonly> 
 					 	  <td> <input type=\"button\" value=\"Editar\" id=\"Editar\" name=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarRuta' , 'frmRegistrarCurso', 'contenido')\">";
 				} else {
-					echo "<input type=\"file\" id=\"rutaImg\" name=\"rutaImg\"  value=\"$rutaImg\">";
+					echo "<input type=\"file\" id=\"rutaImg\" name=\"rutaImg\"  value=\"$rutaImg\" class='required'>";
 				}
 				?></td>
 			</tr>
