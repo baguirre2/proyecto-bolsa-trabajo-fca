@@ -193,6 +193,10 @@ class CtlCurriculum {
             case "EditarRuta";
                 $this->editarRuta();
                 break;
+                
+            case "ConsultarCurriculum";
+            	include '../../boundaries/curriculum/frmBusqueda.php';
+            	break;
 
             //Mostrar la información académica del alumno, una la opción de editar si está confirmado
             case 'infoAcademica';
@@ -228,6 +232,14 @@ class CtlCurriculum {
             case 'registrar';
                 $this->registrarGradoAcademico();
                 break;
+                
+            case "BuscarCurriculum";
+            	echo "Buscando";
+            	break;
+            	
+            case "IrAFavoritos":
+            	echo "Favs";
+            	break;
 
             case 'formRegistrar';
                 include '../../boundaries/curriculum/frmCurrRegis.php';
