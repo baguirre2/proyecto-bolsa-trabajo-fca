@@ -360,19 +360,17 @@ class CtlCurriculum {
      */
 	function actualizarIdioma () {
 		
-		
-		if (isset($_GET['idIdioma'])) { $idIdioma = $_GET['idIdioma']; }
-		if (isset($_GET['escritura'])) { $porcentajeEscritura = $_GET['escritura']; }
-		if (isset($_GET['lectura'])) { $porcentajeLectura = $_GET['lectura']; }
-		if (isset($_GET['oral'])) { $porcentajeOral = $_GET['oral']; }
 		if (isset($_GET['anio'])) { $anio = $_GET['anio']; }
 		if (isset($_GET['rutaImg'])) { $rutaImg = $_GET['rutaImg']; }
-		if (isset($_GET['institucion'])) { $institucion = $_GET['institucion']; }
-		if (isset($_GET['AlumnoIdioma']))	{ $alumnoIdioma = $_GET['AlumnoIdioma']; }	
-		
-		
+		if (isset($_GET['institucion'])) { $institucion = $_GET['institucion']; }		
+		$idIdioma = $_GET['idIdioma']; 
+		$porcentajeEscritura = $_GET['escritura']; 
+		$porcentajeLectura = $_GET['lectura']; 
+		$porcentajeOral = $_GET['oral']; 
+		$alumnoIdioma = $_GET['AlumnoIdioma'];	
 	    $idioma1 = new Idioma();
-	    if (isset($rutaImg)) {  
+	    
+	    if (isset($rutaImg)) {
 	    	$res = $idioma1->actualizar($idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $alumnoIdioma, $institucion, $anio, $rutaImg);
 	    } else {
 	    	$idioma1->actualizar($idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $alumnoIdioma);
@@ -394,15 +392,15 @@ class CtlCurriculum {
         $alumnoIdioma = $_GET['AlumnoIdioma'];
         $idioma1 = new Idioma();
         $arrDatos = $idioma1->obtenerDatosIdioma($alumnoIdioma);
-        $porcentajeEscritura = $arrDatos[0][id_nivel_escrito];
-        $porcentajeLectura = $arrDatos[0][id_nivel_lectura];
+        $porcentajeEscritura = $arrDatos[0][niid_nivel_escrito];
+        $porcentajeLectura = $arrDatos[0][niid_nivel_lectura];
 
-        $porcentajeOral = $arrDatos[0][id_nivel_oral];
+        $porcentajeOral = $arrDatos[0][niid_nivel_oral];
         $anio = $arrDatos[0][idal_anio];
         $rutaImg = $arrDatos[0][idal_ruta_constancia];
         $institucion = $arrDatos[0][idal_institucion];
 
-		$idIdioma =  $arrDatos[0][id_idioma];
+		$idIdioma =  $arrDatos[0][id_id];
 		include '../../boundaries/curriculum/frmRegisIdioma.php';
 	}    	
 	
@@ -551,9 +549,9 @@ class CtlCurriculum {
     				<tr>
     					<form id='$row[idal_id]'>
     					<td align='center'> $row[id_nombre] <input type='hidden' value='$row[idal_id]' name='AlumnoIdioma' id='AlumnoIdioma'> </td>
-    					<td align='center'> $row[id_nivel_escrito] % </td>
-    					<td align='center'> $row[id_nivel_oral] % </td>
-    					<td align='center'> $row[id_nivel_lectura] % </td>
+    					<td align='center'> $row[niid_nivel_escrito] % </td>
+    					<td align='center'> $row[niid_nivel_oral] % </td>
+    					<td align='center'> $row[niid_nivel_lectura] % </td>
     					<td> <input type=\"button\" value=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarIdioma' , '$row[idal_id]', 'contenido')\" </td>
     					</form>
 					</tr>";

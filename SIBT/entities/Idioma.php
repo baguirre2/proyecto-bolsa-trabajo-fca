@@ -29,17 +29,18 @@ class Idioma {
 	function guardarIdiomaAlumno($idAlumno, $idioma, $nivelOral, $nivelEscrito, $nivelLectura, $rutaImg = null, $institucion = null, $anio = null) {
 		$conn = new InterfazBD2();
 		$insert = Array();
-		$insert['id_idioma'] = $idioma;
-		$insert['id_nivel_oral'] = $nivelOral;
-		$insert['id_nivel_escrito'] = $nivelEscrito;
-		$insert['id_nivel_lectura'] = $nivelLectura;
-		$res = $conn->ejecutarInsert("ingsw.nivel_idioma", $insert, "id_id");
+		$insert['id_id'] = $idioma;
+		$insert['niid_nivel_oral'] = $nivelOral;
+		$insert['niid_nivel_escrito'] = $nivelEscrito;
+		$insert['niid_nivel_lectura'] = $nivelLectura;
+		$res = $conn->ejecutarInsert("ingsw.nivel_idioma", $insert, "niid_id");
+		echo $res;
 		if ($res == null) {
 			$conn->cerrarConexion();
 			return false;
 		} else {
 			$insert = Array();
-			$insert['id_id'] = $res;
+			$insert['niid_id'] = $res;
 			$insert['al_id'] = $idAlumno;
 			if ($rutaImg == null) {
 				$insert['esau_id'] = 3;
@@ -62,7 +63,7 @@ class Idioma {
 	/**
 	 * 
 	 * Obtiene los Idiomas de un Alumno extrae unicamente los datos:
-	 *  -> id de la tabla alumno_idioma 
+	 *  -> id de la tabla idioma_alumno 
 	 * 	-> Nombre de Idioma
 	 *  -> nivel de escritura
 	 *  -> nivel de lectura
@@ -72,7 +73,7 @@ class Idioma {
 	 */
 	function obtener ($idAlumno)  {
 		$conn = new InterfazBD2();
-		$query = "SELECT idal_id, id_nombre, id_nivel_oral, id_nivel_escrito, id_nivel_lectura FROM ingsw.idioma AS id JOIN ingsw.nivel_idioma AS niid ON (id.id_idioma = niid.id_idioma) JOIN ingsw.idioma_alumno AS alid ON (niid.id_id = alid.id_id) AND alid.al_id = $idAlumno;";
+		$query = "SELECT idal_id, id_nombre, niid_nivel_oral, niid_nivel_escrito, niid_nivel_lectura FROM ingsw.idioma AS id JOIN ingsw.nivel_idioma AS niid ON (id.id_id = niid.id_id) JOIN ingsw.idioma_alumno AS idal ON (niid.niid_id = idal.niid_id) AND idal.al_id = $idAlumno;";
 		$res = $conn->consultar($query);
 		$conn->cerrarConexion();
 		return $res;
@@ -106,11 +107,14 @@ class Idioma {
 	 */
 	function actualizar($idioma, $nivelOral, $nivelEscrito, $nivelLectura, $idiomaAlumno, $institucion = null, $anio = null, $rutaImg = null) {
 		$conn = new InterfazBD2();
-		$query = "SELECT id_id FROM ingsw.idioma_alumno WHERE idal_id = $idiomaAlumno;";
+		$query = "SELECT niid_id FROM ingsw.idioma_alumno WHERE idal_id = $idiomaAlumno;";
 		$nivelIdioma = $conn->consultar($query);
-		if ($rutaImg != null) {		
-			$update = "UPDATE ingsw.idioma_alumno SET idal_ruta_constancia = '$rutaImg', idal_institucion='$institucion', idal_anio=$anio, esau_id=2 WHERE idal_id = $idiomaAlumno;";
-			$res = $conn->ejecutarQuery($update);
+		if ($rutaImg != null) {
+			$update = Array();
+			$update['idal_ruta_constancia'] = $rutaImg;
+			$update['idal_institucion'] = $institucion;
+			$update['idal_anio'] = $anio;
+			$res = $conn->ejecutarUpdate("ingsw.idioma_alumno", $update, "WHERE idal_id = $idiomaAlumno");
 		} else {
 			$res = true;
 		}
@@ -118,9 +122,13 @@ class Idioma {
 			$conn->cerrarConexion();
 			return false;
 		} else {
-			$nivelIdioma = $nivelIdioma[0][id_id];
-			$update = "UPDATE ingsw.nivel_idioma SET id_idioma = $idioma, id_nivel_oral = $nivelOral, id_nivel_escrito = $nivelEscrito, id_nivel_lectura = $nivelLectura WHERE id_id = $nivelIdioma;";
-			$res = $conn->ejecutarQuery($update);
+			$update = Array();
+			$update['id_id'] = $idioma;
+			$update['niid_nivel_escrito'] = $nivelEscrito;
+			$update['niid_nivel_oral'] = $nivelOral;
+			$update['niid_nivel_lectura'] = $nivelLectura;
+			$nivelIdioma = $nivelIdioma[0]['niid_id'];
+			$res = $conn->ejecutarUpdate("ingsw.nivel_idioma", $update, "WHERE niid_id = $nivelIdioma");
 			if (!$res) {
 				$conn->cerrarConexion();
 				return false;
@@ -137,7 +145,7 @@ class Idioma {
 	 */
 	function obtenerDatosIdioma ($alumnoIdioma) {
 		$conn = new InterfazBD2();
-		$query = "SELECT * FROM ingsw.idioma AS id JOIN ingsw.nivel_idioma AS niid ON (id.id_idioma = niid.id_idioma) JOIN ingsw.idioma_alumno AS alid ON (niid.id_id = alid.id_id) AND alid.idal_id = $alumnoIdioma;";
+		$query = "SELECT * FROM ingsw.idioma AS id JOIN ingsw.nivel_idioma AS niid ON (id.id_id = niid.id_id) JOIN ingsw.idioma_alumno AS idal ON (niid.niid_id = idal.niid_id) AND idal.idal_id = $alumnoIdioma;";
 		$res = $conn->consultar($query);
 		$conn->cerrarConexion();
 		return $res;		

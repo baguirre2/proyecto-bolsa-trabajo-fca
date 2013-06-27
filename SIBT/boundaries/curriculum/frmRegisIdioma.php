@@ -101,10 +101,10 @@
 		$strSelect = "<select name='idIdioma' id='idIdioma'> <option value='0' selected class='required numeric'> ---";
 		foreach ($arrIdiomas as $valor) {
 			$selected = "";
-			if ($value == $valor[id_idioma]) {
+			if ($value == $valor[id_id]) {
 				$selected = "selected";
 			}			
-			$strSelect .= "<option value='$valor[id_idioma]' $selected> $valor[id_nombre]";
+			$strSelect .= "<option value='$valor[id_id]' $selected> $valor[id_nombre]";
 		}
 		return $strSelect;
 	}
