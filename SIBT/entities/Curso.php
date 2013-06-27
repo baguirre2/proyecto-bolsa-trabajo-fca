@@ -9,7 +9,6 @@
  * Ultima actualización: 24 de Junio de 2013
  * @author Benjamín Aguirre García
  */
-include_once 'InterfazBD2.php';
 
 class Curso {
 

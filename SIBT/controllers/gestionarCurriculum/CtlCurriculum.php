@@ -410,7 +410,6 @@ class CtlCurriculum {
 	 * y los errores encontrados, de lo contrario intenta registrar el idioma si lo hace muestra un mensaje al usuario.
 	 * @author Benjamín Aguirre García 
 	 */	
-
     function registrarIdioma() {
 
         if (isset($_GET['idIdioma'])) {
@@ -456,6 +455,7 @@ class CtlCurriculum {
             include '../../boundaries/curriculum/frmRegisIdioma.php';
         } else {
             echo "El idioma ha sido registrado";
+            $this->menuIdiomas();
         }
     }
 
@@ -594,7 +594,8 @@ class CtlCurriculum {
         if ($err) {
             include '../../boundaries/curriculum/frmRegisCurso.php';
         } else {
-            echo "El curso ha sido registrado";
+        	echo "El curso ha sido registrado";
+        	$this->menuCursos();
         }
     }
 
