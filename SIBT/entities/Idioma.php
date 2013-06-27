@@ -21,9 +21,11 @@ class Idioma {
 	 * @param $nivelOral Nivel de capacidad para hablar el idioma. Ej: 80
 	 * @param $nivelEscrito Nivel de Capacidad Escrita
 	 * @param $nivelLectura Nivel de Capacidad
-	 * @return $guardado Regresa verdadero o falso, si fue almacenado en la Base de Datos regresa Verdadero (true) si no regresa Falso (false). 
-	 */
-	
+	 * @param $rutaImg La ruta de la imagen de la constancia, este dato es clave pues si es nulo, no se agregan los datos de la constancia. 
+	 * @param $institucion Nombre de la institución de procedencia de la constancia.
+	 * @param $anio Año en que fue obtenida la constancia.
+	 * @return true | false  Regresa verdadero o falso, si fue almacenado en la Base de Datos regresa Verdadero (true) si no regresa Falso (false).
+	 */	
 	function guardarIdiomaAlumno($idAlumno, $idioma, $nivelOral, $nivelEscrito, $nivelLectura, $rutaImg = null, $institucion = null, $anio = null) {
 		$conn = new InterfazBD2();
 		$insert = Array();
@@ -59,8 +61,14 @@ class Idioma {
 	
 	/**
 	 * 
-	 * Obtiene el nombre
-	 * @param $idAlumno
+	 * Obtiene los Idiomas de un Alumno extrae unicamente los datos:
+	 *  -> id de la tabla alumno_idioma 
+	 * 	-> Nombre de Idioma
+	 *  -> nivel de escritura
+	 *  -> nivel de lectura
+	 * @author Benjamín Aguirre García
+	 * @param $idAlumno Id del alumno del que se desean extraer los datos de Idiomas asociados a el,
+	 * @return $res Es el resultado de la consulta.
 	 */
 	function obtener ($idAlumno)  {
 		$conn = new InterfazBD2();
@@ -70,6 +78,11 @@ class Idioma {
 		return $res;
 	}
 	
+	/**
+	 * 
+	 * Obtiene el nombre de los idiomas disponibles.
+	 * @author Benjamín Aguirre García
+	 */	
 	function obtenerIdiomas () {
 		$conn = new InterfazBD2();
 		$query = "SELECT * FROM ingsw.idioma;";
@@ -78,8 +91,19 @@ class Idioma {
 		return $res;
 	}
 
-	
-	
+	/**
+	 * 
+	 * Actualiza la información de un Idioma
+	 * @param $idioma id del Idioma
+	 * @param $nivelOral Nivel oral del Idioma
+	 * @param $nivelEscrito Nivel Escrito del Idioma
+	 * @param $nivelLectura Nivel de Lectura del Idioma
+	 * @param $idiomaAlumno Id de la tabla alumno_idioma
+	 * @param $institucion Institución de procedencia de constancia esta variable puede no enviarse.
+	 * @param $anio Año de emisión de Constancia esta variable puede no enviarse. 
+	 * @param $rutaImg Ruta de la imagen, esta variable puede no enviarse y es clave debido a que si es nulo, no se actualiza nada de la información de Constancia.
+	 * @return true | false Verdadero si se realizaron correctamente las actualizaciones, Falso si no se complet[o correctamente.
+	 */
 	function actualizar($idioma, $nivelOral, $nivelEscrito, $nivelLectura, $idiomaAlumno, $institucion = null, $anio = null, $rutaImg = null) {
 		$conn = new InterfazBD2();
 		$query = "SELECT id_id FROM ingsw.idioma_alumno WHERE idal_id = $idiomaAlumno;";
@@ -106,6 +130,11 @@ class Idioma {
 		return true;
 	}
 	
+	/**
+	 * 
+	 * Obtiene todos los datos de un idioma a partir del id de la tabla alumno_idioma
+	 * @param $alumnoIdioma id de la tabla alumno_idioma idal_id
+	 */
 	function obtenerDatosIdioma ($alumnoIdioma) {
 		$conn = new InterfazBD2();
 		$query = "SELECT * FROM ingsw.idioma AS id JOIN ingsw.nivel_idioma AS niid ON (id.id_idioma = niid.id_idioma) JOIN ingsw.idioma_alumno AS alid ON (niid.id_id = alid.id_id) AND alid.idal_id = $alumnoIdioma;";
