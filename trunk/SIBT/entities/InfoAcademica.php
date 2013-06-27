@@ -39,5 +39,19 @@ class InfoAcademica {
 
         return $res;
     }
+    
+    /**
+     * 
+     * Extrae toda la información academica relacionada con el alumno.
+     * @author Benjamín Aguirre García 
+     * @param $idAlumno Id del Alumno
+     */
+    public function obtener ($idAlumno) {
+    	$conn = InterfazBD2();
+    	$con
+    	
+    	
+    	
+    }
 }
 ?>

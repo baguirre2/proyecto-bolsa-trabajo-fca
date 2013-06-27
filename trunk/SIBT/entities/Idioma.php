@@ -8,8 +8,6 @@
  * 
  */
 
-include_once 'InterfazBD2.php';
-
 class Idioma {
 	
 	/**
