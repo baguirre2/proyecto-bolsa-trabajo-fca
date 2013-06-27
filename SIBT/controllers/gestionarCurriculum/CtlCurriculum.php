@@ -208,7 +208,7 @@ class CtlCurriculum {
 				$id_infoAca=$_GET[id];	
 				//echo "Info aca en editar: ".$id_infoAca;			
 				$resultados = $this->listarGradosAcademicos(2, $id_infoAca, $idAlum);
-				include '../../boundaries/curriculum/frmCurrEditar.php';				
+				include '../../boundaries/curriculum/frmInfoAcademicaEditar.php';				
 				break;
 
 
@@ -224,7 +224,7 @@ class CtlCurriculum {
 				break;
 			
 			case 'infoAcademicaFormRegistrar';
-				include '../../boundaries/curriculum/frmCurrRegis.html';
+				include '../../boundaries/curriculum/frmInfoAcademicaRegis.html';
 				break;
 				
 			case 'llenarListaEstudios';
