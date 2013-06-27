@@ -38,13 +38,13 @@ class MostrarCertific {
                     <td><? echo ($certificado['ce_anio']) ?></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><img src="constancias/certs/cert<? echo ($certificado['ce_ruta_constancia']) ?>" width="550"/></td>
+                    <td colspan="2"><img src="constancias/certs/<? echo ($certificado['ce_ruta_constancia']) ?>" width="550"/></td>
                 </tr>
                 <tr>
                     <td colspan="2">
                         <input type="button" value="Regresar" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiConst', 'vacio', 'contenido')"/>
-                        <input type="button" value="Rechazar" onclick="ajaxConId('', 'valEstaRechazar', 'frmCons', 'contenido', <? echo ($certificado['ce_id']) ?>)"/>
-                        <input type="button" value="Validar" onclick="ajaxConId('', 'valEstaValidar', 'frmCons', 'contenido', <? echo ($certificado['ce_id']) ?>)"/>
+                        <input type="button" value="Rechazar" onclick="ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valEstaRechazar', 'frmCons', 'contenido', <? echo ($certificado['ce_id']) ?>)"/>
+                        <input type="button" value="Validar" onclick="ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valEstaValidar', 'frmCons', 'contenido', <? echo ($certificado['ce_id']) ?>)"/>
                     </td>
                 </tr>
             </tbody>

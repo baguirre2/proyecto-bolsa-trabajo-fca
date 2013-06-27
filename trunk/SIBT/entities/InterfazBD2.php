@@ -77,7 +77,8 @@ class InterfazBD2{
 
 
                             default:
-                                    $res = pg_query($this->conexion,$query);
+                                    //$res = @pg_query($this->conexion,$query);
+                                $res = @pg_query($this->conexion,$query);
                                     if($res != false){
                                             while($fila = pg_fetch_assoc($res)){
                                                     $this->resultado[] = $fila;

@@ -114,6 +114,17 @@ class Curso {
 
         return $res;
     }
+    
+    //Métovo para cambiar el campo esau_id al ID de autoriazo
+    public function cambiarEstado ($idCurso, $idEstado) {
+        $conn = new InterfazBD();
+        
+        $res = $conn->insertar("UPDATE ingsw.curso SET esau_id=$idEstado WHERE cu_id=$idCurso");
+        
+        $conn->cerrarConexion();
+        
+        return $res;        
+    }
 
 }
 

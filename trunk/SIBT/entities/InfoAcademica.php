@@ -57,5 +57,16 @@ class InfoAcademica {
     	$conn->cerrarConexion();
     	return $res; 
     }
+    
+    //Métovo para cambiar el campo esau_id al ID de autoriazo
+    public function cambiarEstado ($idInfoAcade, $idEstado) {
+        $conn = new InterfazBD();
+        
+        $res = $conn->insertar("UPDATE ingsw.informacion_academica SET esau_id=$idEstado WHERE inac_id=$idInfoAcade");
+        
+        $conn->cerrarConexion();
+        
+        return $res;        
+    }
 }
 ?>
