@@ -288,7 +288,13 @@ class CtlCurriculum {
 
             //Valida la constancia cuyo ID es recibido
             case 'valEstaValidar';
-                $this->cambiarEstadoConst($GET['id'], $GET['tipo'], TRUE);
+                if ($this->cambiarEstadoConst($GET['id'], $GET['tipo'], TRUE)) {
+                    echo "<h1>Se ha cambiado el estado de la constancia</h1>";                    
+                } else {
+                    echo "<h1>Ha ocurrido un error al cambiar el estado de la constancia</h1>";                    
+                }
+                
+                $this->listarConstancias();
                 break;
             
             //Rechaza la constancia cuyo ID es recibido
@@ -298,9 +304,10 @@ class CtlCurriculum {
                 if ($this->cambiarEstadoConst($GET['id'], $GET['tipo'], FALSE)) {
                     echo "<h1>Se ha cambiado el estado de la constancia</h1>";                    
                 } else {
-                    echo "<h1>Ha ocurrido un error al cambiar el  constancia</h1>";                    
+                    echo "<h1>Ha ocurrido un error al cambiar el estado de la constancia</h1>";                    
                 }
                 
+                $this->listarConstancias();
                 break;
             /**
              * FIN VALIDAR COSNTANCIAS 
@@ -1066,7 +1073,7 @@ class CtlCurriculum {
                 if ($accion) {
                     return $certificado->cambiarEstado($idConst, 1);
                 } else {
-                    return $certificado->cambiarEstado($idConst, 2);
+                    return $certificado->cambiarEstado($idConst, 3);
                 }
                 break;
             
@@ -1075,7 +1082,7 @@ class CtlCurriculum {
                 if ($accion) {
                     return $infoAcade->cambiarEstado($idConst, 1);
                 } else {
-                    return $infoAcade->cambiarEstado($idConst, 2);
+                    return $infoAcade->cambiarEstado($idConst, 3);
                 }
                 break;
             
@@ -1084,7 +1091,7 @@ class CtlCurriculum {
                 if ($accion) {
                     return $curso->cambiarEstado($idConst, 1);
                 } else {
-                    return $curso->cambiarEstado($idConst, 2);
+                    return $curso->cambiarEstado($idConst, 3);
                 }
                 break;
             
@@ -1093,7 +1100,7 @@ class CtlCurriculum {
                 if ($accion) {
                     return $idioma->cambiarEstado($idConst, 1);
                 } else {
-                    return $idioma->cambiarEstado($idConst, 2);
+                    return $idioma->cambiarEstado($idConst, 3);
                 }
                 break;
         }        
