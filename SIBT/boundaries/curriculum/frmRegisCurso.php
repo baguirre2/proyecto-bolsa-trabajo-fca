@@ -33,7 +33,7 @@
 			<tr>
 				<td> <input type="button" value="<? if (!isset($idCurso)) { echo "Registrar Curso"; } else { echo "Actualizar";} ?>" id="Guardar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', '<? if (!isset($idCurso)) { echo "RegistrarCurso"; } else { echo "ActualizarCurso"; } ?>', 'frmRegistrarCurso', 'contenido')"></td>
 				<td></td>
-				<td><input type="button" value="Cancelar" id="Cancelar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')"></td>
+				<td><input type="button" value="Cancelar" id="Cancelar" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'Cursos', 'vacio', 'contenido')"></td>
 			</tr>
 		</table>
 	</form>

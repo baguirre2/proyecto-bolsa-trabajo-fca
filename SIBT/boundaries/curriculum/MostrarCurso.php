@@ -25,7 +25,7 @@ class MostrarCurso {
                     <td><? echo ($curso['cu_fecha_conclusion']) ?></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><img src="constancias/cursos/curso<? echo ($curso['cu_ruta_constancia']) ?>" width="550"/></td>
+                    <td colspan="2"><img src="constancias/cursos/<? echo ($curso['cu_ruta_constancia']) ?>" width="550"/></td>
                 </tr>
                 <tr>
                     <td colspan="2">

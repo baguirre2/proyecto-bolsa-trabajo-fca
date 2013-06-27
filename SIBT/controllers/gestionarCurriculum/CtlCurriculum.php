@@ -72,7 +72,7 @@ class CtlCurriculum {
 
             //Obtiene los datos de la informaciÃ³n laboral y los muestra para su ediciÃ³n
             case 'inLabFrmRegistrar';
-                //Incluimos la boundary formulario de infoAcademica y luego creamos un objeto de ella
+                //Incluimos la boundary formulario de infolaboral y luego creamos un objeto de ella
                 include_once '../../boundaries/curriculum/FormularioInfoLaboral.php';
                 new FormularioInfoLaboral();
                 break;
@@ -198,7 +198,7 @@ class CtlCurriculum {
             	include '../../boundaries/curriculum/frmBusqueda.php';
             	break;
 
-            //Mostrar la información académica del alumno, una la opción de editar si está confirmado
+            //Mostrar la informaciï¿½n acadï¿½mica del alumno, una la opciï¿½n de editar si estï¿½ confirmado
 			case 'infoAcademicaListar';				
 				$this->mostrarInfoAcademica($idAlum);
 				break;
@@ -232,7 +232,7 @@ class CtlCurriculum {
 				//$id_inac = $_GET[infoAc_id];
 				//echo "Id de nivel en control: ".$id_nivel."<br>";
 				//echo "Id de info ac en control: ".$id_inac."<br>";
-				$this->listarEstudiosFCA($id_nivel, $id_inac);
+				$this->listarEstudiosFCA($id_nivel, (isset($id_inac) ? $id_inac : ""));
 				break;
             	                
             case "BuscarCurriculum";
@@ -286,10 +286,27 @@ class CtlCurriculum {
 
                 break;
 
-            //Recuperad Datos Constancia Certificaciones
+            //Recuperad Datos de la Constancia e invoca un mÃ©todo para mostrarla
             case 'valiEstMostrar';
                 
                 $this->mostrarConstancia($GET['tipo'], $GET['id']);
+                break;
+
+            //Valida la constancia cuyo ID es recibido
+            case 'valEstaValidar';
+                $this->cambiarEstadoConst($GET['id'], $GET['tipo'], TRUE);
+                break;
+            
+            //Rechaza la constancia cuyo ID es recibido
+            case 'valEstaRechazar';
+                
+                
+                if ($this->cambiarEstadoConst($GET['id'], $GET['tipo'], FALSE)) {
+                    echo "<h1>Se ha cambiado el estado de la constancia</h1>";                    
+                } else {
+                    echo "<h1>Ha ocurrido un error al cambiar el  constancia</h1>";                    
+                }
+                
                 break;
             /**
              * FIN VALIDAR COSNTANCIAS 
@@ -544,7 +561,7 @@ class CtlCurriculum {
         if ($arrIdiomas == null) {
             $strIdiomas = null;
         } else {
-            $strCursos .= "<tbody>";
+            $strIdiomas .= "<tbody>";
 
             foreach ($arrIdiomas as $row) {
                 $strIdiomas .= "
@@ -654,9 +671,9 @@ class CtlCurriculum {
         $idCurso = $_GET['idCurso'];
         $curso1 = new Curso();
         $curso = $curso1->obtenerCurso($idCurso);
-        $nombreCurso = $curso[0][cu_nombre];
-        $fechaParticipacion = $curso[0][cu_fecha_conclusion];
-        $rutaImg = $curso[0][cu_ruta_constancia];
+        $nombreCurso = $curso[0]['cu_nombre'];
+        $fechaParticipacion = $curso[0]['cu_fecha_conclusion'];
+        $rutaImg = $curso[0]['cu_ruta_constancia'];
         include '../../boundaries/curriculum/frmRegisCurso.php';
     }
 
@@ -699,7 +716,7 @@ class CtlCurriculum {
     }
 
     /**
-	 *Funcion para mostrar la información academica del alumno
+	 *Funcion para mostrar la informaciï¿½n academica del alumno
 	 *@author Liliana Luna
 	 *@param
 	 **/
@@ -707,7 +724,8 @@ class CtlCurriculum {
 		echo "&nbsp;";
 		$resultados = $this->listarGradosAcademicos(1,0, $idAlum);
 		$registros = "";
-		for ($i=0; $i <= count($resultados)-1; $i++) {
+		//for ($i=0; $i <= count($resultados)-1; $i++) {
+                for ($i=0; $i < count($resultados); $i++) {
 			$infoAc_id = $resultados[$i]['inac_id'];
 			$registros .= "<tr><td>".$resultados[$i]['inac_universidad']."</td>";
 			$registros .= "<td>".$resultados[$i]['inac_escuela']."</td>";
@@ -717,7 +735,7 @@ class CtlCurriculum {
 			$registros .= ($resultados[$i]['esau_id'] != 1)? "<td><form id=\"frmListar\"><input type=\"button\" value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'infoAcademicaFormEditar', 'frmListar', 'contenido', $infoAc_id)\"></form></td></tr>" : "<td></td></tr>";
 		}
 		echo "	<table>
-						<thead>
+						<thead> 
 						<tr>
 						<th>Universidad</th>
 						<th>Escuela</th>
@@ -736,7 +754,7 @@ class CtlCurriculum {
 	}
 
     /**
-     *Funcion para listar los grados académicos
+     *Funcion para listar los grados acadï¿½micos
      *@author Liliana Luna 
      *@param 
      **/
@@ -906,7 +924,7 @@ class CtlCurriculum {
 		if(move_uploaded_file($_FILES['fil_imagen']['tmp_name'], $ruta)){
 			print "Archivo Guardado";
 		}else{
-			print "Ocurrió un problema y el archivo no pudo ser guardado";
+			print "Ocurriï¿½ un problema y el archivo no pudo ser guardado";
 		}*/		
 		
 		$conexion->cerrarConexion();
@@ -983,7 +1001,7 @@ class CtlCurriculum {
 			if(move_uploaded_file($_FILES['fil_imagen']['tmp_name'], $ruta)){
 			print "Archivo Guardado";
 			}else{
-			print "Ocurrió un problema y el archivo no pudo ser guardado";
+			print "Ocurriï¿½ un problema y el archivo no pudo ser guardado";
 			}*/
 	
 			$conexion->cerrarConexion();
@@ -1045,7 +1063,47 @@ class CtlCurriculum {
                 break;
         }
     }
-
+    
+    public function cambiarEstadoConst ($idConst, $tipoCosnt, $accion) {
+        
+        switch ($tipoCosnt) {
+            case 'cert';
+                $certificado = new Certificacion();
+                if ($accion) {
+                    return $certificado->cambiarEstado($idConst, 1);
+                } else {
+                    return $certificado->cambiarEstado($idConst, 2);
+                }
+                break;
+            
+            case 'infoLab';
+                $infoAcade = new InfoAcademica();
+                if ($accion) {
+                    return $infoAcade->cambiarEstado($idConst, 1);
+                } else {
+                    return $infoAcade->cambiarEstado($idConst, 2);
+                }
+                break;
+            
+            case 'curs';
+                $curso = new Curso();
+                if ($accion) {
+                    return $curso->cambiarEstado($idConst, 1);
+                } else {
+                    return $curso->cambiarEstado($idConst, 2);
+                }
+                break;
+            
+            case 'idio';           
+                $idioma = new Idioma();
+                if ($accion) {
+                    return $idioma->cambiarEstado($idConst, 1);
+                } else {
+                    return $idioma->cambiarEstado($idConst, 2);
+                }
+                break;
+        }        
+    }
 }
 
 new CtlCurriculum($_GET);

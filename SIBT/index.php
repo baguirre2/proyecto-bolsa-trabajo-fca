@@ -1,5 +1,7 @@
 <?php
 
+//error_reporting (E_ALL & ~E_NOTICE);
+
 /**
  * En este caso se usará esta parte para las pruebas hasta que se tenga desarrollado el modulo de Usuarios.
  * @author Benjamín Aguirre García

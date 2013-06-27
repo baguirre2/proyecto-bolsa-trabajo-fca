@@ -171,5 +171,16 @@ class Certificacion{
 	
 				return $res;
 	}
+        
+        //Métovo para cambiar el campo esau_id al ID de autoriazo
+    public function cambiarEstado ($idInfoAcade, $idEstado) {
+        $conn = new InterfazBD();
+        
+        $res = $conn->insertar("UPDATE ingsw.certificacion SET esau_id=$idEstado WHERE ce_id=$idInfoAcade");
+        
+        $conn->cerrarConexion();
+        
+        return $res;        
+    }
 }
 ?>

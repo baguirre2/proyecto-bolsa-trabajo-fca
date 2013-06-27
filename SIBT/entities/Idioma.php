@@ -163,22 +163,32 @@ class Idioma {
                                     persona.pe_apellido_paterno,
                                     persona.pe_apellido_materno,
                                     id_nombre,
-                                    id_nivel_oral,
-                                    id_nivel_escrito,
-                                    id_nivel_lectura
+                                    niid_nivel_oral,
+                                    niid_nivel_escrito,
+                                    niid_nivel_lectura
                                 FROM 
                                     ingsw.idioma_alumno JOIN  
                                     ingsw.alumno ON (alumno.al_id = idioma_alumno.al_id) 
-                                    JOIN ingsw.persona ON (alumno.pe_id = persona.pe_id) 
-                                    JOIN ingsw.estado_autorizacion ON (idioma_alumno.esau_id = estado_autorizacion.esau_id) 
-                                    JOIN ingsw.nivel_idioma ON (idioma_alumno.id_id=nivel_idioma.id_id) 
-                                    JOIN ingsw.idioma ON (idioma.id_idioma=nivel_idioma.id_id)
+                                    JOIN ingsw.persona ON (alumno.pe_id = persona.pe_id)  
+                                    JOIN ingsw.nivel_idioma ON (idioma_alumno.niid_id=nivel_idioma.niid_id) 
+                                    JOIN ingsw.idioma ON (idioma.id_id=nivel_idioma.id_id)
                                 WHERE 
                                     idioma_alumno.esau_id=$idEstado");
 
         $conn->cerrarConexion();
 
         return $res;
+    }
+    
+    //Métovo para cambiar el campo esau_id
+    public function cambiarEstado ($idIdioma, $idEstado) {
+        $conn = new InterfazBD();
+        
+        $res = $conn->insertar("UPDATE ingsw.idioma_alumno SET esau_id=$idEstado WHERE idal_id=$idIdioma");
+        
+        $conn->cerrarConexion();
+        
+        return $res;        
     }
 
 }

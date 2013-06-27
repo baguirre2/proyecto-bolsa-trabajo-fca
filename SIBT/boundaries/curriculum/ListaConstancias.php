@@ -127,9 +127,9 @@ class ListaConstancias {
                     echo "<tr>
                             <td>$row[pe_nombre] $row[pe_apellido_paterno] $row[pe_apellido_materno]</td>
                             <td>$row[id_nombre]</td>
-                            <td>$row[id_nivel_oral]</td>
-                            <td>$row[id_nivel_escrito]</td>
-                            <td>$row[id_nivel_lectura]</td>
+                            <td>$row[niid_nivel_oral]</td>
+                            <td>$row[niid_nivel_escrito]</td>
+                            <td>$row[niid_nivel_lectura]</td>
                             <td><input type='button' value='Ver' onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstMostrar', 'frmIdio', 'contenido', $row[idal_id])\"/></td>
                         </tr>";
                 }
