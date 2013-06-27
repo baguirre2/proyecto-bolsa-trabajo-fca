@@ -228,10 +228,7 @@ class CtlCurriculum {
 				break;
 				
 			case 'llenarListaEstudios';
-				$id_nivel = $GET['id'];
-				//$id_inac = $_GET[infoAc_id];
-				//echo "Id de nivel en control: ".$id_nivel."<br>";
-				//echo "Id de info ac en control: ".$id_inac."<br>";
+				$id_nivel = $GET['id'];				
 				$this->listarEstudiosFCA($id_nivel, (isset($id_inac) ? $id_inac : ""));
 				break;
             	                
@@ -246,10 +243,7 @@ class CtlCurriculum {
             case 'formRegistrar';
                 include '../../boundaries/curriculum/frmCurrRegis.php';
                 break;
-            case 'llenarListaEstudios';
-                $id_nivel = $GET['id'];
-                $this->listarEstudiosFCA($id_nivel);
-                break;
+            
 
             //Mi objetivo profesional
             case 'objProf';
