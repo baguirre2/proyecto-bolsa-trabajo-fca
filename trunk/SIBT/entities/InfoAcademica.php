@@ -47,10 +47,15 @@ class InfoAcademica {
      * @param $idAlumno Id del Alumno
      */
     public function obtener ($idAlumno) {
-    	$conn = InterfazBD2();
-    	
-    	
-    	
+    	$conn = new InterfazBD2();
+    	$query = "SELECT * FROM ingsw.informacion_academica AS inac 
+					JOIN ingsw.estudio_otro AS esot ON (inac.esot_id = esot.esot_id) 
+					JOIN ingsw.estudio_fca AS esfc ON (inac.esfc_id = esfc.esfc_id)
+					JOIN ingsw.nivel_estudio AS nies ON (esot.nies_id = nies.nies_id OR esfc.nies_id = nies.nies_id)
+					WHERE inac.al_id = $idAlumno;";
+    	$res = $conn->ejecutarQuery($query);
+    	$conn->cerrarConexion();
+    	return $res; 
     }
 }
 ?>

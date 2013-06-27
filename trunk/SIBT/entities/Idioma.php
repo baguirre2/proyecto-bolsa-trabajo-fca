@@ -4,7 +4,6 @@
  *  
  * @author: Benjamín Aguirre García
  * Fecha de Creación: 22 de Junio de 2013
- * Ultima actualización: 22 de Junio de 2013
  * 
  */
 
@@ -93,6 +92,7 @@ class Idioma {
 	/**
 	 * 
 	 * Actualiza la información de un Idioma
+	 * "@author Benjamín Aguirre 
 	 * @param $idioma id del Idioma
 	 * @param $nivelOral Nivel oral del Idioma
 	 * @param $nivelEscrito Nivel Escrito del Idioma
@@ -139,6 +139,7 @@ class Idioma {
 	/**
 	 * 
 	 * Obtiene todos los datos de un idioma a partir del id de la tabla alumno_idioma
+	 * @author Benjamín Aguirre García
 	 * @param $alumnoIdioma id de la tabla alumno_idioma idal_id
 	 */
 	function obtenerDatosIdioma ($alumnoIdioma) {
