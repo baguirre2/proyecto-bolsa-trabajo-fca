@@ -9,7 +9,7 @@ class CtlAlumno {
 
         $opc = $GET['opc'];
 
-        //En esta l�nea se obtendra el ID del alumno, por un objeto SESSION
+        //En esta línea se obtendra el ID del alumno, por un objeto SESSION
         $idAlum = 1;
 
         switch ($opc) {
