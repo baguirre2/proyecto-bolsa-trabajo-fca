@@ -1,0 +1,79 @@
+<div id="resFrmRegis"></div>
+<form id="frmRegis" method="post" enctype="multipart/form-data">	
+	<table>
+		<tbody>
+			<tr>
+				<td>* Nivel educativo: </td>
+				<td><input name="btnNivel" type="radio" value="Licenciatura" onchange="ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'llenarListaEstudios', 'vacio', 'listaNombres', 1)" />Licenciatura</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><input name="btnNivel" type="radio" value="Especializacion" onchange="ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'llenarListaEstudios', 'vacio', 'listaNombres', 2)"/>Especializaci&oacute;n</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><input name="btnNivel" type="radio" value="Maestria" onchange="ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'llenarListaEstudios', 'vacio', 'listaNombres', 3)" />Maestr&iacute;a</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><input name="btnNivel" type="radio" value="Doctorado" onchange="ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'llenarListaEstudios', 'vacio', 'listaNombres', 4)" />Doctorado</td>
+			</tr>
+			<!-- <tr>
+				<td >Nombre del t&iacute;tulo o grado: </td>
+				<td ><input name="txtNombreGrado" type="text" id="txtNombreGrado" value=""/> </td>
+			</tr> -->
+			<tr>
+			<td>* Nombre del t&iacute;tulo o grado:</td>
+				<td>				
+					<div id="listaNombres">	</div>  				
+  				</td>
+  			</tr>
+  			<tr>
+  				<td>					
+					&nbsp;&nbsp;&nbsp;&nbsp;Otro:   				
+  				</td>
+  				<td><input name="txtOtro" type="text" id="txtOtro" /></td>
+  						
+			</tr>
+			<tr>
+				<td>* Universidad o Instituci&oacute;n:</td>
+				<td><input name="txtUniversidad" type="text" id="txtUniversidad"  /> </td>
+			</tr>
+			<tr>
+				<td>* Escuela: </td>
+				<td><input name="txtEscuela" type="text" id="txtEscuela"  /> </td>
+			</tr>			
+			<tr>
+				<td>* Fecha de inicio (dd/mm/aaaa): </td>
+				<td><input name="txtFechaInicio" type="text" id="txtFechaInicio" /></td>
+			</tr>
+			<tr>
+				<td>Fecha de t&eacute;rmino (dd/mm/aaaa): </td>
+				<td><input name="txtFechaTermino" type="text" id="txtFechaTermino" /></td>
+			</tr>			
+			<tr>
+				<td>Estado:</td>
+				<td><select name="lstEstado">
+    				<option value="En curso">En curso</option>
+    				<option value="Truncado">Truncado</option>
+    				<option value="Terminado">Terminado</option>
+    				<option value="Titulado">Titulado</option>
+    				<option value="Graduado">Graduado</option>
+  				</select></td>
+			</tr> 
+			<tr>
+				<td>Promedio: </td>
+				<td><input name="txtPromedio" type="text" id="txtPromedio" /></td>
+			</tr>
+			<tr>
+				<td>Cargar constancia: </td>
+				<td><input type="file" name="filImagen" id="filImagen"/>
+				<input type="hidden" name="MAX_FILE_SIZE" value="3485760" /></td>
+			</tr>
+			<tr>
+				<td><input name="btnAccion" type="button" value="Registrar" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'infoAcademicaRegistrar', 'frmRegis', 'contenido')"/></td>
+				<td><input name="btnCancelar" type="button" id="btnCancelar" value="Cancelar" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php','infoAcademicaListar', 'vacio', 'contenido')"/></td>
+			</tr>
+	</tbody>
+  </table>	
+</form>
