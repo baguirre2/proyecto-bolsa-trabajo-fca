@@ -232,7 +232,7 @@ class CtlCurriculum {
 				//$id_inac = $_GET[infoAc_id];
 				//echo "Id de nivel en control: ".$id_nivel."<br>";
 				//echo "Id de info ac en control: ".$id_inac."<br>";
-				$this->listarEstudiosFCA($id_nivel, $id_nivel);
+				$this->listarEstudiosFCA($id_nivel, $id_inac);
 				break;
             	                
             case "BuscarCurriculum";
@@ -724,7 +724,7 @@ class CtlCurriculum {
 						<th>Promedio</th>
 						<th>Fecha inicio</th>
 						<th>Fecha t&eacute;rmino</th>";
-		echo ($resultados[$i]['esau_id'] != 1)? "<th>Acciones</th>" : "";
+		echo ($resultados[$i-1]['esau_id'] != 1)? "<th>Acciones</th>" : "";
 		echo "</tr>
 						</thead>
 						<tbody>".$registros."
@@ -763,7 +763,7 @@ class CtlCurriculum {
 	 *@author Liliana Luna
 	 *@param
 	 **/
-	public function listarEstudiosFCA($nivel, $id_nivel){
+	public function listarEstudiosFCA($nivel, $id_inac){
 		//echo "Id nivel en listar: ".$id_nivel."<br>";	
 		$conexion = new InterfazBD2();
 		
