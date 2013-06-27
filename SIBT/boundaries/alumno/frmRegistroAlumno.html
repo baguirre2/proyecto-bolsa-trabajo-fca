@@ -1,0 +1,93 @@
+<!-- 
+ * Archivo: Formulario frmRegistroAlumno
+ * Autor:	Emmanuel García C.
+ * Fecha:	Martes 25/Junio/2013
+ * Modificaciones: 
+ * -
+ * -
+ -->
+
+<?php
+//echo "niveles de estudio: "; 
+//print_r($niveles_estudio);
+?>
+
+<div id="resRegistroAlumno"></div>
+
+<h1>Dar de alta un alumno</h1>
+<form id="frmRegistroAlumno" name="frmRegistroAlumno">
+    <table>
+        <tbody>
+            <tr>
+                <td>N&uacutemero de Cta.:* </td>
+                <td><input class="required" type="text" name="al_num_cuenta" value="<?php echo isset($registro[0]['ce_nombre'])? $registro[0]['ce_nombre'] : ''; ?>" placeholder="Número de cuenta"/></td>
+            </tr>
+            
+    		<tr>
+    			<td colspan=2><h2>Datos Personales</h2></td>
+    		</tr>
+            <tr>
+                <td>Nombre(s):<span>*</span> </td>
+                <td><input class="required" type="text" name="pe_nombre" value="<?php echo isset($registro[0]['pe_nombre'])? $registro[0]['pe_nombre'] : ''; ?>" placeholder="Nombre(s)"/></td>
+            </tr>
+            <tr>
+                <td>Apellido Paterno:<span>*</span></td>
+                <td><input class="required" type="text" name="pe_apellido_paterno" value="<?php echo isset($registro[0]['pe_apellido_paterno'])? $registro[0]['pe_apellido_paterno'] : ''; ?>" placeholder="Apellido Paterno"/></td>
+            </tr>
+            <tr>
+                <td>Apellido Materno:<span>*</span></td>
+                <td><input class="required" type="text" name="pe_apellido_materno" value="<?php echo isset($registro[0]['pe_apellido_materno'])? $registro[0]['pe_apellido_materno'] : ''; ?>" placeholder="Apellido Materno"/></td>
+            </tr>
+            <tr>
+                <td>Correo:<span>*</span></td>
+                <td><input class="email" type="text" name="coel_correo" value="<?php echo isset($registro[0]['coel_correo'])? $registro[0]['coel_correo'] : ''; ?>" placeholder="Correo Electrónico"/></td>
+            </tr>
+
+    		<tr>
+    			<td colspan=2><h2>Datos Acad&eacutemicos</h2></td>
+    		</tr>
+    		
+    		<!-- Funcionalidad AJAX para que dependiendo de: -->
+    		<!-- Nivel Estudio seleccionado, aparezcan los Estudios FCA relacionados -->
+    		<!-- Estudio FCA seleccionado, aparezcan los Estados Académicos -->
+    		
+    		<tr>
+    			<td>Nivel de etudio:<span>*</span></td>
+    			<td>
+		    		<select class="required" name="nies_id" id="nies_id" onchange="ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'llenarListaEstudios', 'vacio', 'estudiosFCA', this.value);">
+		    		<option value="Seleccionar">Selecciona una opci&oacuten</option>
+		    		<?php for($i=0; $i <= count($niveles_estudio)-1; $i++) { ?>
+		            	<option value="<?php echo isset($niveles_estudio[$i]['nies_id'])? $niveles_estudio[$i]['nies_id'] : ''; ?>">
+		            		<?php echo isset($niveles_estudio[$i]['nies_descripcion'])? $niveles_estudio[$i]['nies_descripcion'] : ''; ?>
+		           		</option>
+					<?php } ?>
+		            </select>
+	            </td>
+            </tr>
+            
+            <tr>
+            	<td>Estudio realizado:<span>*</span></td>
+    			<td>
+		            <div id="estudiosFCA"></div>
+	            </td>
+            </tr>
+            <tr>
+            	<td>Estado Acad&eacutemico:<span>*</span></td>
+	            <td>
+		            <div id="estadosAcademicos"></div>
+	            </td>
+            </tr>
+    		
+        </tbody>
+    </table>
+    
+    <table>
+    	<tbody>
+    		<br/>
+            <tr>
+               	<td><input type="button" name="btnAceptar" value="Registrar" onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'alumno_registrar', 'frmRegistroAlumno', 'contenido');"/></td>
+            	<td><input type="button" value="Cancelar" onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'certi_listar', 'vacio', 'contenido');"/></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
