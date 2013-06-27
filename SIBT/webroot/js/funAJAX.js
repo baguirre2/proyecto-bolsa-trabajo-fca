@@ -82,7 +82,7 @@ function validar2(formulario_id){
     var valido = true;
     $('#'+formulario_id+' .required').each(function(index,element){
 
-            if( $(this).val() == null || $(this).val() == ""){
+            if( $(this).val() == null || $(this).val() == "" || $(this).val() == "Seleccionar"){
                     valido = false;
                     $(this).after("<etiqueta class='error'>Campo Obligatorio</etiqueta>");
             }
