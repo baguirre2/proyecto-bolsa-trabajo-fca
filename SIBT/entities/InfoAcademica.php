@@ -48,7 +48,6 @@ class InfoAcademica {
      */
     public function obtener ($idAlumno) {
     	$conn = InterfazBD2();
-    	$con
     	
     	
     	
