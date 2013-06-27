@@ -5,9 +5,6 @@
  * Fecha de Creación: 21 de Junio de 2013
  * Proposito: Se trata de la entity Curso y se encarga de gestionar la conexión a la Base de Datos entre la aplicación y la tabla Curso  
  * 
- * Ultima Actualización
- * Ultima actualización: 24 de Junio de 2013
- * @author Benjamín Aguirre García
  */
 
 class Curso {
