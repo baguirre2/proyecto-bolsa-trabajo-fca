@@ -9,7 +9,7 @@ class CtlAlumno {
 
         $opc = $GET['opc'];
 
-        //En esta línea se obtendra el ID del alumno, por un objeto SESSION
+        //En esta l�nea se obtendra el ID del alumno, por un objeto SESSION
         $idAlum = 1;
 
         switch ($opc) {
@@ -25,16 +25,29 @@ class CtlAlumno {
                 break;
 
             case 'alumno_registrar';
-	            if(!isset($GET['ce_id']) && !isset($GET['btnAceptar']) ) {	//Si no se ha cargado el formulario se incluye
-	            	include('../../boundaries/alumno/frmRegistroAlumno.php');
-	            } else if($GET['btnAceptar'] == 'Registrar' ) {
-	            	$alumno = new Alumno();
-	            	if($alumno->registrarAlumno($GET, $idAlum)){
+            	$alumno = new Alumno();
+	            if(!isset($GET['btnAceptar']) ) {
+	            	$niveles_estudio = $alumno->listarNivelesEstudio();
+	            	include('../../boundaries/alumno/frmRegistroAlumno.html');
+	            }else if($GET['btnAceptar'] == 'Registrar' ) {
+	            	if($alumno->registrarAlumno($GET)){
 	            		echo "<h1 class=respuesta>Registro realizado con éxito</h1><br/>";
 	            	}else{
 	            		echo "<h1 class=respuesta>Error al registrar</h1><br/>";
 	            	}
 	            }
+            	break;
+            	
+            case 'llenarListaEstudios';
+            	$alumno = new Alumno();
+            	$id_nivel = $GET['id'];
+            	$alumno->listarEstudiosFCA($id_nivel);
+            	break;
+            	
+            case 'llenarListaEstadosAcademicos';
+            	$alumno = new Alumno();
+            	$id_nivel = $GET['id'];
+            	$alumno->listarEstadosAcademicos($id_nivel);
             	break;
     
 		}
