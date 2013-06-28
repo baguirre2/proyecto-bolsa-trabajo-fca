@@ -35,7 +35,7 @@ class Usuario{
 		$estado = false;
 		
 		$query_persona = "INSERT INTO ingsw.persona (pe_nombre, pe_apellido_paterno, pe_apellido_materno)
-    			 		  VALUES ('NA','NA','NA')";
+    			 		  VALUES ('".$GET['rfc']."','NA','NA')";
 		$id_persona = $interfazBD->insertar($query_persona, 'pe_id');
 		/*echo "ID Persona = ";	var_dump($id_persona);
 		echo "query = $query_persona";
@@ -49,11 +49,8 @@ class Usuario{
 				
 				$query_usuario = "INSERT INTO ingsw.usuario (pe_id, us_nombre, us_contrasenia) VALUES ('".$id_persona."','".$GET['rfc']."', 'xxxxxxxx')";
 				$id_usuario = $interfazBD->insertar($query_usuario, 'us_id');
-				
 				if($id_usuario != false){
-					$query_usuario_tipo = "INSERT INTO ingsw.usuario_tipo_usuario (tius_id, us_id)
-    			 		  		 	   VALUES ('".$id_persona."','".$id_usuario."')";
-  VALUES (21, 1, 21);
+					$query_usuario_tipo = "INSERT INTO ingsw.usuario_tipo_usuario (tius_id, us_id) VALUES ('".$GET['tipoUsuario']."','".$id_usuario."')";
 					if($interfazBD->ejecutarQuery($query_usuario_tipo) != false){
 						$estado = true;
 					}
@@ -63,8 +60,7 @@ class Usuario{
 		$interfazBD->cerrarConexion();
 		return $estado;
 	}
-	// Fin Registrar Usuario
-	
+	// Fin Registrar Usuario	
 }
 
 ?>
