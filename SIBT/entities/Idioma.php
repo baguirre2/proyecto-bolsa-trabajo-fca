@@ -71,6 +71,7 @@ class Idioma {
 	function obtener ($idAlumno)  {
 		$conn = new InterfazBD2();
 		$query = "SELECT idal_id, id_nombre, niid_nivel_oral, niid_nivel_escrito, niid_nivel_lectura FROM ingsw.idioma AS id JOIN ingsw.nivel_idioma AS niid ON (id.id_id = niid.id_id) JOIN ingsw.idioma_alumno AS idal ON (niid.niid_id = idal.niid_id) AND idal.al_id = $idAlumno;";
+//		echo $query;
 		$res = $conn->consultar($query);
 		$conn->cerrarConexion();
 		return $res;
@@ -189,6 +190,22 @@ class Idioma {
         $conn->cerrarConexion();
         
         return $res;        
+    }
+    
+    public function toString ($idAlumno) {
+    	$idioma = $this->obtener($idAlumno);
+    	if ($idioma == null) {
+    		return "";
+    	}
+    	$strIdioma = "<tr> <th> Idioma ";
+    	foreach ($idioma AS $datos) {
+    		$strIdioma .= "<tr> <td> <b> Idioma: $datos[id_nombre]
+    						<tr> <td> Nivel Oral: $datos[niid_nivel_oral]
+    						<tr> <td> Nivel Lectura: $datos[niid_nivel_lectura]
+    						<tr> <td> Nivel Escritura: $datos[niid_nivel_escrito]
+    				";
+    	}
+    	return $strIdioma;
     }
 
 }

@@ -75,7 +75,10 @@ class InfoLaboral {
         $query = "SELECT * FROM ingsw.informacion_laboral WHERE al_id=$idAlumno";
 //        echo $query;
         $res = $conn->consultar($query);
-        $conn->cerrarConexion();    	
+        $conn->cerrarConexion();
+        if ($res == null) {
+        	return "";
+        }
     		$strInfoLaboral = "
 				<tr> <th colspan='4'>  Informacion Laboral </th> </tr> ";
 		foreach ($res as $datos) {

@@ -8,6 +8,7 @@ include_once '../../entities/Curso.php';
 include_once '../../entities/Idioma.php';
 include_once '../../entities/InfoAcademica.php';
 include_once '../../entities/Alumno.php';
+include_once '../../entities/Reclutador.php';
 
 
 class CtlCurriculum {
@@ -18,6 +19,9 @@ class CtlCurriculum {
 
         //En esta línea se obtendra el ID del alumno, por un objeto SESSION
         $idAlum = 1;
+        $idReclutador = 1;
+        if (isset($_SESSION['idAlumno'])) { $idAlum = $_SESSION['idAlumno']; }
+        
 
         switch ($opc) {
 
@@ -242,6 +246,10 @@ class CtlCurriculum {
             	echo "Favs";
             	break;
             	
+            case "AgregarAFavoritos";
+            	echo $this->agregarFavorito($_GET['idAlumno'], $idReclutador);
+            	break;
+           	
             case "CurriculumAlumno";
             	echo "Consultando";
             	$this->consultarCurriculum($_GET['idAlumno']);
@@ -1070,27 +1078,7 @@ class CtlCurriculum {
                 break;
         }
     }
-    
-    /**
-     * 
-     * Enter description here ...
-     * @author Benjamín Aguirre García
-     */
-    public function mostrarCurriculum() {
-    	
-    }
-    
-    /**
-     * 
-     * Enter description here ...
-     * @author Benjamín Aguirre García
-     */
-    public function busquedaCurriculum() {
-    	
-    	
-    	
-    }
-    
+
     public function cambiarEstadoConst ($idConst, $tipoCosnt, $accion) {
         
         switch ($tipoCosnt) {
@@ -1151,7 +1139,7 @@ class CtlCurriculum {
 				$strTable .= "<tbody>
 								<form id='$datos[al_id]'>
 								<tr>
-									<td> $datos[pe_nombre] $datos[pe_apellido_paterno] $datos[pe_apellido_materno] <input type='hidden' name='idAlumno' value='$datos[al_id]'>
+									<td> $datos[pe_nombre] $datos[pe_apellido_paterno] $datos[pe_apellido_materno] <input type='hidden' id='idAlumno' name='idAlumno' value='$datos[al_id]'>
 									<td> $datos[nies_descripcion]
 									<td> $datos[esfc_descripcion]
 									<td> <input type='button' value='Ver' onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'CurriculumAlumno' , '$datos[al_id]', 'contenido')\">
@@ -1169,8 +1157,18 @@ class CtlCurriculum {
     	$curso = new Curso();
     	$idioma = new Idioma();
     	$cerificacion = new Certificacion();
-    	echo $strTable = "<table>".$alumno->toString($idAlumno).$infoAcademica->toString($idAlumno).$infoLaboral->toString($idAlumno);
-    	
+    	echo $strTable = "<form id='frmCurriculum'> <table>".$alumno->toString($idAlumno).$infoAcademica->toString($idAlumno).$infoLaboral->toString($idAlumno).$idioma->toString($idAlumno).$curso->toString($idAlumno)
+    					.$cerificacion->toString($idAlumno)."<tr> <td id='Respuesta'> <input type=\"button\" value=\"Agregar a Favoritos\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarAFavoritos' , 'frmCurriculum', 'Respuesta')\">
+    						</form> ";
+    }
+    
+    public function agregarFavorito($idAlumno, $idReclutador) {
+    	$reclutador = new Reclutador();
+    	if ($reclutador->agregarFavorito($idReclutador, $idAlumno)) {
+    		return "Agregado a Favoritos";
+    	} else {
+    		return "No se pudo agregar a Favoritos";
+    	}
     }
 }
 
