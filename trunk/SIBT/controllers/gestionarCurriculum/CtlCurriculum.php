@@ -7,6 +7,8 @@ include_once '../../entities/InterfazBD2.php';
 include_once '../../entities/Curso.php';
 include_once '../../entities/Idioma.php';
 include_once '../../entities/InfoAcademica.php';
+include_once '../../entities/Alumno.php';
+
 
 class CtlCurriculum {
 
@@ -215,9 +217,8 @@ class CtlCurriculum {
 			//Modificar
 			case 'infoAcademicaActualizar'; 
 				$this->actualizarGradoAcademico($idAlum);
-				
 				break;			
-
+				
 			//Registrar
 			case 'infoAcademicaRegistrar';							
 				$this->registrarGradoAcademico($idAlum);			
@@ -233,12 +234,18 @@ class CtlCurriculum {
 				break;
             	                
             case "BuscarCurriculum";
-            	echo "Buscando";
+//            	echo "grado".$_GET['idGrado'];
+            	$this->buscarCurriculum($_GET['idGrado']);
             	break;
             	
             case "IrAFavoritos":
             	echo "Favs";
             	break;
+            	
+            case "CurriculumAlumno";
+            	echo "Consultando";
+            	$this->consultarCurriculum($_GET['idAlumno']);
+            	break;            	
 
             case 'formRegistrar';
                 include '../../boundaries/curriculum/frmCurrRegis.php';
@@ -1008,8 +1015,6 @@ class CtlCurriculum {
 			$conexion->cerrarConexion();
 	}
 	
-	
-	
     public function listarConstancias() {
         include_once '../../boundaries/curriculum/ListaConstancias.php';
 
@@ -1065,6 +1070,26 @@ class CtlCurriculum {
         }
     }
     
+    /**
+     * 
+     * Enter description here ...
+     * @author Benjamín Aguirre García
+     */
+    public function mostrarCurriculum() {
+    	
+    }
+    
+    /**
+     * 
+     * Enter description here ...
+     * @author Benjamín Aguirre García
+     */
+    public function busquedaCurriculum() {
+    	
+    	
+    	
+    }
+    
     public function cambiarEstadoConst ($idConst, $tipoCosnt, $accion) {
         
         switch ($tipoCosnt) {
@@ -1104,6 +1129,47 @@ class CtlCurriculum {
                 }
                 break;
         }        
+    }
+    
+	public function buscarCurriculum($idGrado) {
+		$infoAcademica = new InfoAcademica();
+		$res = $infoAcademica->buscarPorGrado($idGrado);
+		if ($res == null) {	
+			echo "No hay resultados en la busqueda";
+		} else {
+				$strTable = "<table> 
+					<thead> 
+						<tr>
+							<th colspan='4'> Resultados de Busqueda 
+						<tr> 
+							<th> Nombre del Alumno
+							<th> Nivel Educativo 
+							<th> Carrera
+							<th>";
+			foreach ($res AS $datos) {
+				$strTable .= "<tbody>
+								<form id='$datos[al_id]'>
+								<tr>
+									<td> $datos[pe_nombre] $datos[pe_apellido_paterno] $datos[pe_apellido_materno] <input type='hidden' name='idAlumno' value='$datos[al_id]'>
+									<td> $datos[nies_descripcion]
+									<td> $datos[esfc_descripcion]
+									<td> <input type='button' value='Ver' onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'CurriculumAlumno' , '$datos[al_id]', 'contenido')\">
+								</form> ";
+								
+			}
+			echo $strTable;
+		}
+	}
+    
+    public function consultarCurriculum($idAlumno) {
+    	$alumno = new Alumno();
+    	$infoAcademica = new InfoAcademica();
+    	$infoLaboral = new InfoLaboral();
+    	$curso = new Curso();
+    	$idioma = new Idioma();
+    	$cerificacion = new Certificacion();
+    	echo $strTable = "<table>".$alumno->toString($idAlumno).$infoAcademica->toString($idAlumno).$infoLaboral->toString($idAlumno);
+    	
     }
 }
 
