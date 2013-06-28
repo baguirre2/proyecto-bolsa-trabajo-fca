@@ -100,7 +100,11 @@ class Alumno{
 		$conexion->cerrarConexion();
 		return $estado;
 	}
-	
+
+	/**
+	 * @author Benjamín Aguirre García
+	 * @param $idAlumno Id del Alumno
+	 */    	
 	public function toString ($idAlumno) {
 		$conn = new InterfazBD2();
 		$query = "SELECT * FROM ingsw.alumno AS al 

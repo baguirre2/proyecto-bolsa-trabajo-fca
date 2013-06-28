@@ -130,6 +130,10 @@ class Curso {
         return $res;        
     }
     
+	/**
+	 * @author Benjamín Aguirre García
+	 * @param $idAlumno Id del Alumno
+	 */    
     public function toString($idAlumno) {
     	$curso = $this->obtener($idAlumno, 1);
     	if ($curso == null) {

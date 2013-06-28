@@ -69,7 +69,11 @@ class InfoLaboral {
         
         return $res;
     }
-    
+
+	/**
+	 * @author Benjamín Aguirre García
+	 * @param $idAlumno Id del Alumno
+	 */        
     public function toString($idAlumno) {
         $conn = new InterfazBD();
         $query = "SELECT * FROM ingsw.informacion_laboral WHERE al_id=$idAlumno";

@@ -71,6 +71,9 @@ class InfoAcademica {
         return $res;        
     }
     
+	/**
+	 * @author Benjamín Aguirre García
+	 */        
     public function obtenerOtrosEstudios () {
     	$conn = new InterfazBD2();
     	$query = "SELECT * FROM ingsw.estudio_fca AS esfc JOIN ingsw.nivel_estudio AS nies ON (esfc.nies_id = nies.nies_id);";
@@ -78,7 +81,11 @@ class InfoAcademica {
     	$conn->cerrarConexion();
     	return $res;
     }
-    
+
+	/**
+	 * @author Benjamín Aguirre García
+	 * @param $nivelEstudio id del nivel de estudios
+	 */        
     public function obtenerEstudiosFCAPorNivel ($nivelEstudio) {
     	$conn = new InterfazBD2();
     	$query = "SELECT * FROM ingsw.estudio_fca WHERE nies_id=$nivelEstudio;";
@@ -87,6 +94,10 @@ class InfoAcademica {
     	return $res;
     }
     
+	/**
+	 * @author Benjamín Aguirre García
+	 * @param $idEstudiosFCA Id del Alumno
+	 */        
     public function buscarPorGrado($idEstudiosFCA) {
     	
     	$conn = new InterfazBD2();
@@ -103,7 +114,11 @@ class InfoAcademica {
     	$conn->cerrarConexion();
     	return $res;
     }
-    
+
+	/**
+	 * @author Benjamín Aguirre García
+	 * @param $idAlumno Id del Alumno
+	 */    
     public function toString($idAlumno) {
     	$conn = new InterfazBD2();
 		$res = $this->obtener($idAlumno);

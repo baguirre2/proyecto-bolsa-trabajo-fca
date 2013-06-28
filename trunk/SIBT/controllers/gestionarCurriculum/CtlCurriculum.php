@@ -1120,6 +1120,9 @@ class CtlCurriculum {
         }        
     }
     
+	/**
+	 * @author Benjamín Aguirre García
+	 */    
 	public function buscarCurriculum($idGrado) {
 		$infoAcademica = new InfoAcademica();
 		$res = $infoAcademica->buscarPorGrado($idGrado);
@@ -1150,6 +1153,10 @@ class CtlCurriculum {
 		}
 	}
     
+	
+	/**
+	 * @author Benjamín Aguirre García
+	 */
     public function consultarCurriculum($idAlumno) {
     	$alumno = new Alumno();
     	$infoAcademica = new InfoAcademica();
@@ -1161,7 +1168,10 @@ class CtlCurriculum {
     					.$cerificacion->toString($idAlumno)."<tr> <td id='Respuesta'> <input type=\"button\" value=\"Agregar a Favoritos\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarAFavoritos' , 'frmCurriculum', 'Respuesta')\">
     						</form> ";
     }
-    
+
+	/**
+	 * @author Benjamín Aguirre García
+	 */    
     public function agregarFavorito($idAlumno, $idReclutador) {
     	$reclutador = new Reclutador();
     	if ($reclutador->agregarFavorito($idReclutador, $idAlumno)) {
