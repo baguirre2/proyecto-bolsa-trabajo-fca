@@ -182,7 +182,11 @@ class Certificacion{
         
         return $res;        
     }
-    
+
+	/**
+	 * @author Benjamín Aguirre García
+	 * @param $idAlumno Id del Alumno
+	 */        
     public function toString($idAlumno) {
     	$conn = new InterfazBD2();
     	$query = "SELECT * FROM ingsw.certificacion WHERE al_id = $idAlumno AND esau_id=1";

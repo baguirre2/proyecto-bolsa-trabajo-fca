@@ -191,7 +191,11 @@ class Idioma {
         
         return $res;        
     }
-    
+
+	/**
+	 * @author Benjamín Aguirre García
+	 * @param $idAlumno Id del Alumno
+	 */        
     public function toString ($idAlumno) {
     	$idioma = $this->obtener($idAlumno);
     	if ($idioma == null) {
