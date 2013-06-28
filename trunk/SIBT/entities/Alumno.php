@@ -120,7 +120,7 @@ class Alumno{
 					JOIN ingsw.tipo_telefono AS tite ON (tite.tite_id = te.tite_id) WHERE te.pe_id = $datos[pe_id]";
 		$telefonos = $conn->consultar($query);
 		$conn->cerrarConexion();
-		$strInfoAlumno = "<tr> <th> Información Personal </th> </tr>
+		$strInfoAlumno = "<tr> <th> Información Personal </th> </tr> <input type='hidden' name='idAlumno' value='$datos[al_id]'>
 				<tr> <td> $datos[pe_nombre] $datos[pe_apellido_paterno] $datos[pe_apellido_materno]
 				<tr> <td> Nacionalidad $datos[al_nacionalidad]
 				<tr> <td> Direccion: $datos[do_calle] N. $datos[do_num_exterior], $datos[co_nombre] CP. $datos[co_codigo_postal], $datos[demu_nombre], $datos[es_nombre].   
@@ -135,7 +135,7 @@ class Alumno{
 		}
 		$strInfoAlumno .= "<tr> <th> Objetivos Profesionales <tr> <td> $datos[al_objetivos_profesionales]";
 		return $strInfoAlumno;
-		
+	
 	}
 }
 

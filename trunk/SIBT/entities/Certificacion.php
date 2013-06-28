@@ -182,5 +182,25 @@ class Certificacion{
         
         return $res;        
     }
+    
+    public function toString($idAlumno) {
+    	$conn = new InterfazBD2();
+    	$query = "SELECT * FROM ingsw.certificacion WHERE al_id = $idAlumno AND esau_id=1";
+    	$certificacion = $conn->consultar($query);
+    	if ($certificacion == null) {
+    		return "";
+    	}
+    	$strCertificacion = "<tr> <th> Certificaciones ";
+    	foreach ($certificacion AS $datos) {
+    		$strCertificacion .= "<tr> <td> <b>Certificacion: $datos[ce_nombre]
+    						     <tr> <td> Empresa: $datos[ce_empresa]
+    						     <tr> <td> Duracion: $datos[ce_duracion]	
+    						     <tr> <td> Año: $datos[ce_anio]
+    						     <tr> <td> Descripcion: $datos[ce_descripcion]
+    						     <tr> <td> ";
+    	}
+    	return $strCertificacion;
+    	
+    }
 }
 ?>

@@ -34,12 +34,12 @@
 			</tr>
 			<?php if ($_GET['opc'] == "AgregarConstancia" || isset($rutaImg)) { ?>			
 			<tr>
-				<td> Institucion </td>
+				<td> Institución </td>
 				<td> : </td>
 				<td> <input type="text" name="institucion" id="institucion" value="<?php if (isset($institucion)) { echo $institucion; } ?>"> </td>
 			</tr>
 			<tr>
-				<td> Anio </td>
+				<td> Año </td>
 				<td> : </td>
 				<td> <input type="text" name="anio" value="<?php if (isset($anio)) { echo $anio; } ?>" id="anio"> </td>
 			</tr>

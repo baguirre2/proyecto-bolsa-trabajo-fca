@@ -20,9 +20,13 @@ class Curso {
      * @param $idAlumno id del Alumno. 
      * @return $res Arreglo de Cursos.
      */
-    function obtener($idAlumno) {
+    function obtener($idAlumno, $estado = null) {
         $conn = new InterfazBD2();
-        $query = "SELECT * FROM ingsw.curso WHERE al_id = $idAlumno AND NOT esau_id = 1;";
+        if ($estado == null) {
+        	$query = "SELECT * FROM ingsw.curso WHERE al_id = $idAlumno AND NOT esau_id = 1;";
+    	} else {
+    		$query = "SELECT * FROM ingsw.curso WHERE al_id = $idAlumno AND esau_id = $estado;";
+    	}
         $res = $conn->consultar($query);
         $conn->cerrarConexion();
         return $res;
@@ -124,6 +128,19 @@ class Curso {
         $conn->cerrarConexion();
         
         return $res;        
+    }
+    
+    public function toString($idAlumno) {
+    	$curso = $this->obtener($idAlumno, 1);
+    	if ($curso == null) {
+    		return "";
+    	}
+    	$strCurso = "<tr><th colspan='2'> Cursos ";
+    	foreach ($curso AS $datos) {
+    		$strCurso .= "<tr> <td> <b> Curso: $datos[cu_nombre]
+    					 <tr> <td> Fecha de Participación $datos[cu_fecha_conclusion]";
+    	}
+    	return $strCurso;
     }
 
 }

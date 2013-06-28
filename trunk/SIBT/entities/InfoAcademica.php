@@ -114,14 +114,14 @@ class InfoAcademica {
 				<tr> <th colspan='2'> $datos[nies_descripcion] - $datos[esfc_descripcion] ($datos[esac_tipo]: $datos[inac_fecha_inicio] ";
 			
 			if ($datos[inac_fecha_termino] != null) {
-				$strInfoAcademica = "-  $datos[inac_fecha_termino])";
+				$strInfoAcademica .= "-  $datos[inac_fecha_termino])";
 			} else {
-				$strInfoAcademica = ")";
+				$strInfoAcademica .= ")";
 			}
-			$strInfoAcademica = "
+			$strInfoAcademica .= "
 				<tr> <td> Universidad: $datos[inac_universidad]
 				<tr> <td> Escuela: $datos[inac_escuela]
-				<tr> <td> Promedio: $datos[inac_promedio]
+				<tr> <td> Promedio: $datos[inac_promedio] 
 			";
 		}
 		return $strInfoAcademica;
