@@ -2,7 +2,7 @@
 
 /*
  * Archivo: Class Certificacion
- * Autor: Emmanuel GarcÃ­a C.
+ * Autor: Emmanuel García C.
  * Fecha: Lunes 24/Junio/2013
  */
 
@@ -89,9 +89,9 @@ class Certificacion{
 			if(!isset($msg)){
 				$msg = "";
 			}else if($msg == 1){
-				$msg = "<h1 class=respuesta>Registro realizado con ï¿½xito</h1><br/>";
+				$msg = "<h1 class=respuesta>Registro realizado con éxito</h1><br/>";
 			}else if($msg == 2){
-				$msg = "<h1 class=respuesta>Registro actualizado con ï¿½xito</h1><br/>";
+				$msg = "<h1 class=respuesta>Registro actualizado con éxito</h1><br/>";
 			}
 			
 			$respuesta = $msg;
@@ -99,11 +99,11 @@ class Certificacion{
                         <table>
                         <thead>
                         <tr>
-                        <th>Nombre Certificaciï¿½n</th>
-                    	<th>Descripciï¿½n</th>
-                        <th>Empresa/Instituciï¿½n</th>
-                        <th>Duraciï¿½n</th>
-                        <th>Aï¿½o Certificaciï¿½n</th>
+                        <th>Nombre Certificación</th>
+                    	<th>Descripción</th>
+                        <th>Empresa/Institución</th>
+                        <th>Duración</th>
+                        <th>Año Certificación</th>
                         <th>Acciones</th>
                         </tr>
                         </thead>
@@ -115,8 +115,8 @@ class Certificacion{
 			$conexion->cerrarConexion();
 			return $respuesta;
 		}else{
-			include('../../boundaries/curriculum/frmCurrRegistroCertificacion.html');
 			echo "<h2 class=respuesta>No existen registros actualmente</h2>";
+			include('../../boundaries/curriculum/frmCurrRegistroCertificacion.html');
 			$conexion->cerrarConexion();
 			return false;
 		}
@@ -140,7 +140,7 @@ class Certificacion{
 			//echo "Registro encontrado";
 			return $registro;
 		}else{
-			echo "<p class=respuesta>No se encontrï¿½ el registro</p>";
+			echo "<p class=respuesta>No se encontró el registro</p>";
 			return false;
 		}
 		$conexion->cerrarConexion();
