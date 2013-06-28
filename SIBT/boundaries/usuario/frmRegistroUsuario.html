@@ -1,0 +1,47 @@
+<!-- 
+ * Archivo: Formulario frmRegistroUsuario
+ * Autor:	Victor M. Morales Reyes
+ * Fecha:	Martes 27/Junio/2013
+ * Modificaciones: 
+ * -
+ * -
+ -->
+<div id="resRegistroUsuario"></div>
+
+<h1>Registro de Usuarios</h1>
+<form id="frmRegistroUsuario">
+    <table>
+        <tbody>
+            <tr>
+                <td>RFC:<span>*</span> </td>
+                <td><input type="text" name="rfc" value="" placeholder="RFC"/></td>
+            </tr>
+            <tr>
+               <td>Tipo de Usuario:<span>*</span></td>
+    			<td>
+		    		<select name="tipoUsuario">
+		    		<option value="Seleccionar">Selecciona una opci&oacuten</option>
+		    		<?php for($i=0; $i < 3; $i++) { ?>
+		            	<option value="<?php echo isset($consultaTipo[$i]['tius_id'])? $consultaTipo[$i]['tius_id'] : ''; ?>">
+		            		<?php echo isset($consultaTipo[$i]['tius_descripcion'])? $consultaTipo[$i]['tius_descripcion'] : ''; ?>
+		           		</option>
+					<?php } ?>
+		            </select>
+                    
+	            </td>
+            </tr>
+            <tr>
+                <td>Correo Electrónico:<span>*</span></td>
+                <td><input type="text" name="eMail" value="" placeholder="Correo Electrónico"/></td>
+            </tr>
+            <tr>
+               	<td><input type="button" name="btnAceptar" value="Registrar" onclick="ajax('controllers/gestionarUsuario/CtlUsuario.php', 'registrar_usuario', 'frmRegistroUsuario', 'contenido');"/></td>
+            	<td><input type="button" value="Cancelar" onclick="ajax('controllers/gestionarUsuario/CtlUsuario.php', 'regresar', 'vacio', 'contenido');"/></td>
+            </tr>
+            <!-- Funcionalidad AJAX para que dependiendo de: -->
+    		<!-- Nivel Estudio seleccionado, aparezcan los Estudios FCA relacionados -->
+    		<!-- Estudio FCA seleccionado, aparezcan los Estados Académicos -->   		
+        </tbody>
+    </table>
+</form>
+<div  id="tipoUsuario"></div>
