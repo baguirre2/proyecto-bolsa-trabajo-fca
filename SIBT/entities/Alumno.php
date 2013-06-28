@@ -2,12 +2,14 @@
 
 /*
  * Archivo: Class Alumno
- * Autor:	Emmanuel García C.
+ * Autor:	Emmanuel Garcï¿½a C.
  * Fecha:	Martes 25/Junio/2013
  * Modificaciones: 
  * -
  * -
  */
+
+include_once'InterfazBD2.php';
 
 class Alumno{
 
@@ -28,7 +30,7 @@ class Alumno{
 	}
 	
 	public function listarEstudiosFCA($nivel) {
-		if($nivel == 0 ){	//Opción default del select superior
+		if($nivel == 0 ){	//Opciï¿½n default del select superior
 			echo "";
 		}else if($nivel == 5){
 			echo "<select name=\"esfc_id\" onchange=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'llenarListaEstadosAcademicos', 'vacio', 'estadosAcademicos', this.value);\">";
@@ -39,7 +41,7 @@ class Alumno{
 			$query = "SELECT * FROM ingsw.estudio_fca WHERE nies_id=$nivel";
 			$resultados = $conexion->consultar($query);
 			echo "<select name=\"esfc_id\" class=\"required\" onchange=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'llenarListaEstadosAcademicos', 'vacio', 'estadosAcademicos', this.value);\">";
-			echo "<option value=\"Seleccionar\">Selecciona una opción</option>";
+			echo "<option value=\"Seleccionar\">Selecciona una opciï¿½n</option>";
 			for ($i = 0; $i <= count($resultados) - 1; $i++) {
 				echo "<option value=\"".$resultados[$i]['esfc_id']."\">";
 				echo $resultados[$i]['esfc_descripcion']."</option>";
@@ -50,14 +52,14 @@ class Alumno{
 	}
 	
 	public function listarEstadosAcademicos($nivel){
-		if($nivel == 0){	//Opción default del select superior
+		if($nivel == 0){	//Opciï¿½n default del select superior
 			echo "";
 		}else{
 			$conexion = new InterfazBD2();
 			$query = "SELECT * FROM ingsw.estado_academico";
 			$resultados = $conexion->consultar($query);
 			echo "<select class=\"required\" name=\"esac_id\">";
-			echo "<option value=\"Seleccionar\">Selecciona una opción</option>";
+			echo "<option value=\"Seleccionar\">Selecciona una opciï¿½n</option>";
 			for ($i = 0; $i <= count($resultados) - 1; $i++) {
 				echo "<option value=\"".$resultados[$i]['esac_id']."\">";
 				echo $resultados[$i]['esac_tipo']."</option>";
@@ -97,6 +99,43 @@ class Alumno{
 		}
 		$conexion->cerrarConexion();
 		return $estado;
+	}
+	
+	public function toString ($idAlumno) {
+		$conn = new InterfazBD2();
+		$query = "SELECT * FROM ingsw.alumno AS al 
+					JOIN ingsw.domicilio AS dom ON (al.do_id = dom.do_id)
+					JOIN ingsw.colonia AS co ON (dom.co_id = co.co_id)
+					JOIN ingsw.delegacion_municipio AS demu ON (demu.demu_id = co.demu_id) 
+					JOIN ingsw.estado AS es ON (es.es_id = demu.es_id)
+					JOIN ingsw.persona AS pe ON (pe.pe_id = al.pe_id)
+					WHERE al_id = $idAlumno;";
+		$datos = $conn->consultar($query);
+		$datos = $datos[0];
+		$query  = "SELECT coel_correo FROM ingsw.persona AS pe JOIN ingsw.correo_electronico AS coel ON (coel.pe_id = pe.pe_id) WHERE pe_id= $datos[pe_id]";
+		$correoE = $conn->consultar($query);
+		$correoE = $correoE[0];
+		$query = "SELECT  tite_descripcion, te_telefono, te_extension FROM ingsw.persona AS pe 
+					JOIN ingsw.telefono AS te ON (te.pe_id = pe.pe_id)
+					JOIN ingsw.tipo_telefono AS tite ON (tite.tite_id = te.tite_id) WHERE te.pe_id = $datos[pe_id]";
+		$telefonos = $conn->consultar($query);
+		$conn->cerrarConexion();
+		$strInfoAlumno = "<tr> <th> InformaciÃ³n Personal </th> </tr>
+				<tr> <td> $datos[pe_nombre] $datos[pe_apellido_paterno] $datos[pe_apellido_materno]
+				<tr> <td> Nacionalidad $datos[al_nacionalidad]
+				<tr> <td> Direccion: $datos[do_calle] N. $datos[do_num_exterior], $datos[co_nombre] CP. $datos[co_codigo_postal], $datos[demu_nombre], $datos[es_nombre].   
+				<tr> <td> Correo ElectrÃ³nico: $datos[coel_correo]
+				<tr> <th> Telefonos 
+		";
+		foreach ($telefonos AS $telefono) {
+			$strInfoAlumno .= "<tr> <td> $telefono[tite_descripcion]: $telefono[te_telefono]";
+			if ($telefono[te_extension] != null) {
+				$strInfoAlumno .= " Ext. $telefono[te_extension]";
+			}	
+		}
+		$strInfoAlumno .= "<tr> <th> Objetivos Profesionales <tr> <td> $datos[al_objetivos_profesionales]";
+		return $strInfoAlumno;
+		
 	}
 }
 

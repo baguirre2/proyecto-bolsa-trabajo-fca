@@ -69,5 +69,26 @@ class InfoLaboral {
         
         return $res;
     }
+    
+    public function toString($idAlumno) {
+        $conn = new InterfazBD();
+        $query = "SELECT * FROM ingsw.informacion_laboral WHERE al_id=$idAlumno";
+//        echo $query;
+        $res = $conn->consultar($query);
+        $conn->cerrarConexion();    	
+    		$strInfoLaboral = "
+				<tr> <th colspan='4'>  Informacion Laboral </th> </tr> ";
+		foreach ($res as $datos) {
+			$strInfoLaboral .= "
+				<tr> <td> Empresa: $datos[inla_empresa] 
+				<tr> <td> Puesto: $datos[inla_puesto]
+				<tr> <td> Jefe Inmediato: $datos[inla_jefe_inmediato]
+				<tr> <td> Actividades: $datos[inac_descripcion_actividades]
+				<tr> <td> Logros: $datos[inac_logros]
+				<tr> <td> Tiempo (meses): $datos[inac_meses_estancia]
+			";
+		}
+		return $strInfoLaboral; 	
+    }
 }
 ?>
