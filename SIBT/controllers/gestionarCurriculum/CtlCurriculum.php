@@ -255,6 +255,10 @@ class CtlCurriculum {
             	$this->consultarCurriculum($_GET['idAlumno']);
             	break;            	
 
+            case "VerCurriculumCompleto";
+            	$this->consultarCurriculum($_SESSION['idUsuario'], false);
+            	break;
+            	
             case 'formRegistrar';
                 include '../../boundaries/curriculum/frmCurrRegis.php';
                 break;
@@ -1157,16 +1161,20 @@ class CtlCurriculum {
 	/**
 	 * @author Benjamín Aguirre García
 	 */
-    public function consultarCurriculum($idAlumno) {
+    public function consultarCurriculum($idAlumno, $esReclutador = true) {
     	$alumno = new Alumno();
     	$infoAcademica = new InfoAcademica();
     	$infoLaboral = new InfoLaboral();
     	$curso = new Curso();
     	$idioma = new Idioma();
     	$cerificacion = new Certificacion();
-    	echo $strTable = "<form id='frmCurriculum'> <table>".$alumno->toString($idAlumno).$infoAcademica->toString($idAlumno).$infoLaboral->toString($idAlumno).$idioma->toString($idAlumno).$curso->toString($idAlumno)
-    					.$cerificacion->toString($idAlumno)."<tr> <td id='Respuesta'> <input type=\"button\" value=\"Agregar a Favoritos\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarAFavoritos' , 'frmCurriculum', 'Respuesta')\">
+    	$strTable = "<form id='frmCurriculum'> <table>".$alumno->toString($idAlumno).$infoAcademica->toString($idAlumno).$infoLaboral->toString($idAlumno).$idioma->toString($idAlumno).$curso->toString($idAlumno)
+    					.$cerificacion->toString($idAlumno);
+    	if ($es) { 
+    		$strTable .= "<tr> <td id='Respuesta'> <input type=\"button\" value=\"Agregar a Favoritos\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarAFavoritos' , 'frmCurriculum', 'Respuesta')\">
     						</form> ";
+    	}
+    	echo $strTable;
     }
 
 	/**
@@ -1180,6 +1188,7 @@ class CtlCurriculum {
     		return "No se pudo agregar a Favoritos";
     	}
     }
+    
 }
 
 new CtlCurriculum($_GET);
