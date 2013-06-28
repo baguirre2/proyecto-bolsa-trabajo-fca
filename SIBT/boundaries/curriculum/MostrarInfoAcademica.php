@@ -6,7 +6,7 @@ class MostrarInfoAcademica {
         
         ?>
 <form id="frmCons">
-    <input type="hidden" name="tipo" id="tipo" value="cert"/>
+    <input type="hidden" name="tipo" id="tipo" value="infoLab"/>
         <table>
             <thead>
                 <tr>
@@ -43,8 +43,8 @@ class MostrarInfoAcademica {
                 <tr>
                     <td colspan="2">
                         <input type="button" value="Regresar" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiConst', 'vacio', 'contenido')"/>
-                        <input type="button" value="Rechazar" onclick="ajaxConId('', 'valEstaRechazar', 'frmCons', 'contenido', <? echo ($infoAcademica['ce_id']) ?>)"/>
-                        <input type="button" value="Validar" onclick="ajaxConId('', 'valEstaValidar', 'frmCons', 'contenido', <? echo ($infoAcademica['ce_id']) ?>)"/>
+                        <input type="button" value="Rechazar" onclick="ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valEstaRechazar', 'frmCons', 'contenido', <? echo ($infoLab['inac_id']) ?>)"/>
+                        <input type="button" value="Validar" onclick="ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valEstaValidar', 'frmCons', 'contenido', <? echo ($infoLab['inac_id']) ?>)"/>
                     </td>
                 </tr>
             </tbody>
