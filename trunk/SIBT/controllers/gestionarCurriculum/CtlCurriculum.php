@@ -207,7 +207,7 @@ class CtlCurriculum {
 				
 			//Editar	
 			case 'infoAcademicaFormEditar';
-				$id_infoAca=$_GET[id];	
+				$id_infoAca=$_GET['id'];	
 				//echo "Info aca en editar: ".$id_infoAca;			
 				$resultados = $this->listarGradosAcademicos(2, $id_infoAca, $idAlum);
 				include '../../boundaries/curriculum/frmInfoAcademicaEditar.php';				
@@ -1021,8 +1021,8 @@ class CtlCurriculum {
         $listCert = new Certificacion();
         $listCert = $listCert->listarPorEstado(2);
 
-        $listInfAca = new InfoAcademica();
-        $listInfAca = $listInfAca->listarPorEstado(2);
+        //$listInfAca = new InfoAcademica();
+        //$listInfAca = $listInfAca->listarPorEstado(2);
 
         $listCurs = new Curso();
         $listCurs = $listCurs->listarPorEstado(2);
@@ -1030,7 +1030,8 @@ class CtlCurriculum {
         $listIdio = new Idioma();
         $listIdio = $listIdio->listarPorEstado(2);
 
-        new ListaConstancias($listCert, $listInfAca, $listIdio, $listCurs);
+        //new ListaConstancias($listCert, $listInfAca, $listIdio, $listCurs);
+        new ListaConstancias($listCert, false, $listIdio, $listCurs);
     }
 
     public function mostrarConstancia($tipoCosnt, $idConsta) {
