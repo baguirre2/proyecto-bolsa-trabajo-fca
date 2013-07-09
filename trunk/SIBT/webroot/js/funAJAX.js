@@ -1,7 +1,12 @@
 function ajax (url, opc, frm, div) {
     
-    if (validar2(frm)) {
-        $("#" + div).load(url + "?opc=" + opc + "&" + getFormData(frm, 'silent', true));        
+    if (validar2(frm)) { //Si el formulario es válido
+    
+        //Se carga el contenido
+         $("#" + div).load(url + "?opc=" + opc + "&" + getFormData(frm, 'silent', true), function(){
+        
+              tablasSort(); //Se activa el ordenamiento si existe la tabla
+        });     
     }
 }
 
@@ -98,4 +103,42 @@ function validar2(formulario_id){
     });
 
     return valido;
+}
+
+
+//Ordenamiento, versión para imprimir y pdf
+function tablasSort(){
+           $('.tablas_sort').dataTable( {
+        "sDom": 'T<"clear">lfrtip',
+        "oTableTools": {
+            "sSwfPath": "webroot/swf/copy_csv_xls_pdf.swf",
+            "aButtons": [
+				{
+					"sExtends": "print",
+					"sButtonText": "Imprimir"
+				},
+				{
+					"sExtends": "pdf",
+					"sPdfMessage": "Ofertas de trabajo",
+                                        "sFileName": "SIBT.pdf"
+				}
+			]
+        },
+        "oLanguage": {
+         "sSearch": "Buscar:",
+          "oPaginate": {
+                "sFirst": "Primera",
+                 "sLast": "Última",
+                 "sNext": "Siguiente",
+                 "sPrevious": "Anterior"
+            },
+            "sLengthMenu": "Mostrar _MENU_ registros por página",
+	    "sZeroRecords": "Disculpe no se encontrarón datos",
+	    "sInfo": "Mostrando de _START_ a _END_ de un total de _TOTAL_",
+	    "sInfoEmpty": "Mostrando de 0 a 0 de un total de 0 ",
+	    "sInfoFiltered": "(filtrados de _MAX_ registros totales)"
+       },
+       "sPaginationType": "full_numbers"
+    } );
+    
 }
