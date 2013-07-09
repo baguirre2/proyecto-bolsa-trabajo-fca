@@ -23,12 +23,26 @@ $_SESSION['idUsuario'] = 1;
         <title>Sistema de Reservaciones de Laboratorio</title>
         <link href="webroot/css/estilo.css" rel="stylesheet" type="text/css" />
         <link href="webroot/css/menu.css" rel="stylesheet" type="text/css" />
+         <!--Css de las tablas-->
+        <link href="webroot/css/demo_table.css" rel="stylesheet" type="text/css" />
+        <link href="webroot/css/TableTools.css" rel="stylesheet" type="text/css" />	
+ 		
+        <script type="text/javascript" src="webroot/js/jquery-1.10.1.js"></script>	
+                	
+                
+                <!--Agrega funcionalidad de tabla deben ir antes de funAjax -->
+                <script type="text/javascript" src="webroot/js/jquery.dataTables.js"></script>
+                <script type="text/javascript" src="webroot/js/TableTools.js"></script>
+                <script type="text/javascript" src="webroot/js/ZeroClipboard.js"></script>
+                
+                <script type="text/javascript" src="webroot/js/funAJAX.js"></script>	
+                <script type="text/javascript" src="webroot/js/validar.js"></script>	
+
     </head>
 
     <body>
-        <script type="text/javascript" src="webroot/js/jquery-1.10.1.js"></script>	
-        <script type="text/javascript" src="webroot/js/funAJAX.js"></script>	
-        <script type="text/javascript" src="webroot/js/validar.js"></script>	
+      
+       
         <?php include("boundaries/layout/menu.html"); ?>
 
         <div id="contenido"></div>
