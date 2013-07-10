@@ -141,6 +141,49 @@ class Alumno{
 		return $strInfoAlumno;
 	
 	}
+        
+        public function registrarAlumnoPorArchivo($nom, $apePat, $apeMat, $correo, $noCta, $nacio, $fecNac, $idCarrera){
+		$conexion = new InterfazBD2();
+		$estado = false;
+		
+		$query_persona = "INSERT INTO ingsw.persona (pe_nombre, pe_apellido_paterno, pe_apellido_materno)
+    			 		  VALUES ('".$nom."','".$apePat."','".$apeMat."')";
+		$id_persona = $conexion->insertar($query_persona, 'pe_id');
+		//echo "ID Persona = ";	var_dump($id_persona);
+		
+		if($id_persona != false){
+			$query_correo = "INSERT INTO ingsw.correo_electronico (pe_id, coel_correo)
+    			 		     VALUES ('".$id_persona."','".$correo."')";
+			
+                    if($conexion->ejecutarQuery($query_correo) != false){
+                        $query_alumno = "INSERT INTO ingsw.alumno (do_id, pe_id, al_num_cuenta, al_fecha_nacimiento, al_nacionalidad, al_curriculum_visible, esfc_id) 
+                                                    VALUES ('1','".$id_persona."','".$noCta."','".$fecNac."','".$nacio."','1', $idCarrera)";
+                        $conexion->insertar($query_alumno, 'al_id');
+
+                        //Se toma la hora del servidor en microsegundos, se le aplica un hash con el algoritmo ripemd160 y se extraen los primeros 8 caractares para la contrseña
+                        $pass = substr(hash('ripemd160', microtime()), 0, 8);
+
+                        $query_usuario = "INSERT INTO ingsw.usuario (pe_id, us_nombre, us_contrasenia) VALUES ('".$id_persona."','".$noCta."', '$pass')";
+                        $id_usuario = $conexion->insertar($query_usuario, 'us_id');
+                        
+                        //Con esto se envia el correo al alumno con sus datos de usuario
+                        //mail ("$correo", "Registro Bolsa en la bolsa de trabajo", "Hola $nom $apePat $apeMat, has sido registrado en la bolsa de trabajo de la FCA<br>".
+                          //      "Tus credenciales para acceder son:<br>Usuario: $noCta <br>Contraseña: $pass");
+                        
+                        
+                        if($id_usuario != false){
+
+                            $query_usuario_tipo = "INSERT INTO ingsw.usuario_tipo_usuario (tius_id, us_id) VALUES ('5','".$id_usuario."')";
+
+                            if($conexion->ejecutarQuery($query_usuario_tipo) != false){
+                                $estado = true;
+                            }
+                        }
+                    }
+		}
+		$conexion->cerrarConexion();
+		return $estado;
+	}
 }
 
 ?>
