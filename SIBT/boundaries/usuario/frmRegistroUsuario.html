@@ -14,13 +14,13 @@
         <tbody>
             <tr>
                 <td>RFC:<span>*</span> </td>
-                <td><input type="text" name="rfc" value="" placeholder="RFC"/></td>
+                <td><input type="text" name="rfc" class="required" value=""  placeholder="RFC"/></td>
             </tr>
             <tr>
                <td>Tipo de Usuario:<span>*</span></td>
     			<td>
-		    		<select name="tipoUsuario">
-		    		<option value="Seleccionar">Selecciona una opci&oacuten</option>
+		    		<select name="tipoUsuario" class="required">
+		    		<option value="">Selecciona una opci&oacuten</option>
 		    		<?php for($i=0; $i < 3; $i++) { ?>
 		            	<option value="<?php echo isset($consultaTipo[$i]['tius_id'])? $consultaTipo[$i]['tius_id'] : ''; ?>">
 		            		<?php echo isset($consultaTipo[$i]['tius_descripcion'])? $consultaTipo[$i]['tius_descripcion'] : ''; ?>
@@ -31,8 +31,8 @@
 	            </td>
             </tr>
             <tr>
-                <td>Correo ElectrÃ³nico:<span>*</span></td>
-                <td><input type="text" name="eMail" value="" placeholder="Correo ElectrÃ³nico"/></td>
+                <td>Correo Electrónico:<span>*</span></td>
+                <td><input type="text" name="eMail" value="" class="required" placeholder="Correo Electrónico"/></td>
             </tr>
             <tr>
                	<td><input type="button" name="btnAceptar" value="Registrar" onclick="ajax('controllers/gestionarUsuario/CtlUsuario.php', 'registrar_usuario', 'frmRegistroUsuario', 'contenido');"/></td>
@@ -40,7 +40,7 @@
             </tr>
             <!-- Funcionalidad AJAX para que dependiendo de: -->
     		<!-- Nivel Estudio seleccionado, aparezcan los Estudios FCA relacionados -->
-    		<!-- Estudio FCA seleccionado, aparezcan los Estados AcadÃ©micos -->   		
+    		<!-- Estudio FCA seleccionado, aparezcan los Estados Académicos -->   		
         </tbody>
     </table>
 </form>
