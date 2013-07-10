@@ -17,6 +17,50 @@ function ajaxConId (url, opc, frm, div, id) {
     }   
 }
 
+/*
+ * Emmanuel Antonio García Carrillo
+ * Función que permite evaluar si se cargó una imagen para subirla al servidor
+ * de lo contrario solo inserta los datos normales.
+ */
+function ajaxConImagen(url, opc, frm , div, tipo){
+	  var img = document.getElementById("archivo").value;
+	  if(img.length != 0){	//Si se cargó una imagen
+		  //alert("Se cargó una imagen");
+		  var inputFileImage = document.getElementById("archivo");
+		  var file = inputFileImage.files[0];
+		  var data = new FormData();
+		  data.append('archivo',file);
+		  var urlLoader = "entities/upload.php";
+		  //printObject(file);
+		  var estado;
+	
+		  if (validar2(frm)) {
+		        
+			  $.ajax({
+				  url:urlLoader,
+				  type:'POST',
+				  contentType:false,
+				  data: data,
+				  processData:false,
+				  cache:false
+			  }).done(function( msg ) {
+			
+				  if(msg != "false"){
+					  alert(msg);
+					  $("#" + div).load(url + "?opc=" + opc + "&nombreImagen=" + msg + "&" + getFormData(frm, 'silent', true));
+				  }else{
+					  $("#" + div).load(url + "?opc=" + opc + "&" + getFormData(frm, 'silent', true));
+				  }
+			  });
+		  }
+	  }else{
+		  //alert("No se cargó una imagen");
+		  if (validar2(frm)) {
+			  $("#" + div).load(url + "?opc=" + opc + "&" + getFormData(frm, 'silent', true));
+		  }
+	  }
+}
+
 function getFormData(objf, info, rval) {
     // La funciÃ³n getFormData recorre todos los elementos de un formulario
     // y va formando una cadena de formato "objeto=valor&objeto=valor&...".
