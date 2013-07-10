@@ -12,21 +12,26 @@ class Certificacion{
 	}
 	
 	/*
-	 * Mï¿½todo:	registrarCertificacion
-	 * Autor:	Emmanuel GarcÃ­a
-	 * Descripciï¿½n:
-	 * Esta funciï¿½n recibe los datos del formulario de frmRegistroCertificacion.html
-	 * y el id del alumno que se encuentra en sesiï¿½n en ese momento.
-	 * Se conecta a la interfaz de conexiï¿½n e intenta insertar el registro, si es
-	 * exitoso devuelve true, de lo contrario false.
-	 */
+	 * Método:	registrarCertificacion
+	* Autor:	Emmanuel García
+	* Descripción:
+	* Esta función recibe los datos del formulario de frmRegistroCertificacion.html
+	* y el id del alumno que se encuentra en sesión en ese momento.
+	* Se conecta a la interfaz de conexión e intenta insertar el registro, si es
+	* exitoso devuelve true, de lo contrario false.
+	*/
 	public function registrarCertificacion($GET, $alumno = NULL) {
 		$conexion = new InterfazBD();
+	
+		$imagen = isset($GET['nombreImagen']) ? $GET['nombreImagen'] : null;
+	
 		$alumno = ($alumno != NULL)? $alumno : 1;
-		$query = "INSERT INTO ingsw.certificacion (al_id, esau_id, ce_nombre, ce_descripcion, ce_empresa, ce_duracion, ce_anio)
-    			 VALUES (".$alumno.", 2,'".$GET['ce_nombre']."','".$GET['ce_descripcion']."','".$GET['ce_empresa']."','".$GET['ce_duracion']."','".$GET['ce_anio']."')";
+		$query = "INSERT INTO ingsw.certificacion (al_id, esau_id, ce_nombre, ce_descripcion, ce_empresa, ce_duracion, ce_anio, ce_ruta_constancia)
+    			 VALUES (".$alumno.", 2,'".$GET['ce_nombre']."','".$GET['ce_descripcion']."','".$GET['ce_empresa']."','".$GET['ce_duracion']."','".$GET['ce_anio']."','".$imagen."')";
+	
+		//echo $query;
 		if($conexion->insertar($query) != false){
-			$conexion->cerrarConexion();		
+			$conexion->cerrarConexion();
 			return true;
 		}else{
 			$conexion->cerrarConexion();
@@ -35,18 +40,21 @@ class Certificacion{
 	}
 	
 	/*
-	 * Mï¿½todo:	editarCertificacion
-	 * Autor:	Emmanuel Garcï¿½a
-	 * Descripciï¿½n:
-	 * Esta funciï¿½n recibe los datos del formulario de frmRegistroCertificacion.html
-	 * Se conecta a la interfaz de conexiï¿½n e intenta actualizar los datos de un registro
-	 * de certificaciï¿½n, si es exitoso devuelve true, de lo contrario false.
+	 * Método:	editarCertificacion
+	* Autor:	Emmanuel García
+	* Descripción:
+	* Esta función recibe los datos del formulario de frmRegistroCertificacion.html
+	* Se conecta a la interfaz de conexión e intenta actualizar los datos de un registro
+	* de certificación, si es exitoso devuelve true, de lo contrario false.
 	*/
 	public function editarCertificacion($GET) {
 		$conexion = new InterfazBD();
+	
+		$imagen = isset($GET['nombreImagen']) ? $GET['nombreImagen'] : null;
+	
 		$query = "UPDATE ingsw.certificacion
     			  SET ce_nombre = '".$GET['ce_nombre']."', ce_descripcion = '".$GET['ce_descripcion']."', ce_empresa = '".$GET['ce_empresa']."',
-    			  	  ce_duracion = '".$GET['ce_duracion']."', ce_anio = '".$GET['ce_anio']."'
+    			  	  ce_duracion = '".$GET['ce_duracion']."', ce_anio = '".$GET['ce_anio']."', ce_ruta_constancia = '".$imagen."'
     			  WHERE ce_id = '".$GET['ce_id']."';";
 		if($conexion->insertar($query) != false){
 			$conexion->cerrarConexion();
@@ -58,21 +66,22 @@ class Certificacion{
 	}
 	
 	/*
-	 * Mï¿½todo:	listarCertificaciones
-	 * Autor:	Emmanuel Garcï¿½a
-	 * Descripciï¿½n:
-	 * Esta funciï¿½n recibe el id del alumno que esta en sesiï¿½n
-	 * Se conecta a la interfaz de conexiï¿½n y busca los registros de las 
-	 * certificaciones de ese Alumno, si existen registros devuelve todos en forma de tabla, 
-	 * de lo contrario un mensaje indicando que se encontraron registros.
+	 * Método:	listarCertificaciones
+	* Autor:	Emmanuel García
+	* Descripción:
+	* Esta función recibe el id del alumno que esta en sesión
+	* Se conecta a la interfaz de conexión y busca los registros de las
+	* certificaciones de ese Alumno, si existen registros devuelve todos en forma de tabla,
+	* de lo contrario un mensaje indicando que se encontraron registros.
 	*/
-	public function listarCertificaciones($msg = null, $alumno = NULL){
+	public function listarCertificaciones($alumno = NULL, $orden = null, $msg = null){
 		$conexion = new InterfazBD();
 		$alumno = ($alumno != NULL)? $alumno : 1;
-		$query = "SELECT * FROM ingsw.certificacion WHERE al_id = ".$alumno.";";
+		$orden = ($orden != NULL)? $orden : "ce_nombre";
+		$query = "SELECT * FROM ingsw.certificacion WHERE al_id = ".$alumno." ORDER BY ".$orden.";";
 		$resultados = $conexion->consultar($query);
 		if($resultados != false){
-			//echo "Conexiï¿½n hecha";
+			//echo "Conexión hecha";
 			$registros = "";
 			for ($i=0; $i <= count($resultados)-1; $i++) {
 				$registros .= "<tr><td>".$resultados[$i]['ce_nombre']."</td>";
@@ -80,12 +89,14 @@ class Certificacion{
 				$registros .= "<td>".$resultados[$i]['ce_empresa']."</td>";
 				$registros .= "<td>".$resultados[$i]['ce_duracion']."</td>";
 				$registros .= "<td>".$resultados[$i]['ce_anio']."</td>";
+	
 				$registros .= ($resultados[$i]['esau_id'] != 1)?
 				"<td>
-              						  <input type=\"button\" name=\"btnEditar\"  value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'vacio', 'contenido', '".$resultados[$i]['ce_id']."');\">
-              						  </td></tr>" :"<td> </td></tr>";
+              	<input type=\"button\" name=\"btnEditar\" value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'vacio', 'contenido', '".$resultados[$i]['ce_id']."');\">
+              	</td></tr>" :"<td> </td></tr>";
+				 
 			}
-			
+				
 			if(!isset($msg)){
 				$msg = "";
 			}else if($msg == 1){
@@ -93,30 +104,30 @@ class Certificacion{
 			}else if($msg == 2){
 				$msg = "<h1 class=respuesta>Registro actualizado con éxito</h1><br/>";
 			}
-			
+				
 			$respuesta = $msg;
 			$respuesta.="<h1>Mis certificaciones</h1><br/>
-                        <table>
-                        <thead>
-                        <tr>
-                        <th>Nombre Certificación</th>
-                    	<th>Descripción</th>
-                        <th>Empresa/Institución</th>
-                        <th>Duración</th>
-                        <th>Año Certificación</th>
-                        <th>Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>".$registros."
-                    	</tbody>
+                        <table class=\"tablas_sort\">
+	                        <thead>
+		                        <tr>
+			                        <th>Certificación</th>
+			                    	<th>Descripción</th>
+			                        <th>Institución</th>
+			                        <th>Duración</th>
+			                        <th>Año</th>
+			                        <th>Acciones</th>
+		                        </tr>
+	                        </thead>
+	                        <tbody>".$registros."
+	                    	</tbody>
                         </table>
                     ";
-			$respuesta.="<input type=\"button\" name=\"Agregar\" value=\"Agregar Certificaciï¿½n\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_registrar', 'vacio', 'contenido');\">";
+			$respuesta.="<input type=\"button\" name=\"Agregar\" value=\"Agregar Certificación\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_registrar', 'vacio', 'contenido');\">";
 			$conexion->cerrarConexion();
 			return $respuesta;
 		}else{
-			echo "<h2 class=respuesta>No existen registros actualmente</h2>";
 			include('../../boundaries/curriculum/frmCurrRegistroCertificacion.html');
+			echo "<h2 class=respuesta>No existen registros actualmente</h2>";
 			$conexion->cerrarConexion();
 			return false;
 		}
