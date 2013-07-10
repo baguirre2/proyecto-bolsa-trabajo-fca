@@ -128,12 +128,12 @@ class Alumno{
 				<tr> <td> $datos[pe_nombre] $datos[pe_apellido_paterno] $datos[pe_apellido_materno]
 				<tr> <td> Nacionalidad $datos[al_nacionalidad]
 				<tr> <td> Direccion: $datos[do_calle] N. $datos[do_num_exterior], $datos[co_nombre] CP. $datos[co_codigo_postal], $datos[demu_nombre], $datos[es_nombre].   
-				<tr> <td> Correo Electrónico: $datos[coel_correo]
+				<tr> <td> Correo Electrónico: $correoE[coel_correo]
 				<tr> <th> Telefonos 
 		";
 		foreach ($telefonos AS $telefono) {
 			$strInfoAlumno .= "<tr> <td> $telefono[tite_descripcion]: $telefono[te_telefono]";
-			if ($telefono[te_extension] != null) {
+			if ($telefono['te_extension'] != null) {
 				$strInfoAlumno .= " Ext. $telefono[te_extension]";
 			}	
 		}

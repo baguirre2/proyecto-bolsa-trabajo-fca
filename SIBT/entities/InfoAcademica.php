@@ -128,7 +128,7 @@ class InfoAcademica {
 			$strInfoAcademica .= "
 				<tr> <th colspan='2'> $datos[nies_descripcion] - $datos[esfc_descripcion] ($datos[esac_tipo]: $datos[inac_fecha_inicio] ";
 			
-			if ($datos[inac_fecha_termino] != null) {
+			if ($datos['inac_fecha_termino'] != null) {
 				$strInfoAcademica .= "-  $datos[inac_fecha_termino])";
 			} else {
 				$strInfoAcademica .= ")";

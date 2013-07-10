@@ -17,7 +17,8 @@ class Curso {
     /**
      * Se obtienen todos los cursos relacionados a un Alumno específicado por su ID. Solo busca aquellos cursos que no tienen el estado de: Aceptado.
      * @author Benjamín Aguirre García
-     * @param $idAlumno id del Alumno. 
+     * @param $idAlumno id del Alumno.
+     * @param $estado Si no se recibe este dato, se hace nulo y trae los que no autorizados.  
      * @return $res Arreglo de Cursos.
      */
     function obtener($idAlumno, $estado = null) {
@@ -61,7 +62,6 @@ class Curso {
     }
 
     /**
-     * 
      * Obtiene los datos de un curso en específico a partir del id del Curso.
      * @param $idCurso id del Curso a obtener.
      * @return $res Arreglo con los datos del Curso.

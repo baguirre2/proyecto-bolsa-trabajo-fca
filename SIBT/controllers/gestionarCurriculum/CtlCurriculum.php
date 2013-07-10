@@ -20,7 +20,6 @@ class CtlCurriculum {
         //En esta línea se obtendra el ID del alumno, por un objeto SESSION
         $idAlum = 1;
         $idReclutador = 1;
-        if (isset($_SESSION['idAlumno'])) { $idAlum = $_SESSION['idAlumno']; }
         
 
         switch ($opc) {
@@ -133,11 +132,11 @@ class CtlCurriculum {
                 break;
 
             case "Idiomas";
-                $this->menuIdiomas();
+                $this->menuIdiomas($idAlum);
                 break;
 
             case "RegistrarIdioma";
-                $this->registrarIdioma();
+                $this->registrarIdioma($idAlum);
                 break;
 
             case "ActualizarIdioma";
@@ -181,11 +180,11 @@ class CtlCurriculum {
                 break;
 
             case "RegistrarCurso";
-                $this->registrarCurso();
+                $this->registrarCurso($idAlum);
                 break;
 
             case "Cursos";
-                $this->menuCursos();
+                $this->menuCursos($idAlum);
                 break;
 
             case "EditarCurso";
@@ -247,16 +246,21 @@ class CtlCurriculum {
             	break;
             	
             case "AgregarAFavoritos";
-            	echo $this->agregarFavorito($_GET['idAlumno'], $idReclutador);
+            	$agregar = true;
+            
+            case "EliminarDeFavoritos";
+            	if (!isset($agregar)) {
+            		$agregar = false;
+            	}
+            	echo $this->agregarEliminarFavorito($idAlum, $idReclutador, $agregar);
             	break;
            	
             case "CurriculumAlumno";
-            	echo "Consultando";
-            	$this->consultarCurriculum($_GET['idAlumno']);
+            	$this->consultarCurriculum($idAlum, true, $idReclutador);
             	break;            	
 
             case "VerCurriculumCompleto";
-            	$this->consultarCurriculum($_SESSION['idUsuario'], false);
+            	$this->consultarCurriculum($idAlum, false);
             	break;
             	
             case 'formRegistrar';
@@ -431,15 +435,13 @@ class CtlCurriculum {
         $alumnoIdioma = $_GET['AlumnoIdioma'];
         $idioma1 = new Idioma();
         $arrDatos = $idioma1->obtenerDatosIdioma($alumnoIdioma);
-        $porcentajeEscritura = $arrDatos[0][niid_nivel_escrito];
-        $porcentajeLectura = $arrDatos[0][niid_nivel_lectura];
-
-        $porcentajeOral = $arrDatos[0][niid_nivel_oral];
-        $anio = $arrDatos[0][idal_anio];
-        $rutaImg = $arrDatos[0][idal_ruta_constancia];
-        $institucion = $arrDatos[0][idal_institucion];
-
-		$idIdioma =  $arrDatos[0][id_id];
+        $porcentajeEscritura = $arrDatos[0]['niid_nivel_escrito'];
+        $porcentajeLectura = $arrDatos[0]['niid_nivel_lectura'];
+        $porcentajeOral = $arrDatos[0]['niid_nivel_oral'];
+        $anio = $arrDatos[0]['idal_anio'];
+        $rutaImg = $arrDatos[0]['idal_ruta_constancia'];
+        $institucion = $arrDatos[0]['idal_institucion'];
+		$idIdioma =  $arrDatos[0]['id_id'];
 		include '../../boundaries/curriculum/frmRegisIdioma.php';
 	}    	
 	
@@ -449,7 +451,7 @@ class CtlCurriculum {
 	 * y los errores encontrados, de lo contrario intenta registrar el idioma si lo hace muestra un mensaje al usuario.
 	 * @author Benjamín Aguirre García 
 	 */	
-    function registrarIdioma() {
+    function registrarIdioma($idAlum) {
 
         if (isset($_GET['idIdioma'])) {
             $idIdioma = $_GET['idIdioma'];
@@ -481,11 +483,11 @@ class CtlCurriculum {
         if ($err == false) {
             $idioma1 = new Idioma();
             if (!isset($rutaImg)) {
-                $res = $idioma1->guardarIdiomaAlumno($_SESSION['idUsuario'], $idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura);
+                $res = $idioma1->guardarIdiomaAlumno($idAlum, $idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura);
             } else {
-                $res = $idioma1->guardarIdiomaAlumno($_SESSION['idUsuario'], $idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $rutaImg, $institucion, $anio);
+                $res = $idioma1->guardarIdiomaAlumno($idAlum, $idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $rutaImg, $institucion, $anio);
             }
-            if (!res) {
+            if (!$res) {
                 $err = true;
                 $errMsj = "Ocurrió un error inesperado";
             }
@@ -494,7 +496,7 @@ class CtlCurriculum {
             include '../../boundaries/curriculum/frmRegisIdioma.php';
         } else {
             echo "El idioma ha sido registrado";
-            $this->menuIdiomas();
+            $this->menuIdiomas($idAlum);
         }
     }
 
@@ -504,8 +506,8 @@ class CtlCurriculum {
      * @author Benjamín Aguirre García
      * 
      */
-    function menuIdiomas() {
-        $strIdiomas = $this->obtenerIdiomas($_SESSION['idUsuario']);
+    function menuIdiomas($idAlum) {
+        $strIdiomas = $this->obtenerIdiomas($idAlum);
         if ($strIdiomas == null) {
             include '../../boundaries/curriculum/frmRegisIdioma.php';
         } else {
@@ -577,7 +579,7 @@ class CtlCurriculum {
   				</thead>
   			";
         $idioma1 = new Idioma();
-        $arrIdiomas = $idioma1->obtener($_SESSION['idUsuario']);
+        $arrIdiomas = $idioma1->obtener($idAlumno);
         if ($arrIdiomas == null) {
             $strIdiomas = null;
         } else {
@@ -606,7 +608,7 @@ class CtlCurriculum {
      * @author Benjamín Aguirre García
      * 
      */
-    function registrarCurso() {
+    function registrarCurso($idAlum) {
         $nombreCurso = $_GET['nombreCurso'];
         $fechaParticipacion = $_GET['fechaParticipacion'];
         $rutaImg = $_GET['rutaImg'];
@@ -625,7 +627,7 @@ class CtlCurriculum {
         }
         if ($err == false) {
             $Cuso1 = new Curso();
-            if (!$Cuso1->guardar($_SESSION['idUsuario'], $nombreCurso, $fechaParticipacion, $rutaImg)) {
+            if (!$Cuso1->guardar($idAlum, $nombreCurso, $fechaParticipacion, $rutaImg)) {
                 $err = true;
                 $errMsj = "Ocurrió un error inesperado";
             }
@@ -634,7 +636,7 @@ class CtlCurriculum {
             include '../../boundaries/curriculum/frmRegisCurso.php';
         } else {
         	echo "El curso ha sido registrado";
-        	$this->menuCursos();
+        	$this->menuCursos($idAlum);
         }
     }
 
@@ -643,8 +645,8 @@ class CtlCurriculum {
      * Si ya hay cursos asociados al Alumno los muestra, si no se dirige directamente a Registrar Curso.
      * @author Benjamín Aguirre García
      */
-    function menuCursos() {
-        $strCursos = $this->obtenerCursos($_SESSION['idUsuario']);
+    function menuCursos($idAlum) {
+        $strCursos = $this->obtenerCursos($idAlum);
         if ($strCursos == null) {
             include '../../boundaries/curriculum/frmRegisCurso.php';
         } else {
@@ -663,8 +665,8 @@ class CtlCurriculum {
      *  
      */
     function editarRuta() {
-        $idCurso = $_GET['idCurso'];
-        $alumnoIdioma = $_GET['AlumnoIdioma'];
+    	if (isset($_GET['idCurso'])) { $idCurso = $_GET['idCurso']; }
+    	if (isset($_GET['AlumnoIdioma'])) { $alumnoIdioma = $_GET['AlumnoIdioma']; }
         if (isset($idCurso)) {
             $nombreCurso = $_GET['nombreCurso'];
             $fechaParticipacion = $_GET['fechaParticipacion'];
@@ -1125,7 +1127,10 @@ class CtlCurriculum {
     }
     
 	/**
+	 * Busca los curriculums con respecto al grado de la consulta y muestra los resultados en forma de tabla, con la opción
+	 * de ver curriculum que permite consultar el curriculum completo.
 	 * @author Benjamín Aguirre García
+	 * @param $idGrado Grado de Busqueda (Consultar el Diccionario de Datos).
 	 */    
 	public function buscarCurriculum($idGrado) {
 		$infoAcademica = new InfoAcademica();
@@ -1159,33 +1164,61 @@ class CtlCurriculum {
     
 	
 	/**
+	 * Junta todos los elementos de un Curriculum, obteniendolos de la función toString de cada clase que 
+	 * conforma el Curriculum y lo muestra si existe la información, además si es un reclutador el que ejecuta la consulta
+	 * se muestra el botón de Agregar (Si no esta agregado aun) o Eliminar de Favortios (Si ya esta agregado.  
 	 * @author Benjamín Aguirre García
+	 * @param $idAlumno ID del Alumno a consultar.
+	 * @param $esReclutador Booleano que indica si: true es un reclutador, false si no es un reclutador el que ejecuta la consulta.
+	 * @param $idReclutador Id del reclutador, si es que es el buscado.
 	 */
-    public function consultarCurriculum($idAlumno, $esReclutador = true) {
+    public function consultarCurriculum($idAlumno, $esReclutador, $idReclutador = 0) {
     	$alumno = new Alumno();
+    	$btnAgregar = "<input type=\"button\" value=\"Agregar a Favoritos\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarAFavoritos' , 'frmCurriculum', 'Respuesta')\">";
+    	$btnEliminar = "<input type=\"button\" value=\"Eliminar de Favoritos\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EliminarDeFavoritos' , 'frmCurriculum', 'Respuesta')\">";
     	$infoAcademica = new InfoAcademica();
     	$infoLaboral = new InfoLaboral();
     	$curso = new Curso();
     	$idioma = new Idioma();
+    	$reclutador = new Reclutador();
     	$cerificacion = new Certificacion();
     	$strTable = "<form id='frmCurriculum'> <table>".$alumno->toString($idAlumno).$infoAcademica->toString($idAlumno).$infoLaboral->toString($idAlumno).$idioma->toString($idAlumno).$curso->toString($idAlumno)
     					.$cerificacion->toString($idAlumno);
-    	if ($es) { 
-    		$strTable .= "<tr> <td id='Respuesta'> <input type=\"button\" value=\"Agregar a Favoritos\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarAFavoritos' , 'frmCurriculum', 'Respuesta')\">
-    						</form> ";
+    	if ($esReclutador) {
+			$strTable .= "<tr> <td id='Respuesta'>"; 
+    		if ($reclutador->consultaFavorito($idReclutador, $idAlumno)) {
+    			$strTable .= $btnEliminar;
+    		} else {
+    			$strTable .= $btnAgregar;
+    		}
     	}
-    	echo $strTable;
+    	echo $strTable."</form> ";
     }
 
 	/**
+	 * Agrega y Elimina de Favoritos a un Curriculum, además al agregar o eliminar regresa un mensaje y/o un 
+	 * botón dependiendo de la acción realizada.
 	 * @author Benjamín Aguirre García
+	 * @param $idAlumno Id Del Alumno
+	 * @param $idReclutador ID del Reclutador
+	 * @param $agregar Booleano que indica: True si se va a agregar, false si se va a eliminar.
 	 */    
-    public function agregarFavorito($idAlumno, $idReclutador) {
+    public function agregarEliminarFavorito($idAlumno, $idReclutador, $agregar) {
+    	$btnAgregar = "<input type=\"button\" value=\"Agregar a Favoritos\" id=\"Agregar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarAFavoritos' , 'frmCurriculum', 'Respuesta')\">";
+    	$btnEliminar = "<input type=\"button\" value=\"Eliminar de Favoritos\" id=\"Eliminar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EliminarDeFavoritos' , 'frmCurriculum', 'Respuesta')\">";    	
     	$reclutador = new Reclutador();
-    	if ($reclutador->agregarFavorito($idReclutador, $idAlumno)) {
-    		return "Agregado a Favoritos";
+    	if ($agregar) {
+	    	if ($reclutador->agregarFavorito($idReclutador, $idAlumno)) {
+	    		return "<b> <p>Agregado a Favoritos".$btnEliminar;
+	    	} else {
+	    		return "<b><p> No se pudo agregar a Favoritos".$btnAgregar;
+	    	}
     	} else {
-    		return "No se pudo agregar a Favoritos";
+    		if ($reclutador->eliminarFavorito($idReclutador, $idAlumno)) {
+	    		return "<b><p>".$btnAgregar;
+	    	} else {
+	    		return "<b><p> No se pudo eliminar de Favoritos".$btnEliminar;
+	    	}    				
     	}
     }
     

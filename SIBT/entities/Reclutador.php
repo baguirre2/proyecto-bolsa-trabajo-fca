@@ -18,6 +18,7 @@ class Reclutador {
 	 */
 	public function obtenerFavoritos($idReclutador) {
 		$conn = new InterfazBD2();
+//		$select = 
 		
 		
 	}
@@ -52,11 +53,26 @@ class Reclutador {
 	 * @param $idAlumno id del Alumno 
 	 */	
 	public function eliminarFavorito($idReclutador, $idAlumno) {
-		
+		$conn = new InterfazBD2();
+		$query = "DELETE FROM ingsw.favoritos_reclutador_alumno WHERE re_id=$idReclutador AND al_id=$idAlumno;";
+		$res = $conn->ejecutarQuery($query);
+//		print_r($res);
+		if ($res) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public function consultaFavorito($idReclutador, $idAlumno) {
-		
+		$conn = new InterfazBD2();
+		$query = "SELECT * FROM ingsw.favoritos_reclutador_alumno WHERE re_id=$idReclutador AND al_id=$idAlumno;";
+		$res = $conn->consultar($query);
+		if ($res == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	
