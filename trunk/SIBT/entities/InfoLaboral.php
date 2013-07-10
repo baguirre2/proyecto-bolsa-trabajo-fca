@@ -90,9 +90,9 @@ class InfoLaboral {
 				<tr> <td> Empresa: $datos[inla_empresa] 
 				<tr> <td> Puesto: $datos[inla_puesto]
 				<tr> <td> Jefe Inmediato: $datos[inla_jefe_inmediato]
-				<tr> <td> Actividades: $datos[inac_descripcion_actividades]
-				<tr> <td> Logros: $datos[inac_logros]
-				<tr> <td> Tiempo (meses): $datos[inac_meses_estancia]
+				<tr> <td> Actividades: $datos[inla_descripcion_actividades]
+				<tr> <td> Logros: $datos[inla_logros]
+				<tr> <td> Tiempo (meses): $datos[inla_anios_estancia]
 			";
 		}
 		return $strInfoLaboral; 	

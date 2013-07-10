@@ -51,7 +51,7 @@
 						echo "<input type=\"text\" id=\"rutaImg\" name=\"rutaImg\"  value=\"$rutaImg\" readonly> 
 					 		  <td> <input type=\"button\" value=\"Editar\" id=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarRuta' , 'frmRegistrarIdioma', 'contenido')\">";
 					} else {
-						echo "<input type=\"file\" id=\"rutaImg\" name=\"rutaImg\"  value=\"=$rutaImg\" class='required'>";
+						echo "<input type=\"file\" id=\"rutaImg\" name=\"rutaImg\" class='required'>";
 					}
 				?> </td>
 			</tr>
@@ -101,7 +101,7 @@
 		$strSelect = "<select name='idIdioma' id='idIdioma'> <option value='0' selected class='required numeric'> ---";
 		foreach ($arrIdiomas as $valor) {
 			$selected = "";
-			if ($value == $valor[id_id]) {
+			if ($value == $valor['id_id']) {
 				$selected = "selected";
 			}			
 			$strSelect .= "<option value='$valor[id_id]' $selected> $valor[id_nombre]";
