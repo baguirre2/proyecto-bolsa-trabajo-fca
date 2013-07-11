@@ -9,13 +9,13 @@
  * -
  */
 
-$tipo = $dir;
+$tipo = 'certs';
 
 $upload_folder ='./../constancias/'.$tipo;
 //var_dump($_FILES);
 
 //$return = Array('ok'=>TRUE, 'msg' => "Imagen subida exitosamente");
-$return = "Imagen subida exitosamente";
+//$return = "Imagen subida exitosamente";
 
 $nombre_archivo = $_FILES['archivo']['name'];
 $tipo_archivo = $_FILES['archivo']['type'];
