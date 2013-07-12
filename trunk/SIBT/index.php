@@ -25,7 +25,8 @@ $_SESSION['idUsuario'] = 1;
         <link href="webroot/css/menu.css" rel="stylesheet" type="text/css" />
          <!--Css de las tablas-->
         <link href="webroot/css/demo_table.css" rel="stylesheet" type="text/css" />
-        <link href="webroot/css/TableTools.css" rel="stylesheet" type="text/css" />	
+        <link href="webroot/css/TableTools.css" rel="stylesheet" type="text/css" />
+        <link href="webroot/css/lightbox.css" rel="stylesheet" type="text/css" />	
  		
         <script type="text/javascript" src="webroot/js/jquery-1.10.1.js"></script>	
                 	
@@ -34,6 +35,7 @@ $_SESSION['idUsuario'] = 1;
                 <script type="text/javascript" src="webroot/js/jquery.dataTables.js"></script>
                 <script type="text/javascript" src="webroot/js/TableTools.js"></script>
                 <script type="text/javascript" src="webroot/js/ZeroClipboard.js"></script>
+                <script type="text/javascript" src="webroot/js/lightbox-2.6.min.js"></script>
                 
                 <script type="text/javascript" src="webroot/js/funAJAX.js"></script>	
                 <script type="text/javascript" src="webroot/js/validar.js"></script>	
