@@ -90,13 +90,25 @@ class Certificacion{
 				$registros .= "<td>".$resultados[$i]['ce_duracion']."</td>";
 				$registros .= "<td>".$resultados[$i]['ce_anio']."</td>";
 	
-				$registros .= ($resultados[$i]['esau_id'] != 1)?
+				if($resultados[$i]['esau_id'] != 1){
+					$registros .= "<td><input type=\"button\" name=\"btnEditar\" value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'vacio', 'contenido', '".$resultados[$i]['ce_id']."');\">";
+					$registros .= ($resultados[$i]['ce_ruta_constancia'] != '' || $resultados[$i]['ce_ruta_constancia'] != null)?
+					"<a href=\"constancias/certs/".$resultados[$i]['ce_ruta_constancia']."\" data-lightbox=\"".$resultados[$i]['ce_id']."\" title=\"Certificación\"><img src=\"webroot/images/btn_ver_img.jpg\" /></a>"
+							: "" ;
+				}else{
+					$registros .= "<td>";
+				}
+	
+				/*
+					$registros .= ($resultados[$i]['esau_id'] != 1)?
 				"<td>
-              	<input type=\"button\" name=\"btnEditar\" value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'vacio', 'contenido', '".$resultados[$i]['ce_id']."');\">
-              	</td></tr>" :"<td> </td></tr>";
-				 
+				<input type=\"button\" name=\"btnEditar\" value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'vacio', 'contenido', '".$resultados[$i]['ce_id']."');\">
+				<a href=\"constancias/certs/cert1.jpg\" data-lightbox=\"cert1\" title=\"Certificación\"><img src=\"webroot/images/btn_ver_img.jpg\" /></a>"
+				:"<td>";
+				*/
+				$registros .= "</td></tr>";
 			}
-				
+	
 			if(!isset($msg)){
 				$msg = "";
 			}else if($msg == 1){
@@ -104,7 +116,7 @@ class Certificacion{
 			}else if($msg == 2){
 				$msg = "<h1 class=respuesta>Registro actualizado con éxito</h1><br/>";
 			}
-				
+	
 			$respuesta = $msg;
 			$respuesta.="<h1>Mis certificaciones</h1><br/>
                         <table class=\"tablas_sort\">
