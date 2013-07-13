@@ -7,13 +7,15 @@ include_once '../../entities/InterfazBD2.php';
 include_once '../../entities/Curso.php';
 include_once '../../entities/Idioma.php';
 include_once '../../entities/InfoAcademica.php';
+include_once '../../boundaries/curriculum/ResultadoCargaImagen.php';
 include_once '../../entities/Alumno.php';
 include_once '../../entities/Reclutador.php';
 
 
 class CtlCurriculum {
 
-    function __construct($GET) {
+    //function __construct($GET) {
+	function __construct($GET, $FILES){
 
         $opc = $GET['opc'];
 
@@ -218,15 +220,17 @@ class CtlCurriculum {
 				break;
 
 
+			/*//Registrar
+			//YA NO SE USA COMO OPC
+			case 'infoAcademicaRegistrar';
+			$this->registrarGradoAcademico($idAlum);
+			break;
+
 			//Modificar
+			//YA NO SE USA COMO OPC
 			case 'infoAcademicaActualizar'; 
-				$this->actualizarGradoAcademico($idAlum);
-				break;			
-				
-			//Registrar
-			case 'infoAcademicaRegistrar';							
-				$this->registrarGradoAcademico($idAlum);			
-				break;
+				$this->actualizarGradoAcademico($idAlum);				
+				break;	*/	
 			
 			case 'infoAcademicaFormRegistrar';
 				include '../../boundaries/curriculum/frmInfoAcademicaRegis.html';
@@ -236,6 +240,35 @@ class CtlCurriculum {
 				$id_nivel = $GET['id'];				
 				$this->listarEstudiosFCA($id_nivel, (isset($id_inac) ? $id_inac : ""));
 				break;
+				
+			case 'carInfoAcademicaImagenRegistrar';
+				//obtenemos el nombre del archivo
+				$nomFile = $FILES['userfile']['name'];
+				if($nomFile != ""){
+					$mensaje = $this->cargarImagenConstancia($FILES['userfile'], $idAlum, 1);
+					new ResultadoCargaImagen($mensaje);
+				}else{
+					//Irá directo al registro
+					$informacionAcademica = new InfoAcademica();
+					$mensaje = $informacionAcademica->registrarGradoAcademico($idAlum);
+					new ResultadoCargaImagen($mensaje);
+				}
+				break;
+				
+			case 'carInfoAcademicaImagenEditar';
+				//obtenemos el nombre del archivo
+				$nomFile = $FILES['userfile']['name'];
+				if($nomFile != ""){
+					$mensaje = $this->cargarImagenConstancia($FILES['userfile'], $idAlum, 2);
+					new ResultadoCargaImagen($mensaje);
+				}else{
+					//Irá directo a la edición
+					$informacionAcademica = new InfoAcademica();
+					$mensaje = $informacionAcademica->actualizarGradoAcademico($idAlum);
+					new ResultadoCargaImagen($mensaje);
+				}
+				break;			
+				
             	                
             case "BuscarCurriculum";
 //            	echo "grado".$_GET['idGrado'];
@@ -739,7 +772,7 @@ class CtlCurriculum {
     }
 
     /**
-	 *Funcion para mostrar la informaciï¿½n academica del alumno
+	 *Funcion para mostrar la información academica del alumno
 	 *@author Liliana Luna
 	 *@param
 	 **/
@@ -747,48 +780,62 @@ class CtlCurriculum {
 		echo "&nbsp;";
 		$resultados = $this->listarGradosAcademicos(1,0, $idAlum);
 		$registros = "";
-		//for ($i=0; $i <= count($resultados)-1; $i++) {
-                for ($i=0; $i < count($resultados); $i++) {
+		for ($i=0; $i <= count($resultados)-1; $i++) {
 			$infoAc_id = $resultados[$i]['inac_id'];
-			$registros .= "<tr><td>".$resultados[$i]['inac_universidad']."</td>";
-			$registros .= "<td>".$resultados[$i]['inac_escuela']."</td>";
-			$registros .= "<td>".$resultados[$i]['inac_promedio']."</td>";
+			$registros .= "<tr><td>".$resultados[$i]['esfc_descripcion']."</td>";			
 			$registros .= "<td>".$resultados[$i]['inac_fecha_inicio']."</td>";
-			$registros .= "<td>".$resultados[$i]['inac_fecha_termino']."</td>";
+			$registros .= "<td>".$resultados[$i]['esac_tipo']."</td>";
 			$registros .= ($resultados[$i]['esau_id'] != 1)? "<td><form id=\"frmListar\"><input type=\"button\" value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'infoAcademicaFormEditar', 'frmListar', 'contenido', $infoAc_id)\"></form></td></tr>" : "<td></td></tr>";
 		}
-		echo "	<table>
-						<thead> 
+		echo "				
+				<table class=\"tablas_sort\">
+						<thead>
 						<tr>
-						<th>Universidad</th>
-						<th>Escuela</th>
-						<th>Promedio</th>
-						<th>Fecha inicio</th>
-						<th>Fecha t&eacute;rmino</th>";
-		echo ($resultados[$i-1]['esau_id'] != 1)? "<th>Acciones</th>" : "";
+						<th>Nombre de estudio</th>						
+						<th>Fecha de inicio</th>
+						<th>Estado</th>";
+		echo ($resultados[$i-1]['esau_id'] != 1)? "<th>Edici&oacute;n</th>" : "";
 		echo "</tr>
 						</thead>
 						<tbody>".$registros."
 						</tbody>";
 		echo "<tr>
 						<td><input type=\"button\" value=\"Agregar grado academico\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'infoAcademicaFormRegistrar', 'vacio', 'contenido')\"></td>
-						<td><input name='btnCancelar' type='button' id='btnCancelar' value='Cancelar' onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'infoAcademicaListar', 'vacio', 'contenido')\"/></td>
+						
 						</tr></table>";
 	}
 
     /**
-     *Funcion para listar los grados acadï¿½micos
+     *Funcion para listar los grados académicos
      *@author Liliana Luna 
-     *@param 
+     *@param opcion: determina si se listan todos los grados académicos o uno en específico (de la FCA u otro).
      **/
 	public function listarGradosAcademicos($opcion, $id_infoAca, $idAlum){
-		//echo "Info aca en listar grados: ".$id_infoAca;
+		
 		$conexion = new InterfazBD2();
 		if($opcion==1){
-			$query = "SELECT * FROM ingsw.informacion_academica WHERE al_id=$idAlum ";
+			$query = "select a.inac_id, a.esau_id, b.esfc_descripcion, a.inac_fecha_inicio, c.esac_tipo FROM ingsw.informacion_academica AS a 
+					JOIN ingsw.estudio_fca AS b ON a.esfc_id=b.esfc_id 
+					JOIN ingsw.estado_academico AS c ON a.esac_id=c.esac_id AND a.al_id=2
+					UNION ALL
+					select a.inac_id, a.esau_id, b.esot_descripcion, a.inac_fecha_inicio, c.esac_tipo FROM ingsw.informacion_academica AS a 
+					JOIN ingsw.estudio_otro AS b ON a.esot_id=b.esot_id 
+					JOIN ingsw.estado_academico AS c ON a.esac_id=c.esac_id AND a.al_id=2";			
 		}elseif ($opcion==2){
-			$query = "SELECT * FROM ingsw.informacion_academica AS a JOIN ingsw.estudio_fca AS b
-			ON a.esfc_id = b.esfc_id AND al_id=$idAlum and inac_id=$id_infoAca";
+			
+			$query_otro = "SELECT esot_id FROM ingsw.informacion_academica where inac_id=$id_infoAca";
+			$resultados_otro = $conexion->consultar($query_otro);
+			
+			$id_otro = $resultados_otro[0]['esot_id'];
+
+			if($id_otro != ""){								
+				$query = "SELECT * FROM ingsw.informacion_academica AS a JOIN ingsw.estudio_otro AS b
+				ON a.esot_id = b.esot_id AND al_id=$idAlum and inac_id=$id_infoAca";
+			}else{				
+				$query = "SELECT * FROM ingsw.informacion_academica AS a JOIN ingsw.estudio_fca AS b
+				ON a.esfc_id = b.esfc_id AND al_id=$idAlum and inac_id=$id_infoAca";
+			}
+						
 		}
 		$resultados = $conexion->consultar($query);
 		if($resultados != false){			
@@ -806,229 +853,92 @@ class CtlCurriculum {
 	 **/
 	public function listarEstudiosFCA($nivel, $id_inac){
 		//echo "Id nivel en listar: ".$id_nivel."<br>";	
-		$conexion = new InterfazBD2();
+		$conexion = new InterfazBD2();		
 		
-		//if($id_inac !=0 ){
 			$query = "SELECT esfc_id FROM ingsw.estudio_fca as b JOIN ingsw.informacion_academica as a
 						ON a.esfc_id=b.esfc_id and a.inac_id=$id_inac";
 			$resultados = $conexion->consultar($query);			
 			$esfc_id = $resultados[0]['esfc_id'];			
-		//}
-		//else{
+		
 			$query = "SELECT * FROM ingsw.estudio_fca WHERE nies_id=$nivel";
-			$resultados = $conexion->consultar($query);
+			$resultados = $conexion->consultar($query);		
 			
-			//$seleccion = ($esfc_id != 0)? "selected":"";
+			echo "<select name=\"lstNombre\" class=\"required\"><option>Seleccione...</option>";
 			
-			echo "<select name=\"lstNombre\"><option>Seleccione...</option>";
-			//$resultados = $this->listarEstudiosFCA();
 			for ($i=0; $i <= count($resultados)-1; $i++) {
 				echo "<option value=\"";
 				echo $resultados[$i]['esfc_id'];
 				echo "\">";
-				echo $resultados[$i]['esfc_descripcion'];
+				echo $resultados[$i]['esfc_descripcion'];				
 				echo "</option>";
 			}
 			echo "</select>";
-		//}		
-		$conexion->cerrarConexion();
-	}
-	
-    /**
-     *Funcion para registrar un grado academico
-     *@author Liliana Luna 
-     *@param 
-     **/
-	public function registrarGradoAcademico($idAlum){
-		$conexion = new InterfazBD2();
-		$nombreGrado = $_GET[lstNombre];
-		$universidad = $_GET[txtUniversidad];
-		$escuela = $_GET[txtEscuela];
-		$nvl = $_GET[btnNivel];			
-		switch($nvl){
-			case 'Licenciatura';
-				$nivel=1;
-				break;
-			case 'Especializacion';
-				$nivel=2;
-				break;
-			case 'Maestria';
-				$nivel=3;
-				break;
-			case 'Doctorado';
-				$nivel=4;
-				break;			
-		}		
-				
-		$esfc_id = $_GET[lstNombre];	
-		//echo "esfc_id: ".$esfc_id;	
-		
-		$estado = $_GET[lstEstado];
-		
-		switch($estado){
-			case 'En curso';
-				$esac_id = 1;
-				break;
-			case 'Truncado';
-				$esac_id = 2;
-				break;
-			case 'Terminado';
-				$esac_id = 3;
-				break;
-			case 'Titulado';
-				$esac_id = 4;
-				break;
-			case 'Graduado';
-				$esac_id = 5;
-				break;
-		}	
-		
-		$fechaInicio = $_GET[txtFechaInicio];
-		$fechaTermino = $_GET[txtFechaTermino];
-		$promedio = $_GET[txtPromedio];
-		$otro = $_GET[txtOtro];		
-		
-		//si ha escrito algo en otro, hay que registrarlo antes
-		if($otro != ""){			
-			$query = "insert into ingsw.estudio_otro(nies_id, esot_descripcion) values ($nivel, '$otro')";
-			$resultado = $conexion->insertar($query, esot_id);	
 			
-			//if(($resultado == false) || ($resultado ==0)){				
-				$query_select = "select max(esot_id) from ingsw.estudio_otro";				
-				$resultados = $conexion->consultar($query_select);					
-				if($resultados != false){					
-					$esot_id = $resultados[0]['max'];
-				}else{
-					$esot_id = 0;
-				}				
-			//}else{				
-			//}		
-		}
-		else{
-			$esot_id = "null";
-		}		
-		
-		$query_select = "select max(inac_id) from ingsw.informacion_academica";
-		$resultados = $conexion->consultar($query_select);
-			
-		if($resultados != false){
-			$inac_id_insertar = ($resultados[0]['max'])+1;
-		}else{
-			$inac_id_insertar = 0;
-		}		
-		
-		if($otro != ""){
-			$query = "INSERT INTO ingsw.informacion_academica (inac_id, al_id, esac_id, esfc_id, esau_id, esot_id, inac_universidad, inac_escuela, inac_promedio, inac_fecha_inicio, inac_fecha_termino, inac_ruta_constancia)
-			VALUES ( $inac_id_insertar, $idAlum, $esac_id, null, 2, $esot_id, '$universidad', '$escuela', $promedio, '$fechaInicio', '$fechaTermino', 'Ruta de la constancia') ";
-		}else{		
-			$query = "INSERT INTO ingsw.informacion_academica (inac_id, al_id, esac_id, esfc_id, esau_id, esot_id, inac_universidad, inac_escuela, inac_promedio, inac_fecha_inicio, inac_fecha_termino, inac_ruta_constancia)
-				 VALUES ( $inac_id_insertar, $idAlum, $esac_id, $esfc_id, 2, $esot_id, '$universidad', '$escuela', $promedio, '$fechaInicio', '$fechaTermino', 'Ruta de la constancia') ";
-		}
-		
-		$resultado = $conexion->insertar($query, inac_id);
-				
-		if(($resultado == false) || ($resultado ==0)){
-			echo "<h1>No registrado. Error</h1>";
-		}else{
-			echo "<h1>El grado acad&eacute;mico ha sido registrado</h1>";
-			$this->mostrarInfoAcademica($idAlum);					
-		}		
-		
-		//carga de imagen:
-		/*$filResumen = $_FILES['filImagen']['tmp_name'];
-		if($filImagen == ""){
-			print "Debe seleccionar un archivo";		
-		}
-		
-		date_default_timezone_set('America/Mexico_City');		
-		$nombreImagen = "Img{$inac_id_insertar}.jpg";
-		$ruta = "../../webroot/images/".$nombreImagen;		
-		
-		if(move_uploaded_file($_FILES['fil_imagen']['tmp_name'], $ruta)){
-			print "Archivo Guardado";
-		}else{
-			print "Ocurriï¿½ un problema y el archivo no pudo ser guardado";
-		}*/		
-		
 		$conexion->cerrarConexion();
 	}
 	
 	/**
-	 *Funcion para actualizar un grado academico
-	 *@author Liliana Luna
-	 *@param
+	 *Valida el archivo y le asigna lugar en el servidor.
+	 *@author García Solis Eduardo - Liliana Luna
+	 *@param Recibe el archivo a validar
 	 **/
-	public function actualizarGradoAcademico($idAlum){
-		$conexion = new InterfazBD2();
-		//$nombreGrado = $_GET[campoNombreTitulo];
-		$universidad = $_GET[txtUniversidad];	//PARA PROBAR
-		$escuela = $_GET[txtEscuela];			//PARA PROBAR
-		$esfc_id = $_GET[esfc_id];
-		$estado = $_GET[lstEstado];
 	
-		switch($estado){
-			case 'En curso';
-			$esac_id = 1;
-			break;
-			case 'Truncado';
-			$esac_id = 2;
-			break;
-			case 'Terminado';
-			$esac_id = 3;
-			break;
-			case 'Titulado';
-			$esac_id = 4;
-			break;
-			case 'Graduado';
-			$esac_id = 5;
-			break;
+	public function cargarImagenConstancia($file, $idAlum, $opcion) {
+	
+		//Cadena que se enviara como resultado
+		$res = "";
+	
+		$informacionAcademica = new InfoAcademica();
+	
+		if($opcion==1){
+			//primero se hace el registro			
+			$res .=$informacionAcademica->registrarGradoAcademico($idAlum);
+		}elseif($opcion==2){
+			//primero se hace la edición
+			$infoAc_id = $_POST['id'];			
+			$res .=$informacionAcademica->actualizarGradoAcademico($idAlum);
 		}
 	
-		$fechaInicio = $_GET[txtFechaInicio];
-		$fechaTermino = $_GET[txtFechaTermino];
-		$promedio = $_GET[txtPromedio];
+		//directorio donde se almacenaran los archivos
+		$directorio = '../../controllers/gestionarCurriculum/';
 	
-		$infoAc_id = $_GET[id];
+		//extensiones permitidos a subir
+		$extPermit = Array("jpg", "JPG", "png", "PNG");
 	
-		//echo "Informacion academica id en Actualizar: ". $infoAc_id;
+		//Errores posibles
+		$errores = Array(1 => "Extension no valida",
+				2 => "Archivo mayor a 3mb",
+				3 => "Archivo no cargado por POST");
 	
-		$campos_valores = array('inac_universidad'=>$universidad,'inac_escuela'=>$escuela,'inac_fecha_inicio'=>$fechaInicio, 'inac_fecha_termino'=>$fechaTermino, 'esac_id'=>$esac_id, 'inac_promedio'=>$promedio);
-			
-		//echo $campos_valores;
-		/*foreach($campos_valores as $indice => $id)
-			{
-		echo $indice. " => " . $id . "<br>";
-		}*/
+		$nomFile = basename($file['name']); //obtenemos el nombre del archivo
+		$extensiFile = explode(".", $nomFile); //obtenemos la extension del archivo
 	
-		$resultado = $conexion->ejecutarUpdate('ingsw.informacion_academica', $campos_valores, " WHERE inac_id = $infoAc_id");
+		//Verificamos que la extension se encuentre entre las permitidas
+		$bandera = 'error';
+		for ($x = 0; $x < count($extPermit); $x++) {
+			if ($extensiFile[1] == $extPermit[$x])
+				$bandera = 1;
+		}
 	
-		if($resultado == false){
-		echo "<h1>No actualizado. Error</h1>";
-		}else{
-			echo "<h1>El grado acad&eacute;mico ha sido actualizado</h1>";
-			$this->mostrarInfoAcademica($idAlum);
-			}
+		if ($bandera == 'error') {
+			$res .= "<h4>Error: $errores[1] </h4>";
 	
+			//verificamos que el archivo sea valido y cargado por HTTP POST de PHP
+		} else if (!(is_uploaded_file($file['tmp_name']))) {
+			$res .= "<h4>Error: $errores[3] </h4>";
+			$bandera = 'error';
 	
-			//carga de imagen:
-			/*$filResumen = $_FILES['filImagen']['tmp_name'];
-			if($filImagen == ""){
-			print "Debe seleccionar un archivo";
+			//sino hay errores movemos el archivo temporal a nuestra carpeta
+		} else if ($bandera != 'error') {
+			move_uploaded_file($file['tmp_name'], $directorio . $nomFile);
+			$res .= " El archivo ".$nomFile." es valido y fue cargado con exito.";
+		}
 	
-			}
+		return $res;
 	
-			date_default_timezone_set('America/Mexico_City');
-			$nombreImagen = "Img{$inac_id_insertar}.jpg";
-			$ruta = "../../webroot/images/".$nombreImagen;
-	
-			if(move_uploaded_file($_FILES['fil_imagen']['tmp_name'], $ruta)){
-			print "Archivo Guardado";
-			}else{
-			print "Ocurriï¿½ un problema y el archivo no pudo ser guardado";
-			}*/
-	
-			$conexion->cerrarConexion();
 	}
+	
+	
 	
     public function listarConstancias() {
         include_once '../../boundaries/curriculum/ListaConstancias.php';
@@ -1225,5 +1135,6 @@ class CtlCurriculum {
     
 }
 
-new CtlCurriculum($_GET);
+//new CtlCurriculum($_GET);
+new CtlCurric(( isset($_POST['opc']) ? $_POST : $_GET), $_FILES);
 ?>
