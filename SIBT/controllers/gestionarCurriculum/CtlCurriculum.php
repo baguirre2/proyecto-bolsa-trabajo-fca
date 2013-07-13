@@ -900,7 +900,8 @@ class CtlCurriculum {
 		}
 	
 		//directorio donde se almacenaran los archivos
-		$directorio = '../../controllers/gestionarCurriculum/';
+		//$directorio = '../../controllers/gestionarCurriculum/';
+		$directorio = '../../constancias/titulos_grados/';
 	
 		//extensiones permitidos a subir
 		$extPermit = Array("jpg", "JPG", "png", "PNG");
