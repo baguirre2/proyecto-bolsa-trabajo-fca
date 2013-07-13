@@ -142,5 +142,126 @@ class InfoAcademica {
 		return $strInfoAcademica;
     }
     
+    
+    /**
+     *Funcion para registrar un grado academico
+     *@author Liliana Luna
+     *@param
+     **/
+    public function registrarGradoAcademico($idAlum){
+    	$conexion = new InterfazBD2();
+    
+    	$nombreGrado = $_POST['lstNombre'];
+    	$universidad = $_POST['txtUniversidad'];
+    	$escuela = $_POST['txtEscuela'];
+    	$nivel = $_POST['btnNivel'];
+    	$esfc_id = $_POST['lstNombre'];
+    	$esac_id = $_POST['lstEstado'];
+    	$fechaInicio = $_POST['txtFechaInicio'];
+    	$fechaTermino = $_POST['txtFechaTermino'];
+    	$promedio = $_POST['txtPromedio'];
+    	$otro = $_POST['txtOtro'];
+    
+    
+    	//si ha escrito algo en otro, hay que registrarlo antes
+    	if($otro != ""){
+    		$query = "insert into ingsw.estudio_otro(nies_id, esot_descripcion) values ($nivel, '$otro')";
+    		$resultado = $conexion->insertar($query, esot_id);
+    		 
+    		//if(($resultado == false) || ($resultado ==0)){
+    		$query_select = "select max(esot_id) from ingsw.estudio_otro";
+    		$resultados = $conexion->consultar($query_select);
+    		if($resultados != false){
+    			$esot_id = $resultados[0]['max'];
+    		}else{
+    			$esot_id = 0;
+    		}
+    		//}else{
+    		//}
+    	}
+    	else{
+    		$esot_id = "null";
+    	}
+    
+    	$query_select = "select max(inac_id) from ingsw.informacion_academica";
+    	$resultados = $conexion->consultar($query_select);
+    
+    	if($resultados != false){
+    		$inac_id_insertar = ($resultados[0]['max'])+1;
+    	}else{
+    		$inac_id_insertar = 0;
+    	}
+    
+    	//Si el grado es ajeno a la FCA
+    	if($otro != ""){
+    		//Si no hay fecha de término
+    		if($fechaTermino == ""){
+    			$query = "INSERT INTO ingsw.informacion_academica (inac_id, al_id, esac_id, esfc_id, esau_id, esot_id, inac_universidad, inac_escuela, inac_promedio, inac_fecha_inicio, inac_ruta_constancia)
+    			VALUES ( $inac_id_insertar, $idAlum, $esac_id, null, 2, $esot_id, '$universidad', '$escuela', $promedio, '$fechaInicio', 'Ruta de la constancia') ";
+    		}else{
+    			$query = "INSERT INTO ingsw.informacion_academica (inac_id, al_id, esac_id, esfc_id, esau_id, esot_id, inac_universidad, inac_escuela, inac_promedio, inac_fecha_inicio, inac_fecha_termino, inac_ruta_constancia)
+    			VALUES ( $inac_id_insertar, $idAlum, $esac_id, null, 2, $esot_id, '$universidad', '$escuela', $promedio, '$fechaInicio', '$fechaTermino', 'Ruta de la constancia') ";
+    		}
+    		 
+    	}else{
+    		 
+    		//Si no hay fecha de término
+    		if($fechaTermino == ""){
+    			$query = "INSERT INTO ingsw.informacion_academica (inac_id, al_id, esac_id, esfc_id, esau_id, esot_id, inac_universidad, inac_escuela, inac_promedio, inac_fecha_inicio, inac_ruta_constancia)
+    			VALUES ( $inac_id_insertar, $idAlum, $esac_id, $esfc_id, 2, $esot_id, '$universidad', '$escuela', $promedio, '$fechaInicio', 'Ruta de la constancia') ";
+    		}else{
+    			$query = "INSERT INTO ingsw.informacion_academica (inac_id, al_id, esac_id, esfc_id, esau_id, esot_id, inac_universidad, inac_escuela, inac_promedio, inac_fecha_inicio, inac_fecha_termino, inac_ruta_constancia)
+    			VALUES ( $inac_id_insertar, $idAlum, $esac_id, $esfc_id, 2, $esot_id, '$universidad', '$escuela', $promedio, '$fechaInicio', '$fechaTermino', 'Ruta de la constancia') ";
+    		}
+    	}
+    
+    	$resultado = $conexion->insertar($query, inac_id);
+    
+    	if(($resultado == false) || ($resultado ==0)){
+    		echo "<h1>No registrado. Error</h1>";
+    	}else{
+    		$res="El grado académico ha sido registrado.";
+    		//$this->mostrarInfoAcademica($idAlum);
+    	}
+    	$conexion->cerrarConexion();
+    	return $res;
+    }
+    
+    
+    /**
+     *Funcion para actualizar un grado academico
+     *@author Liliana Luna
+     *@param
+     **/
+    public function actualizarGradoAcademico($idAlum){
+    	$conexion = new InterfazBD2();
+    	//$nombreGrado = $_GET[campoNombreTitulo];
+    	$universidad = $_POST['txtUniversidad'];	//PARA PROBAR
+    	$escuela = $_POST['txtEscuela'];			//PARA PROBAR
+    	$esfc_id = $_POST['esfc_id'];
+    
+    	$esac_id = $_POST['lstEstado'];
+    
+    	$fechaInicio = $_POST['txtFechaInicio'];
+    	$fechaTermino = $_POST['txtFechaTermino'];
+    	$promedio = $_POST['txtPromedio'];
+    
+    	$infoAc_id = $_POST['infoAc_id'];
+    
+    	$campos_valores = array('inac_universidad'=>$universidad,'inac_escuela'=>$escuela,'inac_fecha_inicio'=>$fechaInicio, 'inac_fecha_termino'=>$fechaTermino, 'esac_id'=>$esac_id, 'inac_promedio'=>$promedio);
+    
+    	$resultado = $conexion->ejecutarUpdate('ingsw.informacion_academica', $campos_valores, " WHERE inac_id = $infoAc_id");
+    
+    	if($resultado == false){
+    		echo "<h1>No actualizado. Error</h1>";
+    	}else{
+    		/*echo "<h1>El grado acad&eacute;mico ha sido actualizado</h1>";
+    		 $this->mostrarInfoAcademica($idAlum);*/
+    		$res="El grado académico ha sido actualizado.";
+    	}
+    	$conexion->cerrarConexion();
+    	return $res;
+    }
+    
 }
 ?>
