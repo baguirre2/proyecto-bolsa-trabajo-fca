@@ -167,9 +167,19 @@ class Alumno{
                         $id_usuario = $conexion->insertar($query_usuario, 'us_id');
                         
                         //Con esto se envia el correo al alumno con sus datos de usuario
-                        //mail ("$correo", "Registro Bolsa en la bolsa de trabajo", "Hola $nom $apePat $apeMat, has sido registrado en la bolsa de trabajo de la FCA<br>".
-                          //      "Tus credenciales para acceder son:<br>Usuario: $noCta <br>Contraseña: $pass");
-                        
+                        mail ("$correo", "Registro Bolsa en la bolsa de trabajo", "UNIVERSIDAD NACIONAL AUTONÓMA DE MÉXICO
+                                                                                        Facultad de Contaduría y Administración<br>
+                                                                                        Departamento de Bolsa de Trabajo<br>
+
+                                                                                        Estimado alumno $nom $apePat $apeMat has sido registraro en la bolsa de trabajo de la FCA<br>
+                                                                                        Se te notifica que tus datos de acceso son los siguientes:
+                                                                                        Usuario $noCta
+                                                                                        Contraseña $pass
+
+                                                                                        Sin más por el momento quedamos a tus órdenes.
+
+                                                                                        Departamento de bolsa de Trabajo FCA – UNAM
+                                                                                        http://cetus.fca.unam.mx/sibt/");
                         
                         if($id_usuario != false){
 
