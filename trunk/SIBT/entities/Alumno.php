@@ -194,6 +194,134 @@ class Alumno{
 		$conexion->cerrarConexion();
 		return $estado;
 	}
+	
+	// inicia Actualizar alumno
+	public function recuperarAlumnos($GET) {
+		$conexion = new InterfazBD2();
+	
+		$numCuenta = isset($GET['al_num_cuenta']) ? $GET['al_num_cuenta'] : "";
+		$nombre = isset($GET['pe_nombre']) ? $GET['pe_nombre'] : "";
+		$aPaterno = isset($GET['pe_apellido_paterno']) ? $GET['pe_apellido_paterno'] : "";
+		$aMaterno =  isset($GET['pe_apellido_materno']) ? $GET['pe_apellido_materno'] : "";
+	
+		$query = "SELECT AL.al_num_cuenta, P.pe_nombre, P.pe_apellido_paterno, P.pe_apellido_materno, CE.coel_correo, EF.esfc_descripcion, U.us_contrasenia, U.us_id FROM INGSW.PERSONA P INNER JOIN INGSW.ALUMNO AL ON(P.pe_id=AL.pe_id) INNER JOIN INGSW.CORREO_ELECTRONICO CE ON(P.pe_id=CE.pe_id) INNER JOIN INGSW.USUARIO U ON(P.pe_id=U.pe_id) LEFT JOIN INGSW.ESTUDIO_FCA EF ON(EF.esfc_id=AL.esfc_id) WHERE AL.al_num_cuenta = '".$numCuenta."' OR P.pe_nombre = '".$nombre."' OR P.pe_apellido_paterno = '".$aPaterno."' OR P.pe_apellido_materno ='".$aMaterno."';";
+	
+		$alumnos = $conexion->consultar($query);
+	
+		if( $alumnos != false){
+			$conexion->cerrarConexion();
+			return $alumnos;
+		}else{
+			echo"
+				<table>
+				  <tr>
+					<td><h2>No hay alumnos con los criterios de busqueda proporcionados</h2></td>
+				  </tr>
+				</table>
+				<table>
+					<tr>
+						<td><center><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/></center>
+						</td>
+				  	</tr>
+				</table>
+		
+			";
+			$conexion->cerrarConexion();
+			return false;
+		}
+	}
+	
+	public function recuperarDatosAlumno($id) {
+		$conexion = new InterfazBD2();
+		$query = "SELECT AL.al_num_cuenta, P.pe_id, P.pe_nombre, P.pe_apellido_paterno, P.pe_apellido_materno, CE.coel_correo, EF.esfc_id, EF.esfc_descripcion, U.us_contrasenia, U.us_id FROM INGSW.PERSONA P INNER JOIN INGSW.ALUMNO AL ON(P.pe_id=AL.pe_id) INNER JOIN INGSW.CORREO_ELECTRONICO CE ON(P.pe_id=CE.pe_id) INNER JOIN INGSW.USUARIO U ON(P.pe_id=U.pe_id) INNER JOIN INGSW.ESTUDIO_FCA EF ON(EF.esfc_id=AL.esfc_id) WHERE '".$id."' = U.us_id ;";
+	
+		$datos = $conexion->consultar($query);
+		if($datos){
+			$conexion->cerrarConexion();
+			return $datos = $datos[0];
+		}else{
+			$conexion->cerrarConexion();
+			return false;
+		}
+	}
+	public function recuperarCarreras() {
+		$conexion = new InterfazBD2();
+		$query = "SELECT esfc_id, esfc_descripcion FROM INGSW.ESTUDIO_FCA WHERE esfc_descripcion LIKE 'Administraci_n' OR esfc_descripcion LIKE 'Contadur_a' OR esfc_descripcion LIKE 'Inform_tica';";
+	
+		$carreras = $conexion->consultar($query);
+		if($carreras){
+			$conexion->cerrarConexion();
+			return $carreras;
+		}else{
+			$conexion->cerrarConexion();
+			return false;
+		}
+	}
+	
+	public function actualizarAlumno($GET, $tipoUsuario){
+		$conexion = new InterfazBD2();
+		if ($tipoUsuario == 2){
+				
+			$numCuenta = isset($GET['al_num_cuenta']) ? $GET['al_num_cuenta'] : "";
+			$nombre = isset($GET['pe_nombre']) ? $GET['pe_nombre'] : "";
+			$aPaterno = isset($GET['pe_apellido_paterno']) ? $GET['pe_apellido_paterno'] : "";
+			$aMaterno =  isset($GET['pe_apellido_materno']) ? $GET['pe_apellido_materno'] : "";
+			$carrera = isset($GET['esfc_descripcion']) ? $GET['esfc_descripcion'] : "";
+			$correo =  isset($GET['coel_correo']) ? $GET['coel_correo'] : "";
+			$pe_id =  isset($GET['pe_id']) ? $GET['pe_id'] : "";
+				
+			//echo "$numCuenta , $nombre, $aPaterno, $aMaterno, $carrera, $correo , $pe_id";
+				
+			$query = "UPDATE INGSW.PERSONA SET pe_nombre ='".$nombre."', pe_apellido_paterno='".$aPaterno."',pe_apellido_materno='".$aMaterno."'
+	WHERE pe_id ='".$pe_id."'; UPDATE INGSW.ALUMNO SET al_num_cuenta='".$numCuenta."', esfc_id='".$carrera."' WHERE pe_id ='".$pe_id."'; UPDATE INGSW.CORREO_ELECTRONICO SET coel_correo='".$correo."' WHERE pe_id ='".$pe_id."';";
+				
+				
+			if ($conexion->ejecutarQuery($query)){
+				echo "
+				<table>
+				  <tr>
+					<td>Se han actualizado los datos correctamente</td>
+				  </tr>
+				  <tr>
+					<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/>
+					</td>
+				  </tr>
+				</table>
+			";
+					
+			} else {
+				echo "ERROR al actualizar los datos";
+			}
+		} else if ($tipoUsuario == 5){
+			$correo =  isset($GET['coel_correo']) ? $GET['coel_correo'] : "";
+			$us_contrasenia = isset($GET['us_contrasenia']) ? $GET['us_contrasenia'] : "";
+			$pe_id = isset($GET['pe_id']) ? $GET['pe_id'] : "";
+			//echo "$correo , $us_contrasenia, $pe_id";
+				
+			$query = "UPDATE INGSW.CORREO_ELECTRONICO SET coel_correo='".$correo."' WHERE pe_id ='".$pe_id."'; UPDATE INGSW.USUARIO SET us_contrasenia='".$us_contrasenia."' WHERE pe_id ='".$pe_id."';";
+				
+				
+			if ($conexion->ejecutarQuery($query)){
+				echo "
+				<table>
+				  <tr>
+					<td>Se han actualizado los datos correctamente</td>
+				  </tr>
+				  <tr>
+					<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/>
+					</td>
+				  </tr>
+				</table>
+			";
+					
+			} else {
+				echo "ERROR al actualizar los datos";
+			}
+		}
+		$conexion->cerrarConexion();
+	}
+	
+	// fin Actualizar Alumno
 }
 
 ?>
