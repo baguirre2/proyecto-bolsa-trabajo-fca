@@ -46,7 +46,7 @@ function ajaxConImagen(url, opc, frm , div, tipo){
 			  }).done(function( msg ) {
 			
 				  if(msg != "false"){
-					  alert(msg);
+					  //alert(msg);
 					  $("#" + div).load(url + "?opc=" + opc + "&nombreImagen=" + msg + "&" + getFormData(frm, 'silent', true));
 				  }else{
 					  $("#" + div).load(url + "?opc=" + opc + "&" + getFormData(frm, 'silent', true));
