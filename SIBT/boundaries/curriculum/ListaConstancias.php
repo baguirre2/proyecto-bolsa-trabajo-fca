@@ -11,9 +11,18 @@ class ListaConstancias {
         
         <? if ($listCerts != FALSE) {
         ?>
+<div class=\"inner-heading\">
+						   <div class=\"container\">
+						       <div class=\"row\">
+						           <div class=\"span12\">
+						               <h1 class=\"animated fadeInDown delay1\">Constancias</h1>
+						           </div>
+						       </div>
+						   </div>
+						</div>
 <form id="frmCert" name="frmCert">
     <input type="hidden" name="tipo" id="tipo" value="cert"/>
-        <table>
+        <table class="tablas_sort">
             <thead>
                 <tr>
                     <th colspan="4">Constancias de Certificaciones</th>
@@ -45,7 +54,7 @@ class ListaConstancias {
         ?>
 <form id="frmInfoLab" name="frmInfoLab">
     <input type="hidden" name="tipo" id="tipo" value="infoLab"/>
-        <table>
+        <table class="tablas_sort">
             <thead>
                 <tr>
                     <th colspan="4">Constancias de Información Académica</th>
@@ -77,7 +86,7 @@ class ListaConstancias {
         ?>
 <form id="frmCurs" name="frmCurs">
     <input type="hidden" name="tipo" id="tipo" value="curs"/>
-        <table>
+        <table class="tablas_sort">
             <thead>
                 <tr>
                     <th colspan="3">Constancias de Cursos</th>
@@ -107,7 +116,7 @@ class ListaConstancias {
         ?>
 <form id="frmIdio" name="frmIdio">
     <input type="hidden" name="tipo" id="tipo" value="idio"/>
-        <table>
+        <table class="tablas_sort">
             <thead>
                 <tr>
                     <th colspan="6">Constancias de Idiomas</th>
