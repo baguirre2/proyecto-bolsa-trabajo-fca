@@ -9,12 +9,23 @@ class ListaInfoLaboral {
         echo ( $mensaje == NULL ? "" : "<h1>$mensaje</h1>" );
         
         ?>
-        <h1>Mi información Laboral</h1>
-        <table>
-            <th>Empresa</th>
-            <th>Puesto</th>
-            <th>Meses</th>
-            <th>Opciones</th>
+<div class=\"inner-heading\">
+						   <div class=\"container\">
+						       <div class=\"row\">
+						           <div class=\"span12\">
+						               <h1 class=\"animated fadeInDown delay1\">Mi información Laboral</h1>
+						           </div>
+						       </div>
+						   </div>
+						</div>
+        <table class="tablas_sort">
+            <thead>
+                <th>Empresa</th>
+                <th>Puesto</th>
+                <th>Meses</th>
+                <th>Opciones</th>
+            </thead>
+            <tbody>
             <?php
             foreach ($lista as $row) {
                 echo "<tr>";
@@ -37,6 +48,9 @@ class ListaInfoLaboral {
                 echo "</tr>";
             }
             ?>
+            </tbody>
+        </table>
+        <table>
             <tr>
                 <td>
                     <td><input type="button" value="Agregar Información Laboral" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'inLabFrmRegistrar', 'vacio', 'contenido')" /></td>
@@ -45,7 +59,7 @@ class ListaInfoLaboral {
                     <!-- <td><input type="button" value="Regresar" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 1, 'vacio', 'contenido')" /></td>-->
                 </td>
             </tr>
-        </table>
+</table>
         <?php
     }
 }

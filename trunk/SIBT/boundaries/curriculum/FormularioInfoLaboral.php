@@ -6,7 +6,15 @@ class FormularioInfoLaboral {
 
     function __construct($infoLab = NULL) {
         ?>
-        <h1><?echo ( $infoLab == NULL ? "Registrar" : "Modificar" )?> Información Laboral</h1>
+<div class=\"inner-heading\">
+						   <div class=\"container\">
+						       <div class=\"row\">
+						           <div class=\"span12\">
+						               <h1 class=\"animated fadeInDown delay1\"><?echo ( $infoLab == NULL ? "Registrar" : "Modificar" )?> Información Laboral</h1>
+						           </div>
+						       </div>
+						   </div>
+						</div>
         <form id="frmRegis">
             <table>
                 <tbody>
