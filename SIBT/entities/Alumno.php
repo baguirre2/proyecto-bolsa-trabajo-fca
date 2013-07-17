@@ -16,6 +16,21 @@ class Alumno{
 	function __construct() {
 	}
 	
+	public function obtenerInfoPersonal($idAlumno) {
+		$conn = new InterfazBD2();
+		$select = "SELECT * FROM ingsw.alumno AS al 
+					JOIN ingsw.domicilio AS dom ON (al.do_id = dom.do_id)
+					JOIN ingsw.colonia AS co ON (dom.co_id = co.co_id)
+					JOIN ingsw.delegacion_municipio AS demu ON (demu.demu_id = co.demu_id) 
+					JOIN ingsw.estado AS es ON (es.es_id = demu.es_id)
+					JOIN ingsw.persona AS pe ON (pe.pe_id = al.pe_id)
+					WHERE al_id = $idAlumno;";
+//		echo $query;
+		$res = $conn->consultar($select);
+		$conn->cerrarConexion();
+		return  $res;
+	}
+	
 	public function listarNivelesEstudio() {
 		$conexion = new InterfazBD2();
 		$query = "SELECT * FROM ingsw.nivel_estudio;";
@@ -106,17 +121,10 @@ class Alumno{
 	 * @param $idAlumno Id del Alumno
 	 */    	
 	public function toString ($idAlumno) {
-		$conn = new InterfazBD2();
-		$query = "SELECT * FROM ingsw.alumno AS al 
-					JOIN ingsw.domicilio AS dom ON (al.do_id = dom.do_id)
-					JOIN ingsw.colonia AS co ON (dom.co_id = co.co_id)
-					JOIN ingsw.delegacion_municipio AS demu ON (demu.demu_id = co.demu_id) 
-					JOIN ingsw.estado AS es ON (es.es_id = demu.es_id)
-					JOIN ingsw.persona AS pe ON (pe.pe_id = al.pe_id)
-					WHERE al_id = $idAlumno;";
-		$datos = $conn->consultar($query);
+		$datos = $this->obtenerInfoPersonal($idAlumno);
 		$datos = $datos[0];
-		$query  = "SELECT coel_correo FROM ingsw.persona AS pe JOIN ingsw.correo_electronico AS coel ON (coel.pe_id = pe.pe_id) WHERE pe_id= $datos[pe_id]";
+		$conn = new InterfazBD2();
+		$query  = "SELECT coel_correo FROM ingsw.persona AS pe JOIN ingsw.correo_electronico AS coel ON (coel.pe_id = pe.pe_id) WHERE pe.pe_id=$datos[pe_id]";
 		$correoE = $conn->consultar($query);
 		$correoE = $correoE[0];
 		$query = "SELECT  tite_descripcion, te_telefono, te_extension FROM ingsw.persona AS pe 
@@ -139,7 +147,6 @@ class Alumno{
 		}
 		$strInfoAlumno .= "<tr> <th> Objetivos Profesionales <tr> <td> $datos[al_objetivos_profesionales]";
 		return $strInfoAlumno;
-	
 	}
         
         public function registrarAlumnoPorArchivo($nom, $apePat, $apeMat, $correo, $noCta, $nacio, $fecNac, $idCarrera){
@@ -194,6 +201,39 @@ class Alumno{
 		$conexion->cerrarConexion();
 		return $estado;
 	}
+	
+	public function toStringContacto($idAlumno) {
+		$datos = $this->obtenerInfoPersonal($idAlumno);
+		$datos = $datos[0];
+		$conn = new InterfazBD2();
+		$query  = "SELECT coel_correo FROM ingsw.persona AS pe JOIN ingsw.correo_electronico AS coel ON (coel.pe_id = pe.pe_id) WHERE pe.pe_id=$datos[pe_id]";
+		$correoE = $conn->consultar($query);
+		$correoE = $correoE[0];
+		$query = "SELECT  tite_descripcion, te_telefono, te_extension FROM ingsw.persona AS pe 
+					JOIN ingsw.telefono AS te ON (te.pe_id = pe.pe_id)
+					JOIN ingsw.tipo_telefono AS tite ON (tite.tite_id = te.tite_id) WHERE te.pe_id = $datos[pe_id]";
+		$telefonos = $conn->consultar($query);
+		$query = "SELECT esfc_descripcion FROM ingsw.estudio_fca AS esfc 
+					JOIN ingsw.informacion_academica AS inac ON (esfc.esfc_id=inac.esfc_id)
+					WHERE inac.al_id=$idAlumno";
+		$Acad = $conn->consultar($query);
+		$Acad = $Acad[0];
+		$conn->cerrarConexion();
+		$strInfoAlumno = "<tr> <th> Nombre <th> Correo Electrónico <th> Carrera / Posgrado <th> Telefonos
+				<tr> <td> $datos[pe_nombre] $datos[pe_apellido_paterno] $datos[pe_apellido_materno]
+					 <td> $correoE[coel_correo]
+					 <td> $Acad[esfc_descripcion]
+					 <td> 
+		";
+		foreach ($telefonos AS $telefono) {
+			$strInfoAlumno .= "$telefono[tite_descripcion]: $telefono[te_telefono]";
+			if ($telefono['te_extension'] != null) {
+				$strInfoAlumno .= " Ext. $telefono[te_extension]";
+			}
+			$strInfoAlumno .= "<br>";
+		}
+		return $strInfoAlumno;
+	}	
 	
 	// inicia Actualizar alumno
 	public function recuperarAlumnos($GET) {
@@ -322,6 +362,7 @@ class Alumno{
 	}
 	
 	// fin Actualizar Alumno
+
 }
 
 ?>

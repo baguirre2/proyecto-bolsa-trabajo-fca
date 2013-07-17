@@ -21,8 +21,8 @@ class CtlCurriculum {
 
         //En esta lÃ­nea se obtendra el ID del alumno, por un objeto SESSION
         $idAlum = 1;
+        //Se obtendrÃ¡ el id del Reclutador por medio de un objeto SESSION.
         $idReclutador = 1;
-        
 
         switch ($opc) {
 
@@ -240,6 +240,10 @@ class CtlCurriculum {
 				$id_nivel = $GET['id'];				
 				$this->listarEstudiosFCA($id_nivel, (isset($id_inac) ? $id_inac : ""));
 				break;
+
+			case 'ImprimirFavorito';
+				$this->imprimirFavoritos($idReclutador);
+				break;
 				
 			case 'carInfoAcademicaImagenRegistrar';
 				//obtenemos el nombre del archivo
@@ -248,7 +252,7 @@ class CtlCurriculum {
 					$mensaje = $this->cargarImagenConstancia($FILES['userfile'], $idAlum, 1);
 					new ResultadoCargaImagen($mensaje);
 				}else{
-					//Irá directo al registro
+					//Irï¿½ directo al registro
 					$informacionAcademica = new InfoAcademica();
 					$mensaje = $informacionAcademica->registrarGradoAcademico($idAlum);
 					new ResultadoCargaImagen($mensaje);
@@ -262,7 +266,7 @@ class CtlCurriculum {
 					$mensaje = $this->cargarImagenConstancia($FILES['userfile'], $idAlum, 2);
 					new ResultadoCargaImagen($mensaje);
 				}else{
-					//Irá directo a la edición
+					//Irï¿½ directo a la ediciï¿½n
 					$informacionAcademica = new InfoAcademica();
 					$mensaje = $informacionAcademica->actualizarGradoAcademico($idAlum);
 					new ResultadoCargaImagen($mensaje);
@@ -270,13 +274,14 @@ class CtlCurriculum {
 				break;			
 				
             	                
+
             case "BuscarCurriculum";
 //            	echo "grado".$_GET['idGrado'];
             	$this->buscarCurriculum($_GET['idGrado']);
             	break;
             	
-            case "IrAFavoritos":
-            	echo "Favs";
+            case "IrAFavoritos";
+            	$this->consultarFavortios($idReclutador);
             	break;
             	
             case "AgregarAFavoritos";
@@ -286,10 +291,11 @@ class CtlCurriculum {
             	if (!isset($agregar)) {
             		$agregar = false;
             	}
-            	echo $this->agregarEliminarFavorito($idAlum, $idReclutador, $agregar);
+            	$this->agregarEliminarFavorito($idAlum, $idReclutador, $agregar);
             	break;
            	
             case "CurriculumAlumno";
+            	$idAlum = $_GET['idAlumno'];
             	$this->consultarCurriculum($idAlum, true, $idReclutador);
             	break;            	
 
@@ -772,7 +778,7 @@ class CtlCurriculum {
     }
 
     /**
-	 *Funcion para mostrar la información academica del alumno
+	 *Funcion para mostrar la informaciï¿½n academica del alumno
 	 *@author Liliana Luna
 	 *@param
 	 **/
@@ -806,9 +812,9 @@ class CtlCurriculum {
 	}
 
     /**
-     *Funcion para listar los grados académicos
+     *Funcion para listar los grados acadï¿½micos
      *@author Liliana Luna 
-     *@param opcion: determina si se listan todos los grados académicos o uno en específico (de la FCA u otro).
+     *@param opcion: determina si se listan todos los grados acadï¿½micos o uno en especï¿½fico (de la FCA u otro).
      **/
 	public function listarGradosAcademicos($opcion, $id_infoAca, $idAlum){
 		
@@ -879,7 +885,7 @@ class CtlCurriculum {
 	
 	/**
 	 *Valida el archivo y le asigna lugar en el servidor.
-	 *@author García Solis Eduardo - Liliana Luna
+	 *@author Garcï¿½a Solis Eduardo - Liliana Luna
 	 *@param Recibe el archivo a validar
 	 **/
 	
@@ -894,7 +900,7 @@ class CtlCurriculum {
 			//primero se hace el registro			
 			$res .=$informacionAcademica->registrarGradoAcademico($idAlum);
 		}elseif($opcion==2){
-			//primero se hace la edición
+			//primero se hace la ediciï¿½n
 			$infoAc_id = $_POST['id'];			
 			$res .=$informacionAcademica->actualizarGradoAcademico($idAlum);
 		}
@@ -1086,8 +1092,9 @@ class CtlCurriculum {
 	 */
     public function consultarCurriculum($idAlumno, $esReclutador, $idReclutador = 0) {
     	$alumno = new Alumno();
-    	$btnAgregar = "<input type=\"button\" value=\"Agregar a Favoritos\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarAFavoritos' , 'frmCurriculum', 'Respuesta')\">";
-    	$btnEliminar = "<input type=\"button\" value=\"Eliminar de Favoritos\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EliminarDeFavoritos' , 'frmCurriculum', 'Respuesta')\">";
+    	$btnAgregar = "<input type=\"button\" value=\"Agregar a Favoritos\" id=\"Agregar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarAFavoritos' , 'frmCurriculum', 'Respuesta')\">";
+    	$btnEliminar = "<input type=\"button\" value=\"Eliminar de Favoritos\" id=\"Eliminar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EliminarDeFavoritos' , 'frmCurriculum', 'Respuesta')\">";
+    	$btnImprimir = "<input type=\"button\" value=\"Imprimir\" id=\"Imprimir\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'ImprimirFavorito' , 'frmCurriculum', 'Respuesta')\">";
     	$infoAcademica = new InfoAcademica();
     	$infoLaboral = new InfoLaboral();
     	$curso = new Curso();
@@ -1104,7 +1111,7 @@ class CtlCurriculum {
     			$strTable .= $btnAgregar;
     		}
     	}
-    	echo $strTable."</form> ";
+    	echo $strTable."</form>";
     }
 
 	/**
@@ -1117,23 +1124,90 @@ class CtlCurriculum {
 	 */    
     public function agregarEliminarFavorito($idAlumno, $idReclutador, $agregar) {
     	$btnAgregar = "<input type=\"button\" value=\"Agregar a Favoritos\" id=\"Agregar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarAFavoritos' , 'frmCurriculum', 'Respuesta')\">";
-    	$btnEliminar = "<input type=\"button\" value=\"Eliminar de Favoritos\" id=\"Eliminar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EliminarDeFavoritos' , 'frmCurriculum', 'Respuesta')\">";    	
+    	$btnEliminar = "<input type=\"button\" value=\"Eliminar de Favoritos\" id=\"Eliminar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EliminarDeFavoritos' , 'frmCurriculum', 'Respuesta')\">";
+    	$btnImprimir = "<input type=\"button\" value=\"Imprimir\" id=\"Imprimir\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'ImprimirFavorito' , 'frmCurriculum', 'Respuesta')\">";    	
     	$reclutador = new Reclutador();
     	if ($agregar) {
 	    	if ($reclutador->agregarFavorito($idReclutador, $idAlumno)) {
-	    		return "<b> <p>Agregado a Favoritos".$btnEliminar;
+	    		echo "<b> <p>Agregado a Favoritos".$btnEliminar;
 	    	} else {
-	    		return "<b><p> No se pudo agregar a Favoritos".$btnAgregar;
+	    		echo "<b><p> No se pudo agregar a Favoritos".$btnAgregar;
 	    	}
     	} else {
     		if ($reclutador->eliminarFavorito($idReclutador, $idAlumno)) {
-	    		return "<b><p>".$btnAgregar;
+	    		echo "<b><p>".$btnAgregar;
 	    	} else {
-	    		return "<b><p> No se pudo eliminar de Favoritos".$btnEliminar;
+	    		echo "<b><p> No se pudo eliminar de Favoritos".$btnImprimir.$btnEliminar;
 	    	}    				
     	}
     }
     
+    
+    /**
+     * 
+     * Consulta los favoritos de un reclutador y muestra el boton imprimir para imprimir toda la lista de alumnos en Favoritos.
+     * @author BenjamÃ­n Aguirre GarcÃ­a
+     * @param $idReclutador ID del reclutador.
+     */
+    public function consultarFavortios($idReclutador) {
+    	$reclutador = new Reclutador();
+    	$favoritos = $reclutador->obtenerFavoritos($idReclutador);
+    	
+		$strTable = "<table> 
+				<thead> 
+					<tr>
+						<th colspan='4'> Resultados de Busqueda 
+					<tr> 
+						<th> Nombre del Alumno
+						<th> Nivel Educativo 
+						<th> Carrera
+						<th>";
+		if ($favoritos != null) {
+			$infoAcademica1 =  new InfoAcademica();
+			$alumno1 = new Alumno();
+	    	foreach($favoritos as $fav) {
+	    			$infoAcademica = $infoAcademica1->obtener($fav['al_id']);
+	    			$infoAcademica = $infoAcademica[0];
+	    			$infoAlumno = $alumno1->obtenerInfoPersonal($fav['al_id']);
+	    			$infoAlumno = $infoAlumno[0];
+					$strTable .= "<tbody>
+									<form id='$fav[al_id]'>
+									<tr>
+										<td> $infoAlumno[pe_nombre] $infoAlumno[pe_apellido_paterno] $infoAlumno[pe_apellido_materno] <input type='hidden' id='idAlumno' name='idAlumno' value='$fav[al_id]'>
+										<td> $infoAcademica[nies_descripcion]
+										<td> $infoAcademica[esfc_descripcion]
+										<td> <input type='button' value='Ver' onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'CurriculumAlumno' , '$fav[al_id]', 'contenido')\">
+									</form> ";    	
+	    	}
+	    	$strTable .= "
+	    					<tr>
+	    					 	<td> <input type=\"button\" value=\"Imprimir\" id=\"Imprimir\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'ImprimirFavorito' , 'vacio' , 'contenido'); alert('Para imprimir al mostrarse la pantalla de impresiÃ³n presione CTRL + P');\">";
+		} else {
+			$strTable = "<h1> No tienes Favoritos";
+		} 
+    	echo $strTable;
+    }
+    
+    /**
+     * 
+     * Obtiene los favoritos y regresa los datos de todos los alumnos listados en favoritos del Reclutador con:
+     * 	Nombre
+     *  Carrera
+     *  Correo
+     *  Telefonos 
+     * Y los manda a una pantalla lista para imprimir.
+     * @param $idReclutador id del Reclutador
+     */
+    function imprimirFavoritos($idReclutador) {
+    	$reclutador = new Reclutador();
+    	$favoritos =  $reclutador->obtenerFavoritos($idReclutador);
+    	$alumno = new Alumno();
+    	$strFavoritos = "<table>";
+		foreach ($favoritos as $favorito) {
+			$strFavoritos .= $alumno->toStringContacto($favorito['al_id']);
+		}
+		echo $strFavoritos;
+    }
 }
 
 //new CtlCurriculum($_GET);

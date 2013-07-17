@@ -18,9 +18,10 @@ class Reclutador {
 	 */
 	public function obtenerFavoritos($idReclutador) {
 		$conn = new InterfazBD2();
-//		$select = 
-		
-		
+    	$select = "SELECT * FROM ingsw.favoritos_reclutador_alumno WHERE re_id=$idReclutador";
+    	$res = $conn->consultar($select);
+    	$conn->cerrarConexion();
+		return $res;
 	}
 
 	/**
@@ -36,6 +37,7 @@ class Reclutador {
 		$insert['re_id'] = $idReclutador;
 		$insert['al_id'] = $idAlumno;
 		$res = $conn->ejecutarInsert("ingsw.favoritos_reclutador_alumno", $insert, "fareal_id");
+		$conn->cerrarConexion();
 		if (!$res) {
 			return false;
 		} else {
@@ -56,7 +58,7 @@ class Reclutador {
 		$conn = new InterfazBD2();
 		$query = "DELETE FROM ingsw.favoritos_reclutador_alumno WHERE re_id=$idReclutador AND al_id=$idAlumno;";
 		$res = $conn->ejecutarQuery($query);
-//		print_r($res);
+		$conn->cerrarConexion();
 		if ($res) {
 			return true;
 		} else {
@@ -68,6 +70,7 @@ class Reclutador {
 		$conn = new InterfazBD2();
 		$query = "SELECT * FROM ingsw.favoritos_reclutador_alumno WHERE re_id=$idReclutador AND al_id=$idAlumno;";
 		$res = $conn->consultar($query);
+		$conn->cerrarConexion();
 		if ($res == null) {
 			return false;
 		} else {
