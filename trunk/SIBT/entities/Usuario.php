@@ -61,6 +61,102 @@ class Usuario{
 		return $estado;
 	}
 	// Fin Registrar Usuario	
+	
+	//Inicio consultar usuario
+	
+	public function obtenerUsuariosCoordDirAsis() {
+		$interfazBD = new InterfazBD2();
+		$query = "SELECT TU.tius_descripcion, U.us_id, U.us_nombre FROM INGSW.USUARIO_TIPO_USUARIO UTU INNER JOIN INGSW.USUARIO U ON(U.us_id=UTU.us_id) INNER JOIN INGSW.TIPO_USUARIO TU ON(TU.tius_id=UTU.tius_id) INNER JOIN INGSW.PERSONA P ON(P.pe_id=U.pe_id);";
+		$usuarios = $interfazBD->consultar($query);
+		if($usuarios){
+			$interfazBD->cerrarConexion();
+			return $usuarios;
+		}else{
+			$interfazBD->cerrarConexion();
+			return false;
+		}
+	}
+	
+	public function obtenerDatosUsuario($id) {
+		$interfazBD = new InterfazBD2();
+		$query = "SELECT P.pe_id, U.us_id, TU.tius_id, TU.tius_descripcion, U.us_nombre,  CE.coel_correo FROM INGSW.USUARIO_TIPO_USUARIO UTU INNER JOIN INGSW.USUARIO U ON(U.us_id=UTU.us_id) INNER JOIN INGSW.TIPO_USUARIO TU ON(TU.tius_id=UTU.tius_id) INNER JOIN INGSW.PERSONA P ON(P.pe_id=U.pe_id) INNER JOIN INGSW.CORREO_ELECTRONICO CE ON(P.pe_id=CE.pe_id) WHERE ".$id." =  U.us_id;";
+		$datos = $interfazBD->consultar($query);
+		if($datos){
+			$interfazBD->cerrarConexion();
+			return $datos = $datos[0];
+		}else{
+			$interfazBD->cerrarConexion();
+			return false;
+		}
+	}
+	
+	public function modificarUsuario($GET){
+		$conexion = new InterfazBD2();
+	
+		$usuario = $GET['usuario'];
+		$tius_id = $GET['tipoUsuario'];
+		$eMail = $GET['eMail'];
+		$pe_id =  isset($GET['pe_id']) ? $GET['pe_id'] : "";
+		$us_id =  isset($GET['us_id']) ? $GET['us_id'] : "";
+	
+		// echo "Datos2: $usuario, $tius_id, $eMail, $pe_id, $us_id";
+	
+		$query = "UPDATE INGSW.USUARIO SET us_nombre='".$usuario."' WHERE pe_id = '".$pe_id."'; UPDATE INGSW.USUARIO_TIPO_USUARIO SET tius_id='".$tius_id."' WHERE us_id='".$us_id."'; UPDATE INGSW.CORREO_ELECTRONICO SET coel_correo= '".$eMail."' WHERE pe_id='".$pe_id."';
+" ;
+		if ($conexion->ejecutarQuery($query)){
+			echo"
+			<table>
+			  <tr>
+				<td colspan=\"2\">Se ha modificado la información exitosamente</td>
+			  </tr>
+			  <tr>
+				<td colspan=\"2\">
+				<input type= 'button' value='Aceptar' onclick=\"ajax('controllers/gestionarUsuario/CtlUsuario.php', 'consUsuario', 'vacio', 'contenido'); \" />
+				</td>
+			  </tr>
+			</table>
+		";
+				
+	
+		} else {
+			echo "ERROR al actualizar los datos";
+		}
+		$conexion->cerrarConexion();
+	
+	}
+	
+	
+	public function bajaUsuario($GET){
+		$conexion = new InterfazBD2();
+	
+		$pe_id =  isset($GET['pe_id']) ? $GET['pe_id'] : "";
+		$us_id =  isset($GET['us_id']) ? $GET['us_id'] : "";
+	
+		//echo "$pe_id, $us_id";
+	
+		$query = "DELETE FROM INGSW.USUARIO WHERE pe_id='".$pe_id."'; DELETE FROM INGSW.CORREO_ELECTRONICO WHERE pe_id='".$us_id."';" ;
+		if ($conexion->ejecutarQuery($query)){
+			echo"
+			<table>
+			  <tr>
+				<td colspan=\"2\">El usuario ha sido dado de baja satistactoriamente</td>
+			  </tr>
+			  <tr>
+				<td colspan=\"2\">
+				<input type= 'button' value='Aceptar' onclick=\"ajax('controllers/gestionarUsuario/CtlUsuario.php', 'consUsuario', 'vacio', 'contenido'); \" />
+				</td>
+			  </tr>
+			</table>
+		";
+				
+	
+		} else {
+			echo "ERROR al actualizar los datos";
+		}
+		$conexion->cerrarConexion();
+	}
+	
+	// Fin consultar usuario
 }
 
 ?>
