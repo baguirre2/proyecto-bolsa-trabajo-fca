@@ -77,7 +77,6 @@ class InfoLaboral {
     public function toString($idAlumno) {
         $conn = new InterfazBD();
         $query = "SELECT * FROM ingsw.informacion_laboral WHERE al_id=$idAlumno";
-//        echo $query;
         $res = $conn->consultar($query);
         $conn->cerrarConexion();
         if ($res == null) {

@@ -50,12 +50,12 @@ class InfoAcademica {
      */
     public function obtener ($idAlumno) {
     	$conn = new InterfazBD2();
-    	$query = "SELECT * FROM ingsw.informacion_academica AS inac 
+    	$select = "SELECT * FROM ingsw.informacion_academica AS inac 
 					JOIN ingsw.estudio_fca AS esfc ON (inac.esfc_id = esfc.esfc_id)
 					JOIN ingsw.nivel_estudio AS nies ON (esfc.nies_id = nies.nies_id)
 					JOIN ingsw.estado_academico AS esac ON (inac.esac_id = esac.esac_id)
 					WHERE inac.al_id = $idAlumno;";
-    	$res = $conn->consultar($query);
+    	$res = $conn->consultar($select);
     	$conn->cerrarConexion();
     	return $res; 
     }
@@ -72,6 +72,7 @@ class InfoAcademica {
     }
     
 	/**
+	 * Obtiene otros estudios
 	 * @author Benjamín Aguirre García
 	 */        
     public function obtenerOtrosEstudios () {
@@ -83,6 +84,7 @@ class InfoAcademica {
     }
 
 	/**
+	 * Obtiene los estudios de la FCA por Nivel recibido.
 	 * @author Benjamín Aguirre García
 	 * @param $nivelEstudio id del nivel de estudios
 	 */        
@@ -95,6 +97,7 @@ class InfoAcademica {
     }
     
 	/**
+	 * Busca y regresa los alumnos que tengan cierto grado escolar en la FCA.
 	 * @author Benjamín Aguirre García
 	 * @param $idEstudiosFCA Id del Alumno
 	 */        
@@ -109,13 +112,14 @@ class InfoAcademica {
 					JOIN ingsw.alumno AS al ON (al.al_id = inac.al_id)
 					JOIN ingsw.persona AS pe ON (al.pe_id = pe.pe_id)
 					WHERE inac.esfc_id = $idEstudiosFCA;";
-//    	echo $query; 
     	$res = $conn->consultar($query);
     	$conn->cerrarConexion();
     	return $res;
     }
 
 	/**
+	 * Hace un reporte completo de la Información Academica del un alumno, esto se añade a un <table> $InfoAcademica->toString </table>
+	 * para un armado de toda la información mas completo. 
 	 * @author Benjamín Aguirre García
 	 * @param $idAlumno Id del Alumno
 	 */    
@@ -126,7 +130,7 @@ class InfoAcademica {
 				<tr> <th colspan='4'>  Informacion Académica </th> </tr> ";
 		foreach ($res as $datos) {
 			$strInfoAcademica .= "
-				<tr> <th colspan='2'> $datos[nies_descripcion] - $datos[esfc_descripcion] ($datos[esac_tipo]: $datos[inac_fecha_inicio] ";
+				<tr> <td colspan='2'> <b> $datos[nies_descripcion] - $datos[esfc_descripcion] ($datos[esac_tipo]: $datos[inac_fecha_inicio] ";
 			
 			if ($datos['inac_fecha_termino'] != null) {
 				$strInfoAcademica .= "-  $datos[inac_fecha_termino])";

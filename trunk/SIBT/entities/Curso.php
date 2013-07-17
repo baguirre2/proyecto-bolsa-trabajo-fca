@@ -131,6 +131,7 @@ class Curso {
     }
     
 	/**
+	 * Regresa la información de Cursos en formato para tabla, a partir del tr.
 	 * @author Benjamín Aguirre García
 	 * @param $idAlumno Id del Alumno
 	 */    
