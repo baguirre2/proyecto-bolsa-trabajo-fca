@@ -1,0 +1,65 @@
+<!-- 
+ * Archivo: Formulario frmAluActAlumno.html
+ * Autor:	Victor M. Morales Reyes.
+ * Fecha:	martes 16/Julio/2013
+ * Modificaciones: 
+ * -
+ * -
+ -->
+
+<?php
+/* */
+?>
+
+<!--<div id="resActualizarAlumno"></div>-->
+
+<h1>Actualizar Datos del Alumno</h1>
+<form id="frmActAlumno">
+    <table>
+        <tbody>
+        	<tr>
+    			<th colspan=2>Modificar datos
+                <input type="hidden" name="pe_id" value="<?php echo $datosAlumno['pe_id']; ?>" />
+                </th>
+    		</tr>
+            <tr>
+                <td>Nombre(s): </td>
+                <td><?php echo $datosAlumno['pe_nombre']; ?></td>
+            </tr>
+            <tr>
+                <td>Apellido Paterno: </td>
+                <td><?php echo $datosAlumno['pe_apellido_paterno']; ?></td>
+            </tr>
+            <tr>
+                <td>Apellido Materno: </td>
+                <td><?php echo $datosAlumno['pe_apellido_materno']; ?></td>
+            </tr>
+    		<tr>
+                <td>Carrera: </td>
+                <td><? echo $datosAlumno['esfc_descripcion'];  ?></td>
+            </tr>
+            <tr>
+                <td>Correo Electr&oacute;nico: </td>
+                <td><input type="text" name="coel_correo" value="<?php echo $datosAlumno['coel_correo']; ?>" /></td>
+            </tr>
+            <tr>
+                <td>Contraseña: </td>
+                <td><input type="password" name="us_contrasenia" value="<?php echo $datosAlumno['us_contrasenia']; ?>" /></td>
+            </tr>
+            <tr>
+                <td>Confirmar Contraseña: </td>
+                <td><input type="password" name="conf_us_contrasenia" value="<?php echo $datosAlumno['us_contrasenia']; ?>" /></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <table>
+    	<tbody>
+    		<br/>
+            <tr>
+               	<td><input type="button" value="Actualizar" onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'confActAlu', 'frmActAlumno', 'contenido');"/></td>
+            	<td><input type="button" value="Cancelar" onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');"/></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
