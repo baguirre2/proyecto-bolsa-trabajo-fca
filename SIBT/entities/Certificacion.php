@@ -112,9 +112,25 @@ class Certificacion{
 			if(!isset($msg)){
 				$msg = "";
 			}else if($msg == 1){
-				$msg = "<h1 class=respuesta>Registro realizado con éxito</h1><br/>";
+				$msg = "<div class=\"inner-heading\">
+						   <div class=\"container\">
+						       <div class=\"row\">
+						           <div class=\"span12\">
+						               <h1 class=\"animated fadeInDown delay1\">Registro realizado con éxito</h1>
+						           </div>
+						       </div>
+						   </div>
+						</div>";
 			}else if($msg == 2){
-				$msg = "<h1 class=respuesta>Registro actualizado con éxito</h1><br/>";
+				$msg = "<div class=\"inner-heading\">
+						   <div class=\"container\">
+						       <div class=\"row\">
+						           <div class=\"span12\">
+						               <h1 class=\"animated fadeInDown delay1\">Registro actualizado con éxito</h1>
+						           </div>
+						       </div>
+						   </div>
+						</div>";
 			}
 	
 			$respuesta = $msg;
