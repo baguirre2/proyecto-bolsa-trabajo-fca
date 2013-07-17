@@ -1,18 +1,35 @@
 <!-- 
  * Archivo: Formulario frmCurrRegistroCertificacion
- * Autor:	Emmanuel García C.
+ * Autor:	Emmanuel GarcÃ­a C.
  * Fecha:	Sabado 23/Junio/2013
- * Modificaciones: 
- * -
- * -
+ * Modificaciones: 16/Julio/2013
+ * -IntegraciÃ³n de los cambios de pruebas sobre validaciones
+ * -Cambio en los botones de Registrar y Modificar para agregar lo de la carga de imÃ¡genes
+ * -IntegraciÃ³n de los cambios para los estilos
  -->
 
 <div id="resFrmRegistroCurriculum"></div>
 
 <?php  if(isset($registro[0]['ce_id'])){  ?>
-	<h1>Actualizaci&oacuten de certificaci&oacuten</h1>
+	<div class="inner-heading">
+	   <div class="container">
+	       <div class="row">
+	           <div class="span12">
+	               <h1 class="animated fadeInDown delay1">Actualizaci&oacuten de certificaci&oacuten</h1>
+	           </div>
+	       </div>
+	   </div>
+	</div>
 <?php  }else{  ?>
-	<h1>Registro de certificaci&oacuten</h1>
+	<div class="inner-heading">
+	   <div class="container">
+	       <div class="row">
+	           <div class="span12">
+	               <h1 class="animated fadeInDown delay1">Registro de certificaci&oacuten</h1>
+	           </div>
+	       </div>
+	   </div>
+	</div>
 <?php  }  ?>
 
 
@@ -21,30 +38,29 @@
         <tbody>
             <tr>
                 <td>Nombre de la certificaci&oacuten:* </td>
-                <td><input class="required" type="text" name="ce_nombre" value="<?php echo isset($registro[0]['ce_nombre'])? $registro[0]['ce_nombre'] : ''; ?>" placeholder="Nombre"/></td>
+                <td><input class="required" type="text" name="ce_nombre" value="<?php echo isset($registro[0]['ce_nombre'])? $registro[0]['ce_nombre'] : ''; ?>"/></td>
             </tr>
             
             <tr>
                 <td>Descripci&oacuten: </td>
-                <td><input type="text" class="required" name="ce_descripcion" value="<?php echo isset($registro[0]['ce_descripcion'])? $registro[0]['ce_descripcion'] : ''; ?>" placeholder="Descripción"/></td>
+                <td><input type="text" class="required" name="ce_descripcion" value="<?php echo isset($registro[0]['ce_descripcion'])? $registro[0]['ce_descripcion'] : ''; ?>"/></td>
             </tr>
             <tr>
                 <td>Empresa/Instituci&oacuten:* </td>
-                <td><input class="required" type="text" name="ce_empresa" value="<?php echo isset($registro[0]['ce_empresa'])? $registro[0]['ce_empresa'] : ''; ?>" placeholder="Institución"/></td>
+                <td><input class="required" type="text" name="ce_empresa" value="<?php echo isset($registro[0]['ce_empresa'])? $registro[0]['ce_empresa'] : ''; ?>"/></td>
             </tr>
             <tr>
                 <td>Duraci&oacuten de la certificaci&oacuten:* </td>
-                <td><input class="required" type="text" name="ce_duracion" value="<?php echo isset($registro[0]['ce_duracion'])? $registro[0]['ce_duracion'] : ''; ?>" placeholder="Duración"/></td>
+                <td><input class="required" type="text" name="ce_duracion" value="<?php echo isset($registro[0]['ce_duracion'])? $registro[0]['ce_duracion'] : ''; ?>"/></td>
             </tr>
             <tr>
                 <td>A&ntildeo de la certificaci&oacuten:* </td>
-                <td><input class="required" type="text" name="ce_anio" value="<?php echo isset($registro[0]['ce_anio'])? $registro[0]['ce_anio'] : ''; ?>" placeholder="Año"/></td>
+                <td><input class="required" type="text" name="ce_anio" value="<?php echo isset($registro[0]['ce_anio'])? $registro[0]['ce_anio'] : ''; ?>"/></td>
                 <td><input type="hidden" name="ce_id" value="<?php echo isset($registro[0]['ce_id'])? $registro[0]['ce_id'] : 'false'; ?>"></td>
             </tr>
             <tr>
 				<td>Cargar constancia: </td>
 				<td><input type="file" name="archivo" id="archivo"/>
-				<!-- <input type="hidden" name="MAX_FILE_SIZE" value="3485760" /></td> -->
 			</tr>
             <tr>
             	<?php
