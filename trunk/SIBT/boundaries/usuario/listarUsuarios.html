@@ -1,0 +1,31 @@
+<!-- 
+ * Archivo: listarUsuario
+ * Autor:	Victor M. Morales Reyes
+ * Fecha:	Domingo 17/Julio/2013
+ * Modificaciones: 
+ * -
+ * -
+ -->
+<h1>Consultar Usuarios</h1>
+
+    <table >
+        	<tr>
+           	  <th>Usuario</th>
+                <th>Modificar</th>
+                <th>Baja</th>
+            </tr>
+   
+    <?php $contador = 0; while($consultaUsuarios[$contador]){ ?>
+           <tr>
+  
+          	
+            <tr>           
+            	<td><center><?php echo $consultaUsuarios[$contador]['us_nombre'] ; ?></center></td>
+   			  	<td><center><input type="image" src="http://rigel.fca.unam.mx/~li302183784/IngOO/Imagenes/Modificar.gif" onclick="ajaxConId('controllers/gestionarUsuario/CtlUsuario.php', 'modifUsuario', 'vacio', 'contenido', <?php echo "'".$consultaUsuarios[$contador]['us_id']."' "; ?>  );"/></center></td>
+                <td><center><input type="image" src="http://rigel.fca.unam.mx/~li302183784/IngOO/Imagenes/baja.png" onclick="ajaxConId('controllers/gestionarUsuario/CtlUsuario.php', 'confBajaUsuario', 'vacio', 'contenido', <?php echo "'".$consultaUsuarios[$contador]['us_id']."' "; ?>  );"/></center></td>
+            </tr>
+   
+     <?php $contador = $contador + 1; }  ?>
+     </tr>
+      </table>
+
