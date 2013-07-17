@@ -1,6 +1,6 @@
 function ajax (url, opc, frm, div) {
     
-    if (validar2(frm)) { //Si el formulario es válido
+    if (validar2(frm)) { //Si el formulario es vÃ¡lido
     
         //Se carga el contenido
          $("#" + div).load(url + "?opc=" + opc + "&" + getFormData(frm, 'silent', true), function(){
@@ -18,14 +18,14 @@ function ajaxConId (url, opc, frm, div, id) {
 }
 
 /*
- * Emmanuel Antonio Garc�a Carrillo
- * Funci�n que permite evaluar si se carg� una imagen para subirla al servidor
+ * Emmanuel Antonio García Carrillo
+ * Función que permite evaluar si se cargó una imagen para subirla al servidor
  * de lo contrario solo inserta los datos normales.
  */
 function ajaxConImagen(url, opc, frm , div, tipo){
 	  var img = document.getElementById("archivo").value;
-	  if(img.length != 0){	//Si se carg� una imagen
-		  //alert("Se carg� una imagen");
+	  if(img.length != 0){	//Si se cargó una imagen
+		  //alert("Se cargó una imagen");
 		  var inputFileImage = document.getElementById("archivo");
 		  var file = inputFileImage.files[0];
 		  var data = new FormData();
@@ -47,32 +47,41 @@ function ajaxConImagen(url, opc, frm , div, tipo){
 			
 				  if(msg != "false"){
 					  //alert(msg);
-					  $("#" + div).load(url + "?opc=" + opc + "&nombreImagen=" + msg + "&" + getFormData(frm, 'silent', true));
+					  $("#" + div).load(url + "?opc=" + opc + "&nombreImagen=" + msg + "&" + getFormData(frm, 'silent', true), function(){
+        
+                tablasSort(); //Se activa el ordenamiento si existe la tabla
+            });     
 				  }else{
-					  $("#" + div).load(url + "?opc=" + opc + "&" + getFormData(frm, 'silent', true));
+					  $("#" + div).load(url + "?opc=" + opc + "&" + getFormData(frm, 'silent', true), function(){
+        
+              tablasSort(); //Se activa el ordenamiento si existe la tabla
+              });     
 				  }
 			  });
 		  }
 	  }else{
-		  //alert("No se carg� una imagen");
+		  //alert("No se cargó una imagen");
 		  if (validar2(frm)) {
-			  $("#" + div).load(url + "?opc=" + opc + "&" + getFormData(frm, 'silent', true));
+			  $("#" + div).load(url + "?opc=" + opc + "&" + getFormData(frm, 'silent', true),  function(){
+        
+              tablasSort(); //Se activa el ordenamiento si existe la tabla
+        });     
 		  }
 	  }
 }
 
 function getFormData(objf, info, rval) {
-    // La función getFormData recorre todos los elementos de un formulario
+    // La funciÃ³n getFormData recorre todos los elementos de un formulario
     // y va formando una cadena de formato "objeto=valor&objeto=valor&...".
     // Los campos del formulario para los que se haya especificado el
-    // atributo TITLE, serán considerados campos obligatorios.
+    // atributo TITLE, serÃ¡n considerados campos obligatorios.
     //
     // formato: getFormData(objetoFormulario, tipoAvisoError, returnValue);
     // objetoFormulario: tiene que ser el OBJETO, NO el nombre del formulario
     // tipoAvisoError: silent: no muestra errores, si no se obtuvieron datos del formulario
-    // alert: muestra un mensaje de alerta y detiene la ejecución, si no se obtuvieron los datos
+    // alert: muestra un mensaje de alerta y detiene la ejecuciÃ³n, si no se obtuvieron los datos
     // returnValue: si debe devolver o no el resultado, true o false
-    // los campos con el title vació no son alertados
+    // los campos con el title vaciÃ³ no son alertados
     //
     // ejemplo: var queryStrign = getFormData('formularioId', 'silent', true);
     var formComplete = true;
@@ -83,24 +92,24 @@ function getFormData(objf, info, rval) {
         
         if (formObj.elements[i].type != undefined && formObj.elements[i].name != undefined){
             var elemValLength = formObj.elements[i].value;
-            // si algún campo para el envío de archivos cambia el enctype del form.
+            // si algÃºn campo para el envÃ­o de archivos cambia el enctype del form.
             if (formObj.elements[i].type == "file"){
                 formObj.enctype = "multipart/form-data";
             }
-            // chequea que todos los campos con atributo TITLE estén completos.
+            // chequea que todos los campos con atributo TITLE estÃ©n completos.
             if (formObj.elements[i].title != "" && elemValLength.length < 1) {
                 alertMsg += " - " + formObj.elements[i].title + "\r";
                 formComplete = false;
                 continue;
             }
-            // si es un checkbox, verifica que esté chequeado
+            // si es un checkbox, verifica que estÃ© chequeado
             if (formObj.elements[i].type == "checkbox"){
                 if (formObj.elements[i].checked == true){
                     getstr += formObj.elements[i].name + "=" + encodeURIComponent(formObj.elements[i].value) + "&";
                 }
                 continue;
             }
-            // si es un radio, verifica que esté chequeado
+            // si es un radio, verifica que estÃ© chequeado
             if (formObj.elements[i].type == "radio"){
                 if (formObj.elements[i].checked == true){
                     getstr += formObj.elements[i].name + "=" + encodeURIComponent(formObj.elements[i].value) + "&";
@@ -150,7 +159,7 @@ function validar2(formulario_id){
 }
 
 
-//Ordenamiento, versión para imprimir y pdf
+//Ordenamiento, versiÃ³n para imprimir y pdf
 function tablasSort(){
            $('.tablas_sort').dataTable( {
         "sDom": 'T<"clear">lfrtip',
@@ -172,12 +181,12 @@ function tablasSort(){
          "sSearch": "Buscar:",
           "oPaginate": {
                 "sFirst": "Primera",
-                 "sLast": "Última",
+                 "sLast": "Ãltima",
                  "sNext": "Siguiente",
                  "sPrevious": "Anterior"
             },
-            "sLengthMenu": "Mostrar _MENU_ registros por página",
-	    "sZeroRecords": "Disculpe no se encontrarón datos",
+            "sLengthMenu": "Mostrar _MENU_ registros por pÃ¡gina",
+	    "sZeroRecords": "Disculpe no se encontrarÃ³n datos",
 	    "sInfo": "Mostrando de _START_ a _END_ de un total de _TOTAL_",
 	    "sInfoEmpty": "Mostrando de 0 a 0 de un total de 0 ",
 	    "sInfoFiltered": "(filtrados de _MAX_ registros totales)"
