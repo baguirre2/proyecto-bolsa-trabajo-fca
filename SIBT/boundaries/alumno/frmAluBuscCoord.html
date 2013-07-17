@@ -1,0 +1,52 @@
+<!-- 
+ * Archivo: Formulario frmBuscaAlumno
+ * Autor:	Victor M. Morales Reyes.
+ * Fecha:	Miércoles 10/Julio/2013
+ * Modificaciones: 
+ * -
+ * -
+ -->
+
+<?php
+/* */
+?>
+
+<!--<div id="resActualizarAlumno"></div>-->
+
+<h1>Actualizar Datos del Alumno</h1>
+<form id="frmBuscaAlumno">
+    <table>
+        <tbody>
+        	<tr>
+    			<td colspan=2><h4>Proporciona por lo menos uno de los siguientes datos:</h4></td>
+    		</tr>
+            <tr>
+                <td>N&uacutemero de Cta.: </td>
+                <td><input type="text" name="al_num_cuenta" value="" placeholder="Número de cuenta"/></td>
+            </tr> 		
+            <tr>
+                <td>Nombre(s): </td>
+                <td><input type="text" name="pe_nombre" value="" placeholder="Nombre(s)"/></td>
+            </tr>
+            <tr>
+                <td>Apellido Paterno: </td>
+                <td><input type="text" name="pe_apellido_paterno" value="" placeholder="Apellido Paterno"/></td>
+            </tr>
+            <tr>
+                <td>Apellido Materno: </td>
+                <td><input type="text" name="pe_apellido_materno" value="" placeholder="Apellido Materno"/></td>
+            </tr>
+    		
+        </tbody>
+    </table>
+    
+    <table>
+    	<tbody>
+    		<br/>
+            <tr>
+               	<td><input type="button" name="btnBuscar" value="Buscar" onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'buscAlumno', 'frmBuscaAlumno', 'contenido');"/></td>
+            	<td><input type="button" name="btnCancelar" value="Cancelar" onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'casoInicia', 'vacio', 'contenido');"/></td>
+            </tr>
+        </tbody>
+    </table>
+</form>

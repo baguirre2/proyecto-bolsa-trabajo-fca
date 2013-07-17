@@ -1,0 +1,48 @@
+
+	
+		<table >
+  			<tr>
+   				<th>Num. Cuenta &nbsp; </th>
+    			<th>Nombre(s) &nbsp; </th>
+    			<th>Ap. Patreno &nbsp; </th>
+				<th>Ap. Materno &nbsp; </th>
+				<th>Carrera &nbsp; </th>
+				<th>Corr. Electr&oacute;nico &nbsp; </th>
+				<th>Modificar &nbsp; </th>
+				<th>Ver Detalle &nbsp;</th>
+				</form>
+  			</tr>
+		 <?
+         	$contador = 0; 
+			while ($alumnos[$contador]) {
+			
+        		$row = $alumnos[$contador];
+				$alCuenta = $row['al_num_cuenta'];
+				$peNombre = $row['pe_nombre'];
+				$peApaterno = $row['pe_apellido_paterno'];
+				$peAmaterno = $row['pe_apellido_materno'];
+				$carrera = $row['esfc_descripcion'];
+				$correo = $row['coel_correo'];
+                $usId = $row['us_id'];
+		
+				$contador = $contador + 1;
+				
+				echo "
+					<tr>
+						
+						<td>$alCuenta &nbsp;</td>
+						<td>$peNombre &nbsp; </td>
+						<td>$peApaterno &nbsp; </td>
+						<td>$peAmaterno &nbsp; </td>
+						<td>$carrera &nbsp; </td>
+						<td>$correo &nbsp;</td>
+						<td><center><input type=\"image\" src=\"http://rigel.fca.unam.mx/~li302183784/IngOO/Imagenes/Modificar.gif\" onclick=\"   ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'modAlumno', 'vacio', 'contenido', '".$usId."'); \"/></center></td>
+						<td><center><input type=\"image\" src=\"http://rigel.fca.unam.mx/~li302183784/IngOO/Imagenes/ver_detalle.png\" onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'buscAlumno', '$alCuenta', 'contenido');\"/></center></td>
+						
+					</tr>
+				
+				";
+				
+			}
+            ?>
+            </table>
