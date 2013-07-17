@@ -2,7 +2,7 @@
 
 /*
  * Archivo: Class Certificacion
- * Autor: Emmanuel García C.
+ * Autor: Emmanuel Garcia C.
  * Fecha: Lunes 24/Junio/2013
  */
 
@@ -12,12 +12,12 @@ class Certificacion{
 	}
 	
 	/*
-	 * Método:	registrarCertificacion
-	* Autor:	Emmanuel García
-	* Descripción:
-	* Esta función recibe los datos del formulario de frmRegistroCertificacion.html
-	* y el id del alumno que se encuentra en sesión en ese momento.
-	* Se conecta a la interfaz de conexión e intenta insertar el registro, si es
+	* Metodo	registrarCertificacion
+	* Autor:	Emmanuel Garcia
+	* Descripcion:
+	* Esta funcion recibe los datos del formulario de frmRegistroCertificacion.html
+	* y el id del alumno que se encuentra en sesion en ese momento.
+	* Se conecta a la interfaz de conexion e intenta insertar el registro, si es
 	* exitoso devuelve true, de lo contrario false.
 	*/
 	public function registrarCertificacion($GET, $alumno = NULL) {
@@ -40,12 +40,12 @@ class Certificacion{
 	}
 	
 	/*
-	 * Método:	editarCertificacion
-	* Autor:	Emmanuel García
-	* Descripción:
-	* Esta función recibe los datos del formulario de frmRegistroCertificacion.html
-	* Se conecta a la interfaz de conexión e intenta actualizar los datos de un registro
-	* de certificación, si es exitoso devuelve true, de lo contrario false.
+	* Metodo:	editarCertificacion
+	* Autor:	Emmanuel Garcia
+	* Descripcion:
+	* Esta funcion recibe los datos del formulario de frmRegistroCertificacion.html
+	* Se conecta a la interfaz de conexion e intenta actualizar los datos de un registro
+	* de certificacion, si es exitoso devuelve true, de lo contrario false.
 	*/
 	public function editarCertificacion($GET) {
 		$conexion = new InterfazBD();
@@ -66,11 +66,11 @@ class Certificacion{
 	}
 	
 	/*
-	 * Método:	listarCertificaciones
-	* Autor:	Emmanuel García
-	* Descripción:
-	* Esta función recibe el id del alumno que esta en sesión
-	* Se conecta a la interfaz de conexión y busca los registros de las
+	* Metodo:	listarCertificaciones
+	* Autor:	Emmanuel Garcia
+	* Descripcion:
+	* Esta funcion recibe el id del alumno que esta en sesion
+	* Se conecta a la interfaz de conexion y busca los registros de las
 	* certificaciones de ese Alumno, si existen registros devuelve todos en forma de tabla,
 	* de lo contrario un mensaje indicando que se encontraron registros.
 	*/
@@ -81,7 +81,7 @@ class Certificacion{
 		$query = "SELECT * FROM ingsw.certificacion WHERE al_id = ".$alumno." ORDER BY ".$orden.";";
 		$resultados = $conexion->consultar($query);
 		if($resultados != false){
-			//echo "Conexión hecha";
+			//echo "Conexion hecha";
 			$registros = "";
 			for ($i=0; $i <= count($resultados)-1; $i++) {
 				$registros .= "<tr><td>".$resultados[$i]['ce_nombre']."</td>";
@@ -93,56 +93,42 @@ class Certificacion{
 				if($resultados[$i]['esau_id'] != 1){
 					$registros .= "<td><input type=\"button\" name=\"btnEditar\" value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'vacio', 'contenido', '".$resultados[$i]['ce_id']."');\">";
 					$registros .= ($resultados[$i]['ce_ruta_constancia'] != '' || $resultados[$i]['ce_ruta_constancia'] != null)?
-					"<a href=\"constancias/certs/".$resultados[$i]['ce_ruta_constancia']."\" data-lightbox=\"".$resultados[$i]['ce_id']."\" title=\"Certificación\"><img src=\"webroot/images/btn_ver_img.jpg\" /></a>"
+					"<a href=\"constancias/certs/".$resultados[$i]['ce_ruta_constancia']."\" data-lightbox=\"".$resultados[$i]['ce_id']."\" title=\"Certificaciï¿½n\"><i class=\"fontawesome-icon button circle-button green icon-file\"/></a>"
 							: "" ;
 				}else{
 					$registros .= "<td>";
 				}
-	
-				/*
-					$registros .= ($resultados[$i]['esau_id'] != 1)?
-				"<td>
-				<input type=\"button\" name=\"btnEditar\" value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'vacio', 'contenido', '".$resultados[$i]['ce_id']."');\">
-				<a href=\"constancias/certs/cert1.jpg\" data-lightbox=\"cert1\" title=\"Certificación\"><img src=\"webroot/images/btn_ver_img.jpg\" /></a>"
-				:"<td>";
-				*/
 				$registros .= "</td></tr>";
 			}
 	
-			if(!isset($msg)){
+		if(!isset($msg)){
 				$msg = "";
 			}else if($msg == 1){
-				$msg = "<div class=\"inner-heading\">
-						   <div class=\"container\">
-						       <div class=\"row\">
-						           <div class=\"span12\">
-						               <h1 class=\"animated fadeInDown delay1\">Registro realizado con éxito</h1>
-						           </div>
-						       </div>
-						   </div>
-						</div>";
+				$msg = "<h2>Registro realizado con Ã©xito</h2>";
 			}else if($msg == 2){
-				$msg = "<div class=\"inner-heading\">
+				$msg = "<h2>Registro actualizado con Ã©xito</h2>";
+			}
+				
+			$respuesta = $msg;
+			$respuesta.="<div class=\"inner-heading\">
 						   <div class=\"container\">
 						       <div class=\"row\">
 						           <div class=\"span12\">
-						               <h1 class=\"animated fadeInDown delay1\">Registro actualizado con éxito</h1>
+						               <h1 class=\"animated fadeInDown delay1\">Mis certificaciones</h1>
 						           </div>
 						       </div>
 						   </div>
 						</div>";
-			}
-	
-			$respuesta = $msg;
-			$respuesta.="<h1>Mis certificaciones</h1><br/>
-                        <table class=\"tablas_sort\">
+			$respuesta.="<br/><input type=\"button\" name=\"Agregar\" value=\"Agregar CertificaciÃ³n\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_registrar', 'vacio', 'contenido');\">";
+
+            $respuesta.="<table class=\"tablas_sort\">
 	                        <thead>
 		                        <tr>
-			                        <th>Certificación</th>
-			                    	<th>Descripción</th>
-			                        <th>Institución</th>
-			                        <th>Duración</th>
-			                        <th>Año</th>
+			                        <th>CertificaciÃ³n</th>
+			                    	<th>DescripciÃ³n</th>
+			                        <th>InstituciÃ³n</th>
+			                        <th>DuraciÃ³n</th>
+			                        <th>AÃ±o</th>
 			                        <th>Acciones</th>
 		                        </tr>
 	                        </thead>
@@ -150,7 +136,7 @@ class Certificacion{
 	                    	</tbody>
                         </table>
                     ";
-			$respuesta.="<input type=\"button\" name=\"Agregar\" value=\"Agregar Certificación\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_registrar', 'vacio', 'contenido');\">";
+			
 			$conexion->cerrarConexion();
 			return $respuesta;
 		}else{
@@ -162,13 +148,13 @@ class Certificacion{
 	}
 	
 	/*
-	 * Mï¿½todo:	buscarCertificacion
-	 * Autor:	Emmanuel Garcï¿½a
-	 * Descripciï¿½n:
-	 * Esta funciï¿½n recibe el id de la certificaciï¿½n que se puede editar
-	 * Se conecta a la interfaz de conexiï¿½n y busca el registro de la
-	 * certificaciï¿½n a editar, si existe el registro devuelve el registro,
-	 * de lo contrario un mensaje indicando que no se encontrï¿½ el registro.
+	 * Metodo:	buscarCertificacion
+	 * Autor:	Emmanuel Garcia
+	 * Descripcion:
+	 * Esta funcion recibe el id de la certificacion que se puede editar
+	 * Se conecta a la interfaz de conexion y busca el registro de la
+	 * certificacion a editar, si existe el registro devuelve el registro,
+	 * de lo contrario un mensaje indicando que no se encontro el registro.
 	*/
 	public function buscarCertificacion($ce_id = NULL){
 		$conexion = new InterfazBD();
@@ -179,7 +165,7 @@ class Certificacion{
 			//echo "Registro encontrado";
 			return $registro;
 		}else{
-			echo "<p class=respuesta>No se encontró el registro</p>";
+			echo "<p class=respuesta>No se encontrÃ³ el registro</p>";
 			return false;
 		}
 		$conexion->cerrarConexion();
