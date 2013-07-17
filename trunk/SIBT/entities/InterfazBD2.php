@@ -3,7 +3,7 @@ class InterfazBD2{
     private $conexion;
     private $manejador;
     //"host=localhost port=5432 dbname= user=lamb password=bar";
-    const CONSTRING = "host=localhost port=5432 dbname=SIBT user=postgres password=mufasa";
+    const CONSTRING = "host=localhost port=5432 dbname=SIBT user=user password=pass";
     private $resultado;
 
     /**
@@ -215,6 +215,7 @@ class InterfazBD2{
     	
     				if($str_campos != '' && $str_values != '' ){
 			    		$str_insert = "INSERT INTO $nombre_tabla($str_campos) VALUES($str_values)";
+//			    		echo $str_insert;
 			    		
 			    		return $this->insertar($str_insert,$col_id);
     				}else{
@@ -249,7 +250,7 @@ class InterfazBD2{
     		foreach($campos_valores as $clave => $valor){
     	
     			if($str_campos != ""){
-    				$str_campos += ",";
+    				$str_campos .= ",";
     			}
     			 
     			$str_campos .=	$clave."=".$valor;
@@ -279,7 +280,8 @@ class InterfazBD2{
     function preprocesar($datos){
     	foreach($datos as $clave => $valor){
     		if(is_numeric($valor) == false && $valor != NULL){
-    			$datos[$clave] = "'".utf8_encode($valor)."'";
+    			$datos[$clave] = "'".$valor."'";
+//    			$datos[$clave] = "'".utf8_encode($valor)."'";
     		}
     	}
     	
