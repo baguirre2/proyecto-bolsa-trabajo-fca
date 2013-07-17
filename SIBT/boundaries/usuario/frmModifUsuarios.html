@@ -1,0 +1,48 @@
+<!-- 
+ * Archivo: Formulario frmModificarUsuario
+ * Autor:	Victor M. Morales Reyes
+ * Fecha:	Martes 27/Junio/2013
+ * Modificaciones: 
+ * -
+ * -
+ -->
+
+<h1>Registro de Usuarios</h1>
+<form id="frmModificarUsuario">
+    <table>
+        <tbody>
+            <tr>
+                <td>Usuario:<span>*</span> </td>
+                <td>
+                <input type="hidden" name="pe_id" value="<? echo $datosUsuarios['pe_id']; ?>" />
+                <input type="hidden" name="us_id" value="<? echo $datosUsuarios['us_id']; ?>" />
+                <input type="text" name="usuario" class="required" value="<? echo $datosUsuarios['us_nombre']; ?>" /></td>
+            </tr>
+            <tr>
+               <td>Tipo de Usuario:<span>*</span></td>
+    			<td>
+		    		<select name="tipoUsuario" class="required">
+		    		<option value="<? echo $datosUsuarios['tius_id'];  ?>"><? echo $datosUsuarios['tius_descripcion'];  ?></option>
+		    		<?php for($i=0; $i < 3; $i++) { ?>
+		            	<option value="<?php echo isset($consultaTipo[$i]['tius_id'])? $consultaTipo[$i]['tius_id'] : ''; ?>">
+		            		<?php echo isset($consultaTipo[$i]['tius_descripcion'])? $consultaTipo[$i]['tius_descripcion'] : ''; ?>
+		           		</option>
+					<?php } ?>
+		            </select>
+                    
+	            </td>
+            </tr>
+            <tr>
+                <td>Correo Electrónico:<span>*</span></td>
+                <td><input type="text" name="eMail" value="<? echo $datosUsuarios['coel_correo']; ?>" class="required" /></td>
+            </tr>
+            <tr>
+               	<td><input type="button"value="Modificar" onclick="ajax('controllers/gestionarUsuario/CtlUsuario.php', 'confModifUsiario', 'frmModificarUsuario', 'contenido');"/></td>
+            	<td><input type="button" value="Cancelar" onclick="ajax('controllers/gestionarUsuario/CtlUsuario.php', 'consUsuario', 'vacio', 'contenido');"/></td>
+            </tr>
+            <!-- Funcionalidad AJAX para que dependiendo de: -->
+    		<!-- Nivel Estudio seleccionado, aparezcan los Estudios FCA relacionados -->
+    		<!-- Estudio FCA seleccionado, aparezcan los Estados Académicos -->   		
+        </tbody>
+    </table>
+</form>
