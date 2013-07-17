@@ -1145,7 +1145,7 @@ class CtlCurriculum {
     
     /**
      * 
-     * Consulta los favoritos de un reclutador y muestra el boton imprimir para imprimir toda la lista de alumnos en Favoritos.
+     * Consulta los favoritos de un reclutador y muestra el boton imprimir para imprimir toda la lista de alumnos en Favoritos
      * @author Benjamín Aguirre García
      * @param $idReclutador ID del reclutador.
      */
@@ -1202,7 +1202,7 @@ class CtlCurriculum {
     	$reclutador = new Reclutador();
     	$favoritos =  $reclutador->obtenerFavoritos($idReclutador);
     	$alumno = new Alumno();
-    	$strFavoritos = "<table>";
+    	$strFavoritos = "<table width='1300'> <tr> <th colspan='4'> Favoritos de Reclutador";
 		foreach ($favoritos as $favorito) {
 			$strFavoritos .= $alumno->toStringContacto($favorito['al_id']);
 		}
@@ -1211,5 +1211,5 @@ class CtlCurriculum {
 }
 
 //new CtlCurriculum($_GET);
-new CtlCurric(( isset($_POST['opc']) ? $_POST : $_GET), $_FILES);
+new CtlCurriculum(( isset($_POST['opc']) ? $_POST : $_GET), $_FILES);
 ?>
