@@ -6,9 +6,11 @@
  * -Integración de los cambios de pruebas sobre validaciones
  * -Cambio en los botones de Registrar y Modificar para agregar lo de la carga de imágenes
  * -Integración de los cambios para los estilos
+ * -Actualización de elementos conforme a la revisión del 3er prototipo
  -->
 
 <div id="resFrmRegistroCurriculum"></div>
+<br/>
 
 <?php  if(isset($registro[0]['ce_id'])){  ?>
 	<div class="inner-heading">
@@ -66,7 +68,7 @@
             	<?php
             		if(isset($registro[0]['ce_id'])){
             	?>
-                	<td><input type="button" name="btnAceptar" value="Editar" onclick="ajaxConImagen('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'frmRegistroCurriculum', 'contenido');"/></td>
+                	<td><input type="button" name="btnAceptar" value="Actualizar" onclick="ajaxConImagen('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'frmRegistroCurriculum', 'contenido');"/></td>
                 <?php }else{ ?>
                 	<td><input type="button" name="btnAceptar" value="Registrar" onclick="ajaxConImagen('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_registrar', 'frmRegistroCurriculum', 'contenido');"/></td>
            		<?php } ?>
