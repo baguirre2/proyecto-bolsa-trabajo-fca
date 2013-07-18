@@ -115,6 +115,23 @@ class Alumno{
 		$conexion->cerrarConexion();
 		return $estado;
 	}
+	
+	public function buscarAlumno($GET){
+		$conexion = new InterfazBD2();		//Iniciamos conexi�n.
+		
+		//Query
+		$query_alumno = "SELECT * FROM ingsw.alumno AS al" 
+						."JOIN ingsw.persona AS pe ON (pe.pe_id = al.pe_id)"
+						."WHERE pe_nombre = '".$GET['nombre_al']."'" 
+						."OR pe_apellido_paterno = '".$GET['ap_pat_al']."' OR" 
+						."pe_apellido_materno = '".$GET['ap_mat_al']."' OR" 
+						."al_num_cuenta = '".$GET['no_cuenta']."';";
+		
+		$res_alumnos = $conexion->consultar($query_alumno);
+		
+		$conexion->cerrarConexion();
+       	return $res_alumnos;	//Retornamos resultado.
+	}
 
 	/**
 	 * @author Benjamín Aguirre García
