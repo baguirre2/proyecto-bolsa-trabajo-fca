@@ -1,39 +1,39 @@
 <!-- 
- * Archivo: Formulario frmActualizarAlumno
- * Autor:   Vázquez Gonález Jorge Alberto.
- * Fecha:   Martes 16/Julio/2013
- * Modificaciones: 
- * -
- * -
- -->
- <h1>Actualizar Datos del Alumno</h1>
- <form id="frmActualizarAlumno" name="frmActualizarAlumno">
+* Archivo: Formulario frmActualizarAlumno
+* Autor:   Vázquez González Jorge Alberto.
+* Fecha:   Martes 16/Julio/2013
+* Modificaciones: 
+* -
+* -
+-->
+<h1>Actualizar Datos del Alumno</h1>
+<form id="frmActualizarAlumno" name="frmActualizarAlumno">
     <table>
         <tbody>
             <tr>
-                <td><h2>Búsqueda de alumno</h2></td>
+                <td><h2>B&uacutequeda de alumno</h2></td>
             </tr>
             <tr>
-                <td><label>No. de Cuenta</label></td>
-                <td><input class="" type="text" name="no_cuenta" placeholder="No. de Cuenta" /></td>
+                <td>No. de Cuenta</td>
+                <td><input type="text" name="no_cuenta" placeholder="No. de Cuenta" /></td>
             </tr>
             <tr>
-                <td><label>Nombre</label></td>
-                <td><input class="" type="text" name="nombre_al" placeholder="Nombre" /></td>
+                <td>Nombre</td>
+                <td><input type="text" name="nombre_al" placeholder="Nombre" /></td>
             </tr>
             <tr>
-                <td><label>Apellido Paterno</label></td>
-                <td><input class="" type="text" name="ap_pat_al" placeholder="Apellido P." /></td>
+                <td>Apellido Paterno</td>
+                <td><input type="text" name="ap_pat_al" placeholder="Apellido P." /></td>
             </tr>
             <tr>
-                <td><label>Apellido Materno</label></td>
-                <td><input class="" type="text" name="ap_mat_al" placeholder="Apellido M." /></td>
+                <td>Apellido Materno</td>
+                <td><input type="text" name="ap_mat_al" placeholder="Apellido M." /></td>
             </tr>
             <tr>
-                <td><input type="button" name="btnBuscar" value="Buscar" onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actualizar_alumno', 'frmActualizarAlumno', 'listaBusquedaAlumno');"></td>
+                <td><input type="button" name="btnBuscar" value="Buscar" onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actualizar_alumno', 'frmActualizarAlumno', 'listaBusquedaAlumno');"/></td>
                 <td><input type="button" name="btnCancelar" value="Cancelar" onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actualizar_alumno', 'vacio', 'contenido')"/></td>
             </tr>
         </tbody>
     </table>
- </form>
- <div id="listaBusquedaAlumno"></div>
+</form>
+<div id="listaBusquedaAlumno"></div>
