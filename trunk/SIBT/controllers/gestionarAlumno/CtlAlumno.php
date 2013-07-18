@@ -39,7 +39,19 @@ class CtlAlumno {
                 $id_nivel = $GET['id'];
                 $alumno->listarEstadosAcademicos($id_nivel);
                 break;
-
+			
+			case 'actualizar_alumno':
+				$alumno = new Alumno();
+               	if(!isset($GET['btnBuscar'])){
+               		include('../../boundaries/alumno/frmBusquedaAlumno.html');
+               	}else if($GET['btnBuscar']== 'Buscar'){
+               		//Lista Busqueda de Alumno
+               		include '../../boundaries/alumno/listaBusquedaAlumno.php';
+               		$res_alumnos = $alumno->buscarAlumno($GET);
+               		new frmResultadoAlumnos($res_alumnos);
+               	}
+               	break;
+               	
             //*****************     AQUI EMPIEZAN LOS CASE PARA CARGA DE ARCHIVOS        *******************
             case 'carAlumMenu';
 
