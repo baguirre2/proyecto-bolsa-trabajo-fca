@@ -23,11 +23,8 @@ class CtlAlumno {
                     $niveles_estudio = $alumno->listarNivelesEstudio();
                     include('../../boundaries/alumno/frmRegistroAlumno.html');
                 } else if ($GET['btnAceptar'] == 'Registrar') {
-                    if ($alumno->registrarAlumno($GET)) {
-                        echo "<h1 class=respuesta>Registro realizado con Ã©xito</h1><br/>";
-                    } else {
-                        echo "<h1 class=respuesta>Error al registrar</h1><br/>";
-                    }
+                    $respuesta = $alumno->registrarAlumno($GET);
+                    echo "<h1 class=respuesta>".$respuesta."</h1><br/>";
                 }
                 break;
 
@@ -72,7 +69,7 @@ class CtlAlumno {
                 	if($datosAlumno = $alumno->recuperarDatosAlumno($idUsuario) ){
                 		require '../../boundaries/alumno/frmAluActAlumno.html';
                 	} else {
-                		echo "ERROR al obtener la información";
+                		echo "ERROR al obtener la informaciï¿½n";
                 	}
                 }
                 break;
@@ -89,7 +86,7 @@ class CtlAlumno {
                 if($datosAlumno = $alumno->recuperarDatosAlumno($id) ){
                 	require_once '../../boundaries/alumno/frmAluActCoord.html';
                 } else {
-                	echo "ERROR al obtener la información";
+                	echo "ERROR al obtener la informaciï¿½n";
                 }
                 
                 
