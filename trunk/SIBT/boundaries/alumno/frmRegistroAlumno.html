@@ -30,7 +30,7 @@
         <tbody>
             <tr>
                 <td>N&uacutemero de Cta.:* </td>
-                <td><input class="required" type="text" name="al_num_cuenta" value="<?php echo isset($registro[0]['ce_nombre'])? $registro[0]['ce_nombre'] : ''; ?>" placeholder="Número de cuenta"/></td>
+                <td><input class="required noCta" type="text" name="al_num_cuenta" value="<?php echo isset($registro[0]['ce_nombre'])? $registro[0]['ce_nombre'] : ''; ?>" placeholder="Número de cuenta"/></td>
             </tr>
             
     		<tr>
@@ -38,27 +38,27 @@
     		</tr>
             <tr>
                 <td>Nombre(s):<span>*</span> </td>
-                <td><input class="required" type="text" name="pe_nombre" value="<?php echo isset($registro[0]['pe_nombre'])? $registro[0]['pe_nombre'] : ''; ?>" placeholder="Nombre(s)"/></td>
+                <td><input class="required letras" type="text" name="pe_nombre" value="<?php echo isset($registro[0]['pe_nombre'])? $registro[0]['pe_nombre'] : ''; ?>" placeholder="Nombre(s)"/></td>
             </tr>
             <tr>
                 <td>Apellido Paterno:<span>*</span></td>
-                <td><input class="required" type="text" name="pe_apellido_paterno" value="<?php echo isset($registro[0]['pe_apellido_paterno'])? $registro[0]['pe_apellido_paterno'] : ''; ?>" placeholder="Apellido Paterno"/></td>
+                <td><input class="required letras" type="text" name="pe_apellido_paterno" value="<?php echo isset($registro[0]['pe_apellido_paterno'])? $registro[0]['pe_apellido_paterno'] : ''; ?>" placeholder="Apellido Paterno"/></td>
             </tr>
             <tr>
                 <td>Apellido Materno:<span>*</span></td>
-                <td><input class="required" type="text" name="pe_apellido_materno" value="<?php echo isset($registro[0]['pe_apellido_materno'])? $registro[0]['pe_apellido_materno'] : ''; ?>" placeholder="Apellido Materno"/></td>
+                <td><input class="required letras" type="text" name="pe_apellido_materno" value="<?php echo isset($registro[0]['pe_apellido_materno'])? $registro[0]['pe_apellido_materno'] : ''; ?>" placeholder="Apellido Materno"/></td>
             </tr>
             <tr>
-                <td>Fecha de Nacimiento:<span>*</span></td>
-                <td><input class="required" type="text" name="al_fecha_nacimiento" value="<?php echo isset($registro[0]['coel_correo'])? $registro[0]['coel_correo'] : ''; ?>" placeholder="Fecha Nacimiento"/></td>
+                <td>Fecha de Nacimiento (aaaa-mm-dd):<span>*</span></td>
+                <td><input class="required fecha" type="text" name="al_fecha_nacimiento" value="<?php echo isset($registro[0]['coel_correo'])? $registro[0]['coel_correo'] : ''; ?>" placeholder="Fecha Nacimiento"/></td>
             </tr>
             <tr>
                 <td>Nacionalidad:<span>*</span></td>
-                <td><input class="required" type="text" name="al_nacionalidad" value="<?php echo isset($registro[0]['coel_correo'])? $registro[0]['coel_correo'] : ''; ?>" placeholder="Nacionalidad"/></td>
+                <td><input class="required letras" type="text" name="al_nacionalidad" value="<?php echo isset($registro[0]['coel_correo'])? $registro[0]['coel_correo'] : ''; ?>" placeholder="Nacionalidad"/></td>
             </tr>
             <tr>
                 <td>Correo:<span>*</span></td>
-                <td><input class="required" type="text" name="coel_correo" value="<?php echo isset($registro[0]['coel_correo'])? $registro[0]['coel_correo'] : ''; ?>" placeholder="Correo Electrónico"/></td>
+                <td><input class=" required correo" type="text" name="coel_correo" value="<?php echo isset($registro[0]['coel_correo'])? $registro[0]['coel_correo'] : ''; ?>" placeholder="Correo Electrónico"/></td>
             </tr>
 <!-- 
             <tr>
