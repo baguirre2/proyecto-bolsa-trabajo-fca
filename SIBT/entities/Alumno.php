@@ -2,7 +2,7 @@
 
 /*
  * Archivo: Class Alumno
- * Autor:	Emmanuel Garcï¿½a C.
+ * Autor:	Emmanuel García C.
  * Fecha:	Martes 25/Junio/2013
  * Modificaciones: 
  * -
@@ -87,33 +87,93 @@ class Alumno{
 	public function registrarAlumno($GET){
 		$conexion = new InterfazBD2();
 		$estado = false;
-		
-		$query_persona = "INSERT INTO ingsw.persona (pe_nombre, pe_apellido_paterno, pe_apellido_materno)
-    			 		  VALUES ('".$GET['pe_nombre']."','".$GET['pe_apellido_paterno']."','".$GET['pe_apellido_materno']."')";
-		$id_persona = $conexion->insertar($query_persona, 'pe_id');
-		//echo "ID Persona = ";	var_dump($id_persona);
-		
-		if($id_persona != false){
-			$query_correo = "INSERT INTO ingsw.correo_electronico (pe_id, coel_correo)
-    			 		     VALUES ('".$id_persona."','".$GET['coel_correo']."')";
-			
-			if($conexion->ejecutarQuery($query_correo) != false){
-				$query_alumno = "INSERT INTO ingsw.alumno (do_id, pe_id, al_num_cuenta, al_fecha_nacimiento, al_nacionalidad, al_curriculum_visible)
-    			 		  		 VALUES ('1','".$id_persona."','".$GET['al_num_cuenta']."','01/01/1900','0','1')";
-				$id_alumno = $conexion->insertar($query_alumno, 'al_id');
+	
+		$query_verificar = "SELECT * FROM ingsw.alumno WHERE al_num_cuenta = '".$GET['al_num_cuenta']."'";
+		if(!$conexion->consultar($query_verificar)){
+	
+			$query_persona = "INSERT INTO ingsw.persona (pe_nombre, pe_apellido_paterno, pe_apellido_materno)
+	    			 		  VALUES ('".$GET['pe_nombre']."','".$GET['pe_apellido_paterno']."','".$GET['pe_apellido_materno']."')";
+			$id_persona = $conexion->insertar($query_persona, 'pe_id');
+			//echo "ID Persona = ";	var_dump($id_persona);
 				
-				if($id_alumno != false){
+			if($id_persona != false){
+				$query_correo = "INSERT INTO ingsw.correo_electronico (pe_id, coel_correo)
+	    			 		     VALUES ('".$id_persona."','".$GET['coel_correo']."')";
+	
+				if($conexion->ejecutarQuery($query_correo) != false){
+					$query_alumno = "INSERT INTO ingsw.alumno (do_id, pe_id, al_num_cuenta, al_fecha_nacimiento, al_nacionalidad, al_curriculum_visible, esfc_id)
+	    			 		  		 VALUES ('1','".$id_persona."','".$GET['al_num_cuenta']."','".$GET['al_fecha_nacimiento']."','".$GET['al_nacionalidad']."','1','".$GET['esfc_id']."')";
+					$id_alumno = $conexion->insertar($query_alumno, 'al_id');
+						
+					/*
+						if($id_alumno != false){
+	
+					//AQUI INSERTARÍA EN ESTUDIO_FCA EN VEZ DE INFO_ACADEMICA
 					$query_info_aca = "INSERT INTO ingsw.informacion_academica (al_id, esac_id, esot_id, esfc_id, esau_id, inac_universidad, inac_escuela, inac_fecha_inicio)
-    			 		  		 	   VALUES ('".$id_alumno."','".$GET['esac_id']."',null,'".$GET['esfc_id']."','1','0','0','01/01/1900')";
-
+					VALUES ('".$id_alumno."','".$GET['esac_id']."',null,'".$GET['esfc_id']."','1','0','0','01/01/1900')";
+	
 					if($conexion->ejecutarQuery($query_info_aca) != false){
-						$estado = true;
+					$estado = true;
+					}
+					}
+					*/
+					if($id_alumno != false){
+	
+						$pass = hash('ripemd160', microtime());
+						$pass = substr($pass, 0, 8);
+	
+						$query_usuario = "INSERT INTO ingsw.usuario (pe_id, us_nombre, us_contrasenia)
+	    			 		  		 	   VALUES ('".$id_persona."','".$GET['al_num_cuenta']."','".$pass."')";
+	
+						if($conexion->ejecutarQuery($query_usuario) != false){
+							$estado = "El alumno se ha agregado con éxito";
+						}
+	
+						//ENVIAR CORREO A ALUMNO CON SU USER Y PASS
+						$nombre = $GET['pe_nombre']." ".$GET['pe_apellido_paterno']." ".$GET['pe_apellido_materno'];
+	
+						if(!$this->enviarCorreo($GET['coel_correo'], $nombre, $GET['al_num_cuenta'], $pass)){
+							$estado = "No se pudó mandar el correo";
+						}
 					}
 				}
 			}
+		}else{	//Alumno ya registrado
+			$estado = "Alumno ya registrado";
 		}
+	
 		$conexion->cerrarConexion();
 		return $estado;
+	}
+	
+	/*
+	 * Función: EnviarCorreo
+	* Para envíar el correo de registro del alumno
+	* incluyendo sus datos de acceso como usuario.
+	*/
+	public function enviarCorreo($correo, $nombre, $no_cta, $password) {
+	
+		$mesnsaje = "	<h2>UNIVERSIDAD NACIONAL AUTONÓMA DE MÉXICO</h2><br/>
+						<h3>Facultad de Contaduría y Administración</h3><br/>
+						Departamento de Bolsa de Trabajo<br/><br/>
+	
+						Estimado alumno ".$nombre." <br/>
+						Se te notifica que tus datos de acceso son los siguientes:<br/>
+						Usuario ".$no_cta." <br/>
+						Contraseña ".$password." <br/><br/>
+	
+						Sin más por el momento quedamos a tus órdenes.<br/>
+	
+						Departamento de bolsa de Trabajo FCA – UNAM<br/>
+						http://cetus.fca.unam.mx/sibt/ <br/>
+					";
+		$mensaje = wordwrap($mensaje, 70, "\r\n");
+	
+		if(mail($correo, 'Datos de acceso SIBT', $mensaje)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	public function buscarAlumno($GET){
