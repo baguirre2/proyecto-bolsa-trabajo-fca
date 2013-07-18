@@ -87,8 +87,8 @@ class Alumno{
 	public function registrarAlumno($GET){
 		$conexion = new InterfazBD2();
 		$estado = false;
-
-		/*
+	
+	
 		$query_verificar = "SELECT * FROM ingsw.alumno WHERE al_num_cuenta = '".$GET['al_num_cuenta']."'";
 		if(!$conexion->consultar($query_verificar)){
 	
@@ -96,7 +96,7 @@ class Alumno{
 	    			 		  VALUES ('".$GET['pe_nombre']."','".$GET['pe_apellido_paterno']."','".$GET['pe_apellido_materno']."')";
 			$id_persona = $conexion->insertar($query_persona, 'pe_id');
 			//echo "ID Persona = ";	var_dump($id_persona);
-				
+	
 			if($id_persona != false){
 				$query_correo = "INSERT INTO ingsw.correo_electronico (pe_id, coel_correo)
 	    			 		     VALUES ('".$id_persona."','".$GET['coel_correo']."')";
@@ -105,9 +105,9 @@ class Alumno{
 					$query_alumno = "INSERT INTO ingsw.alumno (do_id, pe_id, al_num_cuenta, al_fecha_nacimiento, al_nacionalidad, al_curriculum_visible, esfc_id)
 	    			 		  		 VALUES ('1','".$id_persona."','".$GET['al_num_cuenta']."','".$GET['al_fecha_nacimiento']."','".$GET['al_nacionalidad']."','1','".$GET['esfc_id']."')";
 					$id_alumno = $conexion->insertar($query_alumno, 'al_id');
-						
+	
 					/*
-						if($id_alumno != false){
+					 if($id_alumno != false){
 	
 					//AQUI INSERTARÍA EN ESTUDIO_FCA EN VEZ DE INFO_ACADEMICA
 					$query_info_aca = "INSERT INTO ingsw.informacion_academica (al_id, esac_id, esot_id, esfc_id, esau_id, inac_universidad, inac_escuela, inac_fecha_inicio)
@@ -118,7 +118,7 @@ class Alumno{
 					}
 					}
 					*/
-		/*
+	
 					if($id_alumno != false){
 	
 						$pass = hash('ripemd160', microtime());
@@ -143,7 +143,7 @@ class Alumno{
 		}else{	//Alumno ya registrado
 			$estado = "Alumno ya registrado";
 		}
-	*/
+	
 		$conexion->cerrarConexion();
 		return $estado;
 	}
@@ -152,31 +152,43 @@ class Alumno{
 	 * Función: EnviarCorreo
 	* Para envíar el correo de registro del alumno
 	* incluyendo sus datos de acceso como usuario.
+	* CONFIGURACIONES: Sobre php.ini
+	
+	windows
+	[mail function]
+	; Setup for Windows systems
+	SMTP = smtp.my.isp.net
+	sendmail_from = me@myserver.com
+	
+	And here’s how it might look on a Linux server with sendmail:
+	
+	[mail function]
+	; Setup for Linux systems
+	;http://www.w3schools.com/php/php_ref_mail.asp Para referencia
+	sendmail_path = /usr/sbin/sendmail -t
+	sendmail_from = me@myserver.com
 	*/
 	public function enviarCorreo($correo, $nombre, $no_cta, $password) {
-		/*
-		$mesnsaje = "	<h2>UNIVERSIDAD NACIONAL AUTONÓMA DE MÉXICO</h2><br/>
-						<h3>Facultad de Contaduría y Administración</h3><br/>
-						Departamento de Bolsa de Trabajo<br/><br/>
 	
-						Estimado alumno ".$nombre." <br/>
-						Se te notifica que tus datos de acceso son los siguientes:<br/>
-						Usuario ".$no_cta." <br/>
-						Contraseña ".$password." <br/><br/>
+		$mensaje = "	<h2>UNIVERSIDAD NACIONAL AUTONÓMA DE MÉXICO</h2><br/>";
+		$mensaje .= "	<h3>Facultad de Contaduría y Administración</h3><br/>";
+		$mensaje .= "	Departamento de Bolsa de Trabajo<br/><br/>";
+		$mensaje .= "	Estimado alumno ".$nombre." <br/>";
+		$mensaje .= "	Se te notifica que tus datos de acceso son los siguientes:<br/>";
+		$mensaje .= "	Usuario ".$no_cta." <br/>";
+		$mensaje .= "	Contraseña ".$password." <br/><br/>";
+		$mensaje .= "	Sin más por el momento quedamos a tus órdenes.<br/>";
+		$mensaje .= "	Departamento de bolsa de Trabajo FCA – UNAM<br/>";
+		$mensaje .= "	http://cetus.fca.unam.mx/sibt/ <br/>";
 	
-						Sin más por el momento quedamos a tus órdenes.<br/>
-	
-						Departamento de bolsa de Trabajo FCA – UNAM<br/>
-						http://cetus.fca.unam.mx/sibt/ <br/>
-					";
-		$mensaje = wordwrap($mensaje, 70, "\r\n");
+		//$mensaje = wordwrap($mensaje, 70, "\r\n");
 	
 		if(mail($correo, 'Datos de acceso SIBT', $mensaje)){
 			return true;
 		}else{
 			return false;
 		}
-		*/
+	
 	}
 	
 	public function buscarAlumno($GET){
