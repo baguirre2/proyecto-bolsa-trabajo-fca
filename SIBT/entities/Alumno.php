@@ -117,15 +117,20 @@ class Alumno{
 	}
 	
 	public function buscarAlumno($GET){
-		$conexion = new InterfazBD2();		//Iniciamos conexión.
+		$conexion = new InterfazBD2();		//Iniciamos conexiï¿½n.
+		
+		$cuenta = isset($GET['no_cuenta'])? $GET['no_cuenta'] :NULL;
+		$nombre = isset($GET['nombre_al'])? $GET['nombre_al'] :NULL;
+		$ap_pat = isset($GET['ap_pat_al'])? $GET['ap_pat_al'] :NULL;
+		$ap_mat = isset($GET['ap_mat_al'])? $GET['ap_mat_al'] :NULL;
 		
 		//Query
 		$query_alumno = "SELECT * FROM ingsw.alumno AS al" 
 						."JOIN ingsw.persona AS pe ON (pe.pe_id = al.pe_id)"
-						."WHERE pe_nombre = '".$GET['nombre_al']."'" 
-						."OR pe_apellido_paterno = '".$GET['ap_pat_al']."' OR" 
-						."pe_apellido_materno = '".$GET['ap_mat_al']."' OR" 
-						."al_num_cuenta = '".$GET['no_cuenta']."';";
+						."WHERE pe_nombre = '".$nombre."'" 
+						."OR pe_apellido_paterno = '".$ap_pat."' OR" 
+						."pe_apellido_materno = '".$ap_mat."' OR" 
+						."al_num_cuenta = '".$cuenta."';";
 		
 		$res_alumnos = $conexion->consultar($query_alumno);
 		
