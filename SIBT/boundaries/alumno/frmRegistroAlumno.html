@@ -4,7 +4,7 @@
  * Fecha:	Martes 25/Junio/2013
  * Modificaciones: 
  * -Se agregó la parte solicitada por los diseñadores sobre el estilo
- * -Se removió los datos sobre información académica (Pendiente)
+ * -Se actualizaron los campo a solicitar en el formulario de registro
  -->
 
 <?php
@@ -14,7 +14,7 @@
 
 <div id="resRegistroAlumno"></div>
 
-<div class="inner-heading">
+	<div class="inner-heading">
 	   <div class="container">
 	       <div class="row">
 	           <div class="span12">
@@ -23,6 +23,8 @@
 	       </div>
 	   </div>
 	</div>
+
+<br/>
 <form id="frmRegistroAlumno" name="frmRegistroAlumno">
     <table>
         <tbody>
@@ -47,10 +49,24 @@
                 <td><input class="required" type="text" name="pe_apellido_materno" value="<?php echo isset($registro[0]['pe_apellido_materno'])? $registro[0]['pe_apellido_materno'] : ''; ?>" placeholder="Apellido Materno"/></td>
             </tr>
             <tr>
-                <td>Correo:<span>*</span></td>
-                <td><input class="email" type="text" name="coel_correo" value="<?php echo isset($registro[0]['coel_correo'])? $registro[0]['coel_correo'] : ''; ?>" placeholder="Correo Electrónico"/></td>
+                <td>Fecha de Nacimiento:<span>*</span></td>
+                <td><input class="required" type="text" name="al_fecha_nacimiento" value="<?php echo isset($registro[0]['coel_correo'])? $registro[0]['coel_correo'] : ''; ?>" placeholder="Fecha Nacimiento"/></td>
             </tr>
-
+            <tr>
+                <td>Nacionalidad:<span>*</span></td>
+                <td><input class="required" type="text" name="al_nacionalidad" value="<?php echo isset($registro[0]['coel_correo'])? $registro[0]['coel_correo'] : ''; ?>" placeholder="Nacionalidad"/></td>
+            </tr>
+            <tr>
+                <td>Correo:<span>*</span></td>
+                <td><input class="required" type="text" name="coel_correo" value="<?php echo isset($registro[0]['coel_correo'])? $registro[0]['coel_correo'] : ''; ?>" placeholder="Correo Electrónico"/></td>
+            </tr>
+<!-- 
+            <tr>
+                <td>Carrera:<span>*</span></td>
+                <td><input class="required" type="text" name="esfc_id" value="<?php echo isset($registro[0]['coel_correo'])? $registro[0]['coel_correo'] : ''; ?>" placeholder="Carrera"/></td>
+            </tr>
+ -->
+<!--
     		<tr>
     			<td colspan=2><h2>Datos Acad&eacutemicos</h2></td>
     		</tr>
@@ -58,9 +74,10 @@
     		<!-- Funcionalidad AJAX para que dependiendo de: -->
     		<!-- Nivel Estudio seleccionado, aparezcan los Estudios FCA relacionados -->
     		<!-- Estudio FCA seleccionado, aparezcan los Estados Académicos -->
+
     		
     		<tr>
-    			<td>Nivel de etudio:<span>*</span></td>
+    			<td>Nivel de estudio:<span>*</span></td>
     			<td>
 		    		<select class="required" name="nies_id" id="nies_id" onchange="ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'llenarListaEstudios', 'vacio', 'estudiosFCA', this.value);">
 		    		<option value="Seleccionar">Selecciona una opci&oacuten</option>
@@ -79,13 +96,14 @@
 		            <div id="estudiosFCA"></div>
 	            </td>
             </tr>
+<!-- 
             <tr>
             	<td>Estado Acad&eacutemico:<span>*</span></td>
 	            <td>
 		            <div id="estadosAcademicos"></div>
 	            </td>
             </tr>
-    		
+-->
         </tbody>
     </table>
     
