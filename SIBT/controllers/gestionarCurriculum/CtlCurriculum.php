@@ -805,10 +805,8 @@ class CtlCurriculum {
 						</thead>
 						<tbody>".$registros."
 						</tbody>";
-		echo "<tr>
-						<td><input type=\"button\" value=\"Agregar grado academico\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'infoAcademicaFormRegistrar', 'vacio', 'contenido')\"></td>
-						
-						</tr></table>";
+		echo "</table>";
+		echo "<input type=\"button\" value=\"Agregar grado academico\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'infoAcademicaFormRegistrar', 'vacio', 'contenido')\">";
 	}
 
     /**
@@ -822,11 +820,11 @@ class CtlCurriculum {
 		if($opcion==1){
 			$query = "select a.inac_id, a.esau_id, b.esfc_descripcion, a.inac_fecha_inicio, c.esac_tipo FROM ingsw.informacion_academica AS a 
 					JOIN ingsw.estudio_fca AS b ON a.esfc_id=b.esfc_id 
-					JOIN ingsw.estado_academico AS c ON a.esac_id=c.esac_id AND a.al_id=2
+					JOIN ingsw.estado_academico AS c ON a.esac_id=c.esac_id AND a.al_id=".$idAlum."
 					UNION ALL
 					select a.inac_id, a.esau_id, b.esot_descripcion, a.inac_fecha_inicio, c.esac_tipo FROM ingsw.informacion_academica AS a 
 					JOIN ingsw.estudio_otro AS b ON a.esot_id=b.esot_id 
-					JOIN ingsw.estado_academico AS c ON a.esac_id=c.esac_id AND a.al_id=2";			
+					JOIN ingsw.estado_academico AS c ON a.esac_id=c.esac_id AND a.al_id=".$idAlum;				
 		}elseif ($opcion==2){
 			
 			$query_otro = "SELECT esot_id FROM ingsw.informacion_academica where inac_id=$id_infoAca";
@@ -857,28 +855,33 @@ class CtlCurriculum {
 	 *@author Liliana Luna
 	 *@param
 	 **/
-	public function listarEstudiosFCA($nivel, $id_inac){
+public function listarEstudiosFCA($nivel, $id_inac){
 		//echo "Id nivel en listar: ".$id_nivel."<br>";	
-		$conexion = new InterfazBD2();		
+		$conexion = new InterfazBD2();
+		if ($id_inac != "") {				
+			$query = "SELECT a.esfc_id FROM ingsw.estudio_fca as b JOIN ingsw.informacion_academica as a
+			ON a.esfc_id=b.esfc_id and a.inac_id=$id_inac";
+		}else{
+			$query = "SELECT a.esfc_id FROM ingsw.estudio_fca as b JOIN ingsw.informacion_academica as a
+			ON a.esfc_id=b.esfc_id";
+		}
 		
-			$query = "SELECT esfc_id FROM ingsw.estudio_fca as b JOIN ingsw.informacion_academica as a
-						ON a.esfc_id=b.esfc_id and a.inac_id=$id_inac";
-			$resultados = $conexion->consultar($query);			
-			$esfc_id = $resultados[0]['esfc_id'];			
+		$resultados = $conexion->consultar($query);			
+		$esfc_id = $resultados[0]['esfc_id'];			
 		
-			$query = "SELECT * FROM ingsw.estudio_fca WHERE nies_id=$nivel";
-			$resultados = $conexion->consultar($query);		
+		$query = "SELECT * FROM ingsw.estudio_fca WHERE nies_id=$nivel";
+		$resultados = $conexion->consultar($query);		
 			
-			echo "<select name=\"lstNombre\" class=\"required\"><option>Seleccione...</option>";
+		echo "<select name=\"lstNombre\" class=\"required\"><option>Seleccione...</option>";
 			
-			for ($i=0; $i <= count($resultados)-1; $i++) {
-				echo "<option value=\"";
-				echo $resultados[$i]['esfc_id'];
-				echo "\">";
-				echo $resultados[$i]['esfc_descripcion'];				
-				echo "</option>";
-			}
-			echo "</select>";
+		for ($i=0; $i <= count($resultados)-1; $i++) {
+			echo "<option value=\"";
+			echo $resultados[$i]['esfc_id'];
+			echo "\">";
+			echo $resultados[$i]['esfc_descripcion'];				
+			echo "</option>";
+		}
+		echo "</select>";
 			
 		$conexion->cerrarConexion();
 	}
