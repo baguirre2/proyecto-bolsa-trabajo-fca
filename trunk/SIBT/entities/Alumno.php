@@ -87,7 +87,8 @@ class Alumno{
 	public function registrarAlumno($GET){
 		$conexion = new InterfazBD2();
 		$estado = false;
-	
+
+		/*
 		$query_verificar = "SELECT * FROM ingsw.alumno WHERE al_num_cuenta = '".$GET['al_num_cuenta']."'";
 		if(!$conexion->consultar($query_verificar)){
 	
@@ -117,6 +118,7 @@ class Alumno{
 					}
 					}
 					*/
+		/*
 					if($id_alumno != false){
 	
 						$pass = hash('ripemd160', microtime());
@@ -141,7 +143,7 @@ class Alumno{
 		}else{	//Alumno ya registrado
 			$estado = "Alumno ya registrado";
 		}
-	
+	*/
 		$conexion->cerrarConexion();
 		return $estado;
 	}
@@ -152,7 +154,7 @@ class Alumno{
 	* incluyendo sus datos de acceso como usuario.
 	*/
 	public function enviarCorreo($correo, $nombre, $no_cta, $password) {
-	
+		/*
 		$mesnsaje = "	<h2>UNIVERSIDAD NACIONAL AUTONÓMA DE MÉXICO</h2><br/>
 						<h3>Facultad de Contaduría y Administración</h3><br/>
 						Departamento de Bolsa de Trabajo<br/><br/>
@@ -174,6 +176,7 @@ class Alumno{
 		}else{
 			return false;
 		}
+		*/
 	}
 	
 	public function buscarAlumno($GET){
