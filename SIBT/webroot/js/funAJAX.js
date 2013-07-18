@@ -143,7 +143,7 @@ function validar2(formulario_id){
             if( $(this).val() == null || $(this).val() == "" || $(this).val() == "Seleccionar"){
                     valido = false;
                     $(this).after("<etiqueta class='error'>Campo Obligatorio</etiqueta>");
-            }else if( ($(this).hasClass('letras')) && /^[a-zA-Z ]*$/.test($(this).val()) == false){
+            }else if( ($(this).hasClass('letras')) && /^[a-zA-ZáéíóúÁÉÍÓÚü ]*$/.test($(this).val()) == false){
                     valido = false;
                     $(this).after("<etiqueta class='error'>Sólo letras</etiqueta>");
             }else if( ($(this).hasClass('correo')) && /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/.test($(this).val()) == false){
