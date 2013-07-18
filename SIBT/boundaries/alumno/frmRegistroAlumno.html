@@ -81,8 +81,12 @@
     			<td>
 		    		<select class="required" name="nies_id" id="nies_id" onchange="ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'llenarListaEstudios', 'vacio', 'estudiosFCA', this.value);">
 		    		<option value="Seleccionar">Selecciona una opci&oacuten</option>
-		    		<?php for($i=0; $i <= count($niveles_estudio)-1; $i++) { ?>
-		            	<option value="<?php echo isset($niveles_estudio[$i]['nies_id'])? $niveles_estudio[$i]['nies_id'] : ''; ?>">
+		    		<?php for($i=0; $i <= count($niveles_estudio)-1; $i++) { 
+		            	if($i == count($niveles_estudio)-1){
+                            break;
+                        }
+                    ?>
+                        <option value="<?php echo isset($niveles_estudio[$i]['nies_id'])? $niveles_estudio[$i]['nies_id'] : ''; ?>">
 		            		<?php echo isset($niveles_estudio[$i]['nies_descripcion'])? $niveles_estudio[$i]['nies_descripcion'] : ''; ?>
 		           		</option>
 					<?php } ?>
