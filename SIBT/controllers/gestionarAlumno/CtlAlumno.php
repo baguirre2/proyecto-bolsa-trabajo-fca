@@ -190,7 +190,8 @@ class CtlAlumno {
     		$aPaterno = isset($GET['pe_apellido_paterno']) ? $GET['pe_apellido_paterno'] : "";
     		$aMaterno =  isset($GET['pe_apellido_materno']) ? $GET['pe_apellido_materno'] : "";
     		$carrera = isset($GET['esfc_descripcion']) ? $GET['esfc_descripcion'] : "";
-    		$correo =  isset($GET['coel_correo']) ? $GET['coel_correo'] : "";
+    		$al_fecha_nacimiento =  isset($GET['al_fecha_nacimiento']) ? $GET['al_fecha_nacimiento'] : "";
+    		$al_nacionalidad =  isset($GET['al_nacionalidad']) ? $GET['al_nacionalidad'] : "";
     		$pe_id =  isset($GET['pe_id']) ? $GET['pe_id'] : "";
     		echo"
     		<form id = 'frmConfActAlu'>
@@ -199,7 +200,8 @@ class CtlAlumno {
     		<input type='hidden' value='$aPaterno' name='pe_apellido_paterno' id = 'pe_apellido_paterno' >
     		<input type='hidden' value='$aMaterno' name='pe_apellido_materno' id = 'pe_apellido_materno' >
     		<input type='hidden' value='$carrera' name='esfc_descripcion' id = 'esfc_descripcion' >
-    		<input type='hidden' value='$correo' name='coel_correo' id = 'coel_correo' >
+    		<input type='hidden' value='$al_fecha_nacimiento' name='al_fecha_nacimiento' id = 'al_fecha_nacimiento' >	
+			<input type='hidden' value='$al_nacionalidad' name='al_nacionalidad' id = 'al_nacionalidad' >
     		<input type='hidden' value='$pe_id' name='pe_id' id = 'pe_id' >
     		<table>
     		<tr>
