@@ -8,17 +8,16 @@
 	font-family: "Yanone Kaffeesatz";
 	
 	height:90px;
-	width:900px;
+	/*width:60%;*/
 	
-	margin-right:130px;
+	margin-right:2%;
 	position:relative;
 	
 	padding:0px 0px 0px 0px;
 	margin-right:78px;
 	
 	display:block;
-	margin: 0px auto;
-	margin-right: 100px;
+	/*margin: 0px auto;*/
 	margin-left: 0px;
 }
 
@@ -31,7 +30,7 @@ ul li{
 li a{
 	background-color:#003;
 	margin:-35px 0px 6px 0px;
-	padding:30px 30px 10px 30px;
+	padding:30px 5px 10px 10px;
 	
 	font-size:22px;
 	text-decoration:none;

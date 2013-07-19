@@ -32,9 +32,9 @@ body{
 	float:left;
 	display:inline;
 	height:120px;
-	width:140px;
+	width:14%;
 	position:absolute;
-	margin-left:110px;
+	/*margin-left:110px;*/
 	margin-top:-0px;
 }
 
@@ -61,6 +61,15 @@ body{
 
 
 /******* Formulario *********/
+/***
+*Para campos obligatorios
+*Agregado el 22062013
+**/
+td span{
+	color:red;
+	font-weight: bold;
+}
+
 label {
 	margin-right: 10px;
 }
@@ -140,7 +149,6 @@ form em {
 textarea{
 	width: 250px;
 	height: 50px;
-  	margin-left: 257px;
 	font-family:Verdana, Geneva, sans-serif;
 	font-size:12px;
 	display:inherit;
@@ -154,8 +162,33 @@ form{
   text-align: left;
 }
 
+/**Agregado el 23/06/2013**/
+#frm_agregar_idioma input{
+	width: 100px;
+	margin: 0px 0px 0px 0px;	
+}
+
+#frm_agregar_idioma label {
+	display: inline-block;
+	line-height: 1.8;
+	vertical-align: top;
+	width: 150px;
+	text-align: right;
+	margin-left: 20px;
+}
+
+
+#frm_agregar_idioma{width: 400px;}
+#dialog_idioma {width: 450px;}
+
+label.error{
+	display:inline;
+	color:#FF0000;
+	margin-left:0px;
+}
+
 h1, h2, h3{
-	width: 600px;
+	/*width: 600px;*/
 	margin:0 auto;
 	margin-bottom:20px;
 	text-align:center;
@@ -197,7 +230,7 @@ select.row {
 }
 
 input, textarea, select{
-	margin-right:20px;
+	margin-right:10%;
 }
 
 input[type=submit], input[type=button]{
@@ -218,8 +251,11 @@ table{
 	border-left-width: 20px;
 	border-style: solid;
 	border-color:#FFF;
+	
 
 }
+
+
 
 table tr td{
 	text-align:left;
@@ -262,7 +298,42 @@ table th{
 }
 
 
+/**Tamaños de tabla
+Agregado el 22062013*/
+.tab_form{
+	width:650px;
+	
+}
 
+.tab_form input[type="button"]{
+	margin: 0px 0px 0px 0px;
+	
+}
+
+
+.table_consultar{
+	width:85%;
+	table-layout: fixed;
+	text-align:center;
+	
+}
+
+.table_consultar input[type="text"]{
+	width:90%;
+}
+
+
+td.button_agregar input{
+        clear: both;
+        display:block;
+        float:auto;
+	 
+}
+
+#registros_consultar img{
+	display:inline;
+	margin-top:0px;
+}
 /********** Pie ***********/
 #pie{
 	background:#00264B;
