@@ -21,15 +21,25 @@ $_SESSION['idUsuario'] = 1;
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Sistema de Reservaciones de Laboratorio</title>
-        <link href="webroot/css/estilo.css" rel="stylesheet" type="text/css" />
-        <link href="webroot/css/menu.css" rel="stylesheet" type="text/css" />
+          <!-- Bootstrap -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="webroot/css/bootstrap.css" rel="stylesheet">
+		<link href="webroot/css/capture.css" rel="stylesheet">
+		<link href="webroot/css/animate.css" rel="stylesheet">
+		<link href="webroot/css/font-awesome.css" rel="stylesheet">
          <!--Css de las tablas-->
         <link href="webroot/css/demo_table.css" rel="stylesheet" type="text/css" />
         <link href="webroot/css/TableTools.css" rel="stylesheet" type="text/css" />
-        <link href="webroot/css/lightbox.css" rel="stylesheet" type="text/css" />	
- 		
-        <script type="text/javascript" src="webroot/js/jquery-1.10.1.js"></script>	
-                	
+        <link href="webroot/css/lightbox.css" rel="stylesheet" type="text/css" />       
+        <link rel="stylesheet" type="text/css" href="webroot/css/smoothness/jquery-ui-1.10.3.custom.css"/>
+        <link rel="stylesheet" type="text/css" href="webroot/css/smoothness/jquery-ui-1.10.3.custom.min.css"/>
+        <link rel="stylesheet" type="text/css" href="webroot/css/jquery.timepicker.css" />
+        
+		<link href='http://fonts.googleapis.com/css?family=Raleway:400,200,300,500,600,700,800,900' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+        
+        <script type="text/javascript" src="webroot/js/jquery-1.10.1.js"></script>      
+                        
                 
                 <!--Agrega funcionalidad de tabla deben ir antes de funAjax -->
                 <script type="text/javascript" src="webroot/js/jquery.dataTables.js"></script>
@@ -37,19 +47,72 @@ $_SESSION['idUsuario'] = 1;
                 <script type="text/javascript" src="webroot/js/ZeroClipboard.js"></script>
                 <script type="text/javascript" src="webroot/js/lightbox-2.6.min.js"></script>
                 
-                <script type="text/javascript" src="webroot/js/funAJAX.js"></script>	
-                <script type="text/javascript" src="webroot/js/validar.js"></script>	
-
+                <script type="text/javascript" src="webroot/js/funAJAX.js"></script>    
+                <script type="text/javascript" src="webroot/js/validar.js"></script>    
+                <script type="text/javascript" src="webroot/js/jquery-ui-1.10.3.custom.js"></script>
+                <script type="text/javascript" src="webroot/js/jquery.timepicker.js"></script>
+                <script type="text/javascript" src="webroot/js/function_calendario.js"></script>
+                <script type="text/javascript" src="webroot/js/base.js"></script>
+                 <!--Funcionamiento de las graficas-->
+                 <script type="text/javascript" src="webroot/js/graficas.js"></script>
+                 
+        <script src="webroot/js/bootstrap.min.js"></script>
+        <script src="webroot/js/twitter-bootstrap-hover-dropdown.js"></script>
+        <script src="webroot/js/capture.js"></script>
+        <script src="webroot/js/fixed-header.js"></script>
+        <script src="webroot/js/modernizr.custom.js"></script>
+        <script src="webroot/js/testimonials.js"></script>
+        
+        <script>
+    function cambiarUsuario(usuario){
+        $.get('controllers/sesion/sesion.php',{'opc':1,'usuario':usuario}, function(data){
+            $('#div_menu').empty();
+            $('#div_menu').append(data);
+        });
+    }
+</script>
     </head>
 
-    <body>
-      
-       
-        <?php include("boundaries/layout/menu.html"); ?>
+        <body>
+        
+   
 
-        <div id="contenido"></div>
-        <div id="pie"></div>
+                        <div id="div_menu">
+                                <?php include("boundaries/layout/menu.php"); ?>
+
+                        </div>
+
+
+   
+
+        <div class="white inner-page">
+        	
+        
+            <div id="contenido" class="container">
+                  <?php include("boundaries/layout/bienvenido_banner.html"); ?>
+            </div><!--/container-->
+        </div><!--/white-->
+
+
+        <div class="footer">
+            <div class="container">
+                <div class="row" >
+                    <div class="span9" >
+                        <p class="copyright">
+                        Hecho en México, DR © 2013. Esta página puede ser reproducida con fines no lucrativos, siempre y cuando no se mutile, se cite la fuente completa y su dirección electrónica. De otra forma requiere permiso previo por escrito de la institución. <a href="#"> Créditos</a> </p>
+                    </div><!--/span 6-->
+                    <div class="span3 social-icons">
+                        <a href="http://www.unam.mx/" target="_blank"><i class="fontawesome-icon social circle-social icon-unam"></i></a>
+                        <a href="http://www.fca.unam.mx/" target="_blank"><i class="fontawesome-icon social circle-social icon-fca"></i></a>
+                    </div><!--/span 6-->
+                </div><!--/row-->
+            </div><!--/container-->
+        </div><!--/footer-->
+        
+        
         <form id="vacio"></form>
-
+        
+        
+        
     </body>
 </html>
