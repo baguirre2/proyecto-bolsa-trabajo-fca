@@ -370,7 +370,7 @@ class Alumno{
 	
 	public function recuperarDatosAlumno($id) {
 		$conexion = new InterfazBD2();
-		$query = "SELECT AL.al_num_cuenta, P.pe_id, P.pe_nombre, P.pe_apellido_paterno, P.pe_apellido_materno, CE.coel_correo, EF.esfc_id, EF.esfc_descripcion, U.us_contrasenia, U.us_id FROM INGSW.PERSONA P INNER JOIN INGSW.ALUMNO AL ON(P.pe_id=AL.pe_id) INNER JOIN INGSW.CORREO_ELECTRONICO CE ON(P.pe_id=CE.pe_id) INNER JOIN INGSW.USUARIO U ON(P.pe_id=U.pe_id) INNER JOIN INGSW.ESTUDIO_FCA EF ON(EF.esfc_id=AL.esfc_id) WHERE '".$id."' = U.us_id ;";
+		$query = "SELECT AL.al_num_cuenta, AL.al_fecha_nacimiento, AL.al_nacionalidad,  P.pe_id, P.pe_nombre, P.pe_apellido_paterno, P.pe_apellido_materno, CE.coel_correo, EF.esfc_id, EF.esfc_descripcion, U.us_contrasenia, U.us_id FROM INGSW.PERSONA P INNER JOIN INGSW.ALUMNO AL ON(P.pe_id=AL.pe_id) INNER JOIN INGSW.CORREO_ELECTRONICO CE ON(P.pe_id=CE.pe_id) INNER JOIN INGSW.USUARIO U ON(P.pe_id=U.pe_id) INNER JOIN INGSW.ESTUDIO_FCA EF ON(EF.esfc_id=AL.esfc_id) WHERE '".$id."' = U.us_id ;";
 	
 		$datos = $conexion->consultar($query);
 		if($datos){
@@ -404,13 +404,14 @@ class Alumno{
 			$aPaterno = isset($GET['pe_apellido_paterno']) ? $GET['pe_apellido_paterno'] : "";
 			$aMaterno =  isset($GET['pe_apellido_materno']) ? $GET['pe_apellido_materno'] : "";
 			$carrera = isset($GET['esfc_descripcion']) ? $GET['esfc_descripcion'] : "";
-			$correo =  isset($GET['coel_correo']) ? $GET['coel_correo'] : "";
+			$al_fecha_nacimiento =  isset($GET['al_fecha_nacimiento']) ? $GET['al_fecha_nacimiento'] : "";
+			$al_nacionalidad =  isset($GET['al_nacionalidad']) ? $GET['al_nacionalidad'] : "";
 			$pe_id =  isset($GET['pe_id']) ? $GET['pe_id'] : "";
 				
 			//echo "$numCuenta , $nombre, $aPaterno, $aMaterno, $carrera, $correo , $pe_id";
 				
 			$query = "UPDATE INGSW.PERSONA SET pe_nombre ='".$nombre."', pe_apellido_paterno='".$aPaterno."',pe_apellido_materno='".$aMaterno."'
-	WHERE pe_id ='".$pe_id."'; UPDATE INGSW.ALUMNO SET al_num_cuenta='".$numCuenta."', esfc_id='".$carrera."' WHERE pe_id ='".$pe_id."'; UPDATE INGSW.CORREO_ELECTRONICO SET coel_correo='".$correo."' WHERE pe_id ='".$pe_id."';";
+	WHERE pe_id ='".$pe_id."'; UPDATE INGSW.ALUMNO SET al_num_cuenta='".$numCuenta."', al_fecha_nacimiento = '".$al_fecha_nacimiento."', al_nacionalidad ='".$al_nacionalidad."', esfc_id='".$carrera."' WHERE pe_id ='".$pe_id."'; ";
 				
 				
 			if ($conexion->ejecutarQuery($query)){

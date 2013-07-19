@@ -24,22 +24,30 @@
     		</tr>
             <tr>
                 <td>N&uacutemero de Cta.: </td>
-                <td><input type="text" name="al_num_cuenta" value="<?php echo $datosAlumno['al_num_cuenta']; ?>" /></td>
+                <td><input type="text" class="required" name="al_num_cuenta" value="<?php echo $datosAlumno['al_num_cuenta']; ?>" /></td>
             </tr> 		
             <tr>
                 <td>Nombre(s): </td>
-                <td><input type="text" name="pe_nombre" value="<?php echo $datosAlumno['pe_nombre']; ?>" /></td>
+                <td><input type="text" class="required" name="pe_nombre" value="<?php echo $datosAlumno['pe_nombre']; ?>" /></td>
             </tr>
             <tr>
                 <td>Apellido Paterno: </td>
-                <td><input type="text" name="pe_apellido_paterno" value="<?php echo $datosAlumno['pe_apellido_paterno']; ?>" /></td>
+                <td><input type="text" class="required" name="pe_apellido_paterno" value="<?php echo $datosAlumno['pe_apellido_paterno']; ?>" /></td>
             </tr>
             <tr>
                 <td>Apellido Materno: </td>
-                <td><input type="text" name="pe_apellido_materno" value="<?php echo $datosAlumno['pe_apellido_materno']; ?>" /></td>
+                <td><input type="text" class="required" name="pe_apellido_materno" value="<?php echo $datosAlumno['pe_apellido_materno']; ?>" /></td>
             </tr>
     		<tr>
-                <td>Carrera</td>
+                <td>Fecha de Nacimiento: </td>
+                <td><input type="text" class="required" name="al_fecha_nacimiento" placeholder="aaaa-mm-dd" value="<?php echo $datosAlumno['al_fecha_nacimiento']; ?>" /></td>
+            </tr>
+            <tr>
+                <td>Nacionalidad: </td>
+               <td><input type="text" class="required" name="al_nacionalidad" value="<?php echo $datosAlumno['al_nacionalidad']; ?>" /></td>
+            </tr>
+            <tr>
+                <td>Carrera: </td>
                 <td><select name="esfc_descripcion" class="required">
 		    		<option value="<? echo $datosAlumno['esfc_id'];  ?>"><? echo $datosAlumno['esfc_descripcion'];  ?></option>
 		    		<?php for($i=0; $i < 3; $i++) { ?>
@@ -49,10 +57,6 @@
 					<?php } ?>
 		            </select>
              	</td>
-            </tr>
-            <tr>
-                <td>Correo Electr&oacute;nico</td>
-                <td><input type="text" name="coel_correo" value="<?php echo $datosAlumno['coel_correo']; ?>" /></td>
             </tr>
         </tbody>
     </table>
