@@ -14,6 +14,7 @@ include_once '../../entities/Reclutador.php';
 
 class CtlCurriculum {
 
+	private $btnRegresar = " <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')\">";
     //function __construct($GET) {
 	function __construct($GET, $FILES){
 
@@ -23,13 +24,15 @@ class CtlCurriculum {
         $idAlum = 1;
         //Se obtendrá el id del Reclutador por medio de un objeto SESSION.
         $idReclutador = 1;
+        
 
         switch ($opc) {
 
 
             //Mostrar Formulario para registro
             case 1;
-                include '../../boundaries/curriculum/menuCurr.html';
+            	  include("../../boundaries/layout/bienvenido_banner.html");
+//                include '../../boundaries/curriculum/menuCurr.html';
                 break;
 
             //Mostrar Formularo de Registroo
@@ -1114,7 +1117,7 @@ public function listarEstudiosFCA($nivel, $id_inac){
     			$strTable .= $btnAgregar;
     		}
     	}
-    	echo $strTable."</form>";
+    	echo $strTable."<tr> <td> ".$this->btnRegresar." </tr> </td> </form>";
     }
 
 	/**
