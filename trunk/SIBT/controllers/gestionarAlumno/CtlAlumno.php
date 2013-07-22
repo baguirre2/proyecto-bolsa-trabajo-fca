@@ -126,7 +126,7 @@ class CtlAlumno {
                 case 'obDeMu';			//Obtiene Delegación/Municipio de manera dinámica [a través de JS].
                 	include '../../boundaries/alumno/divMiDireccion.php';
                 	$dir = new Alumno();
-                	$demu_arr = dir->obtenerDeMu($_GET['es_id']);
+                	$demu_arr = $dir->obtenerDeMu($_GET['es_id']);
                 	$div = new DivMiDireccion();
                 	$div->getDeMu($demu_arr);
                 	break;
@@ -134,7 +134,7 @@ class CtlAlumno {
                 case 'obColonia';		//Obtiene Colonia de manera dinámica [a través de JS].
                 	include '../../boundaries/alumno/divMiDireccion.php';
                 	$dir = new Alumno();
-                	$col_arr = dir->obtenerColonia($_GET['demu_id']);
+                	$col_arr = $dir->obtenerColonia($_GET['demu_id']);
                 	$div = new DivMiDireccion();
                 	$div->getColonia($col_arr);
                 	
