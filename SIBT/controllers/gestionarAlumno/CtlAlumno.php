@@ -110,8 +110,36 @@ class CtlAlumno {
                 $alumno = new Alumno();
                 $alumno->actualizarAlumno($GET, $tipoUsuario);
                 break;
+                
+                
+                case 'llenarDir':		//Llena el formulario para modificar direccion.
+                	include '../../boundaries/alumno/frmModDireccion.php';
+                	$alum_id = $_GET['id'];
+                	$alumno = new Alumno();
+                	$cata_dir = $alumno->obtenerCatalogoDir();
+                	$datos_dir = $alumno->obtenerMiDireccion($alumno_id);
+                	$frm = new FrmMiDireccion($cata_dir ,$datos_dir);
                 	
+                	break;
+                
+                
+                case 'obDeMu';			//Obtiene Delegación/Municipio de manera dinámica [a través de JS].
+                	include '../../boundaries/alumno/divMiDireccion.php';
+                	$dir = new Alumno();
+                	$demu_arr = dir->obtenerDeMu($_GET['es_id']);
+                	$div = new DivMiDireccion();
+                	$div->getDeMu($demu_arr);
+                	break;
+                
+                case 'obColonia';		//Obtiene Colonia de manera dinámica [a través de JS].
+                	include '../../boundaries/alumno/divMiDireccion.php';
+                	$dir = new Alumno();
+                	$col_arr = dir->obtenerColonia($_GET['demu_id']);
+                	$div = new DivMiDireccion();
+                	$div->getColonia($col_arr);
                 	
+                	break;
+                
                 // ********* FIN Actualizar alumno ******
                          
         }
