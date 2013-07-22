@@ -3,8 +3,10 @@ class FrmMiDireccion{
 	
 	function __construct($catalogos,$datos_dir){
 ?>
+<div id="res_mi_direccion"></div>
 <form id="mi_direccion" action="#">
-	<input type="hidden" value="" name="opc" />		<!-- Opción del Controller -->
+	<input type="hidden" value="" name="opc" />
+	<input type="hidden" value="<?php echo $datos_dir['do_id'];?>" name="direccion[do_id]" /><!-- Opción del Controller -->
 	<input type="hidden" value="<?php echo $id_alumno ?>" name="direccion[id_alumno]" />
 	
 	<fieldset>
@@ -77,8 +79,8 @@ class FrmMiDireccion{
 		
 		<table>
 			<tr>
-				<td><input type="button" value="Registrar" onclick="frmModDireccionEnviar();return false;"/></td>
-				<td><input type="button" value="Regresar" onclick=""/></td>
+				<td><input type="button" value="Registrar" onclick="funAJAX('controllers/gestionarAlumno/CtlAlumno.php','actMiDireccion','mi_direccion','res_mi_direccion');"/></td>
+				<td><input type="button" value="Regresar" onclick="funAJAX('controllers/gestionarAlumno/CtrlAlumno.php','actAlumno','vacio','contenido');"/></td>
 			</tr>
 		</table>
 	</fieldset>
