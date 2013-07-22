@@ -45,7 +45,7 @@ class Alumno{
 	}
 	
 	public function listarEstudiosFCA($nivel) {
-		if($nivel == 0 ){	//Opci�n default del select superior
+		if($nivel == 0 ){	//Opción default del select superior
 			echo "";
 		}else if($nivel == 5){
 			echo "<select name=\"esfc_id\" onchange=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'llenarListaEstadosAcademicos', 'vacio', 'estadosAcademicos', this.value);\">";
@@ -56,7 +56,7 @@ class Alumno{
 			$query = "SELECT * FROM ingsw.estudio_fca WHERE nies_id=$nivel";
 			$resultados = $conexion->consultar($query);
 			echo "<select name=\"esfc_id\" class=\"required\" onchange=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'llenarListaEstadosAcademicos', 'vacio', 'estadosAcademicos', this.value);\">";
-			echo "<option value=\"Seleccionar\">Selecciona una opci�n</option>";
+			echo "<option value=\"Seleccionar\">Selecciona una opci&oacuten</option>";
 			for ($i = 0; $i <= count($resultados) - 1; $i++) {
 				echo "<option value=\"".$resultados[$i]['esfc_id']."\">";
 				echo $resultados[$i]['esfc_descripcion']."</option>";
@@ -67,19 +67,19 @@ class Alumno{
 	}
 	
 	public function listarEstadosAcademicos($nivel){
-		if($nivel == 0){	//Opci�n default del select superior
+		if($nivel == 0){	//Opción default del select superior
 			echo "";
 		}else{
 			$conexion = new InterfazBD2();
 			$query = "SELECT * FROM ingsw.estado_academico";
 			$resultados = $conexion->consultar($query);
 			echo "<select class=\"required\" name=\"esac_id\">";
-			echo "<option value=\"Seleccionar\">Selecciona una opci�n</option>";
+			echo "<option value=\"Seleccionar\">Selecciona una opci&oacuten</option>";
 			for ($i = 0; $i <= count($resultados) - 1; $i++) {
 				echo "<option value=\"".$resultados[$i]['esac_id']."\">";
 				echo $resultados[$i]['esac_tipo']."</option>";
 			}
-			echo "</select>";		
+			echo "</select>";
 			$conexion->cerrarConexion();
 		}
 	}
@@ -109,7 +109,7 @@ class Alumno{
 					/*
 					 if($id_alumno != false){
 	
-					//AQUI INSERTAR�A EN ESTUDIO_FCA EN VEZ DE INFO_ACADEMICA
+					//AQUI INSERTARÍA EN ESTUDIO_FCA EN VEZ DE INFO_ACADEMICA
 					$query_info_aca = "INSERT INTO ingsw.informacion_academica (al_id, esac_id, esot_id, esfc_id, esau_id, inac_universidad, inac_escuela, inac_fecha_inicio)
 					VALUES ('".$id_alumno."','".$GET['esac_id']."',null,'".$GET['esfc_id']."','1','0','0','01/01/1900')";
 	
@@ -128,14 +128,14 @@ class Alumno{
 	    			 		  		 	   VALUES ('".$id_persona."','".$GET['al_num_cuenta']."','".$pass."')";
 	
 						if($conexion->ejecutarQuery($query_usuario) != false){
-							$estado = "El alumno se ha agregado con �xito";
+							$estado = "El alumno se ha agregado con &eacutexito";
 						}
 	
 						//ENVIAR CORREO A ALUMNO CON SU USER Y PASS
 						$nombre = $GET['pe_nombre']." ".$GET['pe_apellido_paterno']." ".$GET['pe_apellido_materno'];
 	
 						if(!$this->enviarCorreo($GET['coel_correo'], $nombre, $GET['al_num_cuenta'], $pass)){
-							$estado = "No se pud� mandar el correo";
+							$estado = "No se pud&oacute mandar el correo";
 						}
 					}
 				}
@@ -149,7 +149,7 @@ class Alumno{
 	}
 	
 	/*
-	 * Funci�n: EnviarCorreo
+	 * Función: EnviarCorreo
 	* Para env�ar el correo de registro del alumno
 	* incluyendo sus datos de acceso como usuario.
 	* CONFIGURACIONES: Sobre php.ini
@@ -160,7 +160,7 @@ class Alumno{
 	SMTP = smtp.my.isp.net
 	sendmail_from = me@myserver.com
 	
-	And here�s how it might look on a Linux server with sendmail:
+	And here is how it might look on a Linux server with sendmail:
 	
 	[mail function]
 	; Setup for Linux systems
@@ -169,26 +169,37 @@ class Alumno{
 	sendmail_from = me@myserver.com
 	*/
 	public function enviarCorreo($correo, $nombre, $no_cta, $password) {
-	
-		$mensaje = "	<h2>UNIVERSIDAD NACIONAL AUTON�MA DE M�XICO</h2><br/>";
-		$mensaje .= "	<h3>Facultad de Contadur�a y Administraci�n</h3><br/>";
+		/*
+			$mensaje = "	<h2>UNIVERSIDAD NACIONAL AUTON&OacuteMA DE M&EacuteXICO</h2><br/>";
+		$mensaje .= "	<h3>Facultad de Contadur&iacutea y Administraci&oacuten</h3><br/>";
 		$mensaje .= "	Departamento de Bolsa de Trabajo<br/><br/>";
 		$mensaje .= "	Estimado alumno ".$nombre." <br/>";
 		$mensaje .= "	Se te notifica que tus datos de acceso son los siguientes:<br/>";
 		$mensaje .= "	Usuario ".$no_cta." <br/>";
-		$mensaje .= "	Contrase�a ".$password." <br/><br/>";
-		$mensaje .= "	Sin m�s por el momento quedamos a tus �rdenes.<br/>";
-		$mensaje .= "	Departamento de bolsa de Trabajo FCA � UNAM<br/>";
+		$mensaje .= "	Contraseña ".$password." <br/><br/>";
+		$mensaje .= "	Sin m&aacutes por el momento quedamos a tus &oacuterdenes.<br/>";
+		$mensaje .= "	Departamento de bolsa de Trabajo FCA - UNAM<br/>";
 		$mensaje .= "	http://cetus.fca.unam.mx/sibt/ <br/>";
-	
+		*/
 		//$mensaje = wordwrap($mensaje, 70, "\r\n");
 	
-		if(mail($correo, 'Datos de acceso SIBT', $mensaje)){
-			return true;
-		}else{
-			return false;
-		}
+		if(mail($correo, 'Datos de acceso SIBT', "UNIVERSIDAD NACIONAL AUTONÓMA DE MÉXICO
+				Facultad de Contaduría y Administración
+				Departamento de Bolsa de Trabajo
 	
+				Estimado alumno $nombre has sido registraro en la bolsa de trabajo de la FCA
+				Se te notifica que tus datos de acceso son los siguientes:
+				Usuario $no_cta
+				Contraseña $password
+	
+				Sin más por el momento quedamos a tus órdenes.
+	
+				Departamento de bolsa de Trabajo FCA – UNAM
+				http://cetus.fca.unam.mx/sibt/")){
+				return true;
+		}else{
+				return false;
+		}
 	}
 	
 	public function buscarAlumno($GET){
