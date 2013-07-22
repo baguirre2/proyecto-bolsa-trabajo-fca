@@ -8,15 +8,17 @@
  -->
 <h1>Consultar Usuarios</h1>
 
-    <table >
+    <table class='tablas_sort'>
+	<thead>
         	<tr>
            	  <th>Usuario</th>
                 <th>Modificar</th>
                 <th>Baja</th>
             </tr>
+	</thead>
+	<tbody>
    
     <?php $contador = 0; while($contador < count($consultaUsuarios)){ ?>
-           <tr>
   
           	
             <tr>           
@@ -26,6 +28,6 @@
             </tr>
    
      <?php $contador = $contador + 1; }  ?>
-     </tr>
+	</tbody>
       </table>
 

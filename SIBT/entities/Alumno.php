@@ -230,11 +230,11 @@ class Alumno{
 		$telefonos = $conn->consultar($query);
 		$conn->cerrarConexion();
 		$strInfoAlumno = "<tr> <th> Información Personal </th> </tr> <input type='hidden' name='idAlumno' value='$datos[al_id]'>
-				<tr> <td> $datos[pe_nombre] $datos[pe_apellido_paterno] $datos[pe_apellido_materno]
-				<tr> <td> Nacionalidad $datos[al_nacionalidad]
-				<tr> <td> Direccion: $datos[do_calle] N. $datos[do_num_exterior], $datos[co_nombre] CP. $datos[co_codigo_postal], $datos[demu_nombre], $datos[es_nombre].   
-				<tr> <td> Correo Electrónico: $correoE[coel_correo]
-				<tr> <th> Telefonos 
+				<tr> <td> $datos[pe_nombre] $datos[pe_apellido_paterno] $datos[pe_apellido_materno]</td></td>
+				<tr> <td> Nacionalidad $datos[al_nacionalidad]</td></tr>
+				<tr> <td> Direccion: $datos[do_calle] N. $datos[do_num_exterior], $datos[co_nombre] CP. $datos[co_codigo_postal], $datos[demu_nombre], $datos[es_nombre].</td></tr>   
+				<tr> <td> Correo Electrónico: $correoE[coel_correo]</td></tr>
+				<tr> <th> Telefonos </td></tr>
 		";
 		foreach ($telefonos AS $telefono) {
 			$strInfoAlumno .= "<tr> <td> $telefono[tite_descripcion]: $telefono[te_telefono]";
@@ -316,7 +316,7 @@ class Alumno{
 		$Acad = $conn->consultar($query);
 		$Acad = $Acad[0];
 		$conn->cerrarConexion();
-		$strInfoAlumno = "<tr> <th> Nombre <th> Correo Electrónico <th> Carrera / Posgrado <th> Telefonos
+		$strInfoAlumno = "
 				<tr> <td> $datos[pe_nombre] $datos[pe_apellido_paterno] $datos[pe_apellido_materno]
 					 <td> $correoE[coel_correo]
 					 <td> $Acad[esfc_descripcion]
