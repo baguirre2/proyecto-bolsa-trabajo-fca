@@ -18,6 +18,7 @@ $upload_folder ='./../constancias/'.$tipo;
 //$return = "Imagen subida exitosamente";
 
 $nombre_archivo = $_FILES['archivo']['name'];
+$nombre_archivo = str_replace(" ","_",$nombre_archivo);
 $tipo_archivo = $_FILES['archivo']['type'];
 $tamano_archivo = $_FILES['archivo']['size'];
 $tmp_archivo = $_FILES['archivo']['tmp_name'];
