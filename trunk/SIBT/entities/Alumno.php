@@ -474,21 +474,21 @@ class Alumno{
 	
 	public function obtenerMiDireccion($alumno_id){
 		$bd = new InterfazBD2();
-		$salida = $bd->consultar('SELECT * FROM ingsw.alumno AS alum JOIN ingsw.domicilio AS dom ON alum.do_id = dom.do_id JOIN ingsw.colonia AS col ON dom.co_id = col.co_id JOIN ingsw.delegacion_municipio AS del_mun ON col.demu_id = del_mun.demu_id JOIN ingsw.estado AS edo ON del_mun.es_id = edo.es_id WHERE al_id =' $alumno_id);
+		$salida = $bd->consultar("SELECT * FROM ingsw.alumno AS alum JOIN ingsw.domicilio AS dom ON alum.do_id = dom.do_id JOIN ingsw.colonia AS col ON dom.co_id = col.co_id JOIN ingsw.delegacion_municipio AS del_mun ON col.demu_id = del_mun.demu_id JOIN ingsw.estado AS edo ON del_mun.es_id = edo.es_id WHERE al_id = $alumno_id");
 		$bd->cerrarConexion();
 		return $salida[0];
 	}
 	
 	public function obtenerDeMu($es_id){
 		$bd = new InterfazBD2();
-		$salida = bd->consultar("SELECT * FROM delegacion_municipio WHERE es_id =$es_id");
+		$salida = $bd->consultar("SELECT * FROM delegacion_municipio WHERE es_id =$es_id");
 		$bd->cerrarConexion();
 		return $salida;
 	}
 	
 	public function obtenerColonia($demu_id){
 		$bd = new InterfazBD2();
-		$salida = bd->consultar("SELECT * FROM colonia WHERE demu_id =$demu_id");
+		$salida = $bd->consultar("SELECT * FROM colonia WHERE demu_id =$demu_id");
 		$bd->cerrarConexion();
 		return $salida;
 	}
