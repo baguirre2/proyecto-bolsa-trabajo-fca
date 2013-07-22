@@ -459,6 +459,19 @@ class Alumno{
 		$conexion->cerrarConexion();
 	}
 	
+	public function actualizarDireccion($direccion){
+		$bd = new InterfazBD2();
+		$domicilio = $direccion[do_id];
+		$cp = $direccion[co_codigo_postal];
+		$estado = $direccion[es_id]; 
+		$demu = $direccion[demu_id];
+		$colonia = $direccion[co_id];
+		$calle = $direccion[];
+		$noExt = $direccion[];
+		$noInt = $direccion[];
+		$query = "UPDATE ingsw.domicilio SET co_id= $colonia, do_calle = $calle, do_num_exterior = $noExt, do_num_exter WHERE do_id = $";
+		
+	}
 	// fin Actualizar Alumno
 	
 	
