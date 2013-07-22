@@ -1,6 +1,6 @@
 <?php
 
-class DivEstudio{
+class MiDireccion{
     
     function getDeMu($arr_datos){
         echo "<select name='direccion[demu_id]' id='demu_id' class='required' onchange='obtenerColonia();return false;'>";
@@ -9,14 +9,14 @@ class DivEstudio{
 					echo "<option value='$clave'>$valor</option>";
 				}
 			
-		echo 	'</select>';
+		echo '</select>';
     }
     
-    function getColonia($colonia){
+    function getColonia($arr_datos){
        echo "<select name='direccion[co_id]' id='co_id' >";
 			
-				for($i = 1;$i <= $colonia ;$i++){
-					echo "<option value='$i'>$i</option>";
+				foreach($arr_datos as $clave => $valor){
+					echo "<option value='$clave'>$valor</option>";
 				}
 			
 		echo 	'</select>';
