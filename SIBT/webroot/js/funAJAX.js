@@ -1,6 +1,6 @@
 function ajax (url, opc, frm, div) {
     
-    if (validar2(frm)) { //Si el formulario es vÃ¡lido
+    if (validar2(frm)) { //Si el formulario es válido
     
         //Se carga el contenido
          $("#" + div).load(url + "?opc=" + opc + "&" + getFormData(frm, 'silent', true), function(){
@@ -71,17 +71,17 @@ function ajaxConImagen(url, opc, frm , div, tipo){
 }
 
 function getFormData(objf, info, rval) {
-    // La funciÃ³n getFormData recorre todos los elementos de un formulario
+    // La función getFormData recorre todos los elementos de un formulario
     // y va formando una cadena de formato "objeto=valor&objeto=valor&...".
     // Los campos del formulario para los que se haya especificado el
-    // atributo TITLE, serÃ¡n considerados campos obligatorios.
+    // atributo TITLE, serán considerados campos obligatorios.
     //
     // formato: getFormData(objetoFormulario, tipoAvisoError, returnValue);
     // objetoFormulario: tiene que ser el OBJETO, NO el nombre del formulario
     // tipoAvisoError: silent: no muestra errores, si no se obtuvieron datos del formulario
-    // alert: muestra un mensaje de alerta y detiene la ejecuciÃ³n, si no se obtuvieron los datos
+    // alert: muestra un mensaje de alerta y detiene la ejecución, si no se obtuvieron los datos
     // returnValue: si debe devolver o no el resultado, true o false
-    // los campos con el title vaciÃ³ no son alertados
+    // los campos con el title vacio no son alertados
     //
     // ejemplo: var queryStrign = getFormData('formularioId', 'silent', true);
     var formComplete = true;
@@ -92,24 +92,24 @@ function getFormData(objf, info, rval) {
         
         if (formObj.elements[i].type != undefined && formObj.elements[i].name != undefined){
             var elemValLength = formObj.elements[i].value;
-            // si algÃºn campo para el envÃ­o de archivos cambia el enctype del form.
+            // si algún campo para el envío de archivos cambia el enctype del form.
             if (formObj.elements[i].type == "file"){
                 formObj.enctype = "multipart/form-data";
             }
-            // chequea que todos los campos con atributo TITLE estÃ©n completos.
+            // chequea que todos los campos con atributo TITLE están completos.
             if (formObj.elements[i].title != "" && elemValLength.length < 1) {
                 alertMsg += " - " + formObj.elements[i].title + "\r";
                 formComplete = false;
                 continue;
             }
-            // si es un checkbox, verifica que estÃ© chequeado
+            // si es un checkbox, verifica que está chequeado
             if (formObj.elements[i].type == "checkbox"){
                 if (formObj.elements[i].checked == true){
                     getstr += formObj.elements[i].name + "=" + encodeURIComponent(formObj.elements[i].value) + "&";
                 }
                 continue;
             }
-            // si es un radio, verifica que estÃ© chequeado
+            // si es un radio, verifica que está chequeado
             if (formObj.elements[i].type == "radio"){
                 if (formObj.elements[i].checked == true){
                     getstr += formObj.elements[i].name + "=" + encodeURIComponent(formObj.elements[i].value) + "&";
@@ -143,9 +143,9 @@ function validar2(formulario_id){
             if( $(this).val() == null || $(this).val() == "" || $(this).val() == "Seleccionar"){
                     valido = false;
                     $(this).after("<etiqueta class='error'>Campo Obligatorio</etiqueta>");
-            }else if( ($(this).hasClass('letras')) && /^[a-zA-Z����������� ]*$/.test($(this).val()) == false){
+            }else if( ($(this).hasClass('letras')) && /^[a-zA-ZáéíóúÁÉÍÓÚüÜ ]*$/.test($(this).val()) == false){
                     valido = false;
-                    $(this).after("<etiqueta class='error'>S�lo letras</etiqueta>");
+                    $(this).after("<etiqueta class='error'>S&oacutelo letras</etiqueta>");
             }else if( ($(this).hasClass('correo')) && /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/.test($(this).val()) == false){
                     valido = false;
                     $(this).after("<etiqueta class='error'>Por favor introduzca un email v&aacutelido</etiqueta>");
@@ -154,7 +154,7 @@ function validar2(formulario_id){
                     $(this).after("<etiqueta class='error'>Por favor introduzca una fecha v&aacutelida</etiqueta>");
             }else if( ($(this).hasClass('noCta')) && /^([0-9]{9})*$/.test($(this).val()) == false){
                     valido = false;
-                    $(this).after("<etiqueta class='error'>Ingrese los 9 n�meros del n�mero de cuenta</etiqueta>");
+                    $(this).after("<etiqueta class='error'>Ingrese los 9 n&uacutemeros del n&uacutemero de cuenta</etiqueta>");
             }            
     });
 
@@ -171,7 +171,7 @@ function validar2(formulario_id){
 }
 
 
-//Ordenamiento, versiÃ³n para imprimir y pdf
+//Ordenamiento, versión para imprimir y pdf
 function tablasSort(){
            $('.tablas_sort').dataTable( {
         "sDom": 'T<"clear">lfrtip',
@@ -193,12 +193,12 @@ function tablasSort(){
          "sSearch": "Buscar:",
           "oPaginate": {
                 "sFirst": "Primera",
-                 "sLast": "Ãltima",
+                 "sLast": "&Uacuteltima",
                  "sNext": "Siguiente",
                  "sPrevious": "Anterior"
             },
-            "sLengthMenu": "Mostrar _MENU_ registros por pÃ¡gina",
-	    "sZeroRecords": "Disculpe no se encontrarÃ³n datos",
+            "sLengthMenu": "Mostrar _MENU_ registros por p&aacutegina",
+	    "sZeroRecords": "Disculpe no se encontrar&oacuten datos",
 	    "sInfo": "Mostrando de _START_ a _END_ de un total de _TOTAL_",
 	    "sInfoEmpty": "Mostrando de 0 a 0 de un total de 0 ",
 	    "sInfoFiltered": "(filtrados de _MAX_ registros totales)"
