@@ -140,6 +140,18 @@ class CtlAlumno {
                 	
                 	break;
                 
+                case 'actMiDireccion':		//Ejecuta QUERY
+                	$mi_dir = new Alumno();
+                	$mi_dir->actualizarDireccion($_GET['direccion']);
+                	break;
+                
+                case 'actualizarAlumno':		//Pinta el formulario de Mi Direccion-Alumno.
+                	include '../../boundaries/alumno/frmModDireccion.php';
+                	$alumno = new Alumno();
+                	$catalogo = $alumno->obtenerCatalogoDir();
+                	$mi_dir = $alumno->obtenerMiDireccion($_GET['id_alumno']);
+                	$frmDir = new FrmMiDireccion($catalogo, $mi_dir);
+                	break;
                 // ********* FIN Actualizar alumno ******
                          
         }
