@@ -2,7 +2,7 @@
 
 /*
  * Archivo: Class Alumno
- * Autor:	Emmanuel García C.
+ * Autor:	Emmanuel Garcï¿½a C.
  * Fecha:	Martes 25/Junio/2013
  * Modificaciones: 
  * -
@@ -109,7 +109,7 @@ class Alumno{
 					/*
 					 if($id_alumno != false){
 	
-					//AQUI INSERTARÍA EN ESTUDIO_FCA EN VEZ DE INFO_ACADEMICA
+					//AQUI INSERTARï¿½A EN ESTUDIO_FCA EN VEZ DE INFO_ACADEMICA
 					$query_info_aca = "INSERT INTO ingsw.informacion_academica (al_id, esac_id, esot_id, esfc_id, esau_id, inac_universidad, inac_escuela, inac_fecha_inicio)
 					VALUES ('".$id_alumno."','".$GET['esac_id']."',null,'".$GET['esfc_id']."','1','0','0','01/01/1900')";
 	
@@ -128,14 +128,14 @@ class Alumno{
 	    			 		  		 	   VALUES ('".$id_persona."','".$GET['al_num_cuenta']."','".$pass."')";
 	
 						if($conexion->ejecutarQuery($query_usuario) != false){
-							$estado = "El alumno se ha agregado con éxito";
+							$estado = "El alumno se ha agregado con ï¿½xito";
 						}
 	
 						//ENVIAR CORREO A ALUMNO CON SU USER Y PASS
 						$nombre = $GET['pe_nombre']." ".$GET['pe_apellido_paterno']." ".$GET['pe_apellido_materno'];
 	
 						if(!$this->enviarCorreo($GET['coel_correo'], $nombre, $GET['al_num_cuenta'], $pass)){
-							$estado = "No se pudó mandar el correo";
+							$estado = "No se pudï¿½ mandar el correo";
 						}
 					}
 				}
@@ -149,8 +149,8 @@ class Alumno{
 	}
 	
 	/*
-	 * Función: EnviarCorreo
-	* Para envíar el correo de registro del alumno
+	 * Funciï¿½n: EnviarCorreo
+	* Para envï¿½ar el correo de registro del alumno
 	* incluyendo sus datos de acceso como usuario.
 	* CONFIGURACIONES: Sobre php.ini
 	
@@ -160,7 +160,7 @@ class Alumno{
 	SMTP = smtp.my.isp.net
 	sendmail_from = me@myserver.com
 	
-	And here’s how it might look on a Linux server with sendmail:
+	And hereï¿½s how it might look on a Linux server with sendmail:
 	
 	[mail function]
 	; Setup for Linux systems
@@ -170,15 +170,15 @@ class Alumno{
 	*/
 	public function enviarCorreo($correo, $nombre, $no_cta, $password) {
 	
-		$mensaje = "	<h2>UNIVERSIDAD NACIONAL AUTONÓMA DE MÉXICO</h2><br/>";
-		$mensaje .= "	<h3>Facultad de Contaduría y Administración</h3><br/>";
+		$mensaje = "	<h2>UNIVERSIDAD NACIONAL AUTONï¿½MA DE Mï¿½XICO</h2><br/>";
+		$mensaje .= "	<h3>Facultad de Contadurï¿½a y Administraciï¿½n</h3><br/>";
 		$mensaje .= "	Departamento de Bolsa de Trabajo<br/><br/>";
 		$mensaje .= "	Estimado alumno ".$nombre." <br/>";
 		$mensaje .= "	Se te notifica que tus datos de acceso son los siguientes:<br/>";
 		$mensaje .= "	Usuario ".$no_cta." <br/>";
-		$mensaje .= "	Contraseña ".$password." <br/><br/>";
-		$mensaje .= "	Sin más por el momento quedamos a tus órdenes.<br/>";
-		$mensaje .= "	Departamento de bolsa de Trabajo FCA – UNAM<br/>";
+		$mensaje .= "	Contraseï¿½a ".$password." <br/><br/>";
+		$mensaje .= "	Sin mï¿½s por el momento quedamos a tus ï¿½rdenes.<br/>";
+		$mensaje .= "	Departamento de bolsa de Trabajo FCA ï¿½ UNAM<br/>";
 		$mensaje .= "	http://cetus.fca.unam.mx/sibt/ <br/>";
 	
 		//$mensaje = wordwrap($mensaje, 70, "\r\n");
@@ -460,7 +460,38 @@ class Alumno{
 	}
 	
 	// fin Actualizar Alumno
-
+	
+	
+	public function obtenerCatalogoDir(){
+		$bd = InterfazBD2();
+		$cat_dir = array();
+		$cat_dir['estados']= $bd->toCatalogo("ingsw.estado ");
+		$cat_dir['delegaciones'] = $db->toCatalogo("ingsw.delegacion_municipio");
+		$cat_dir['colonias'] = $bd->toCatalogo("ingsw.colonia");
+		
+		return $cat_dir;
+	}
+	
+	public function obtenerMiDireccion($alumno_id){
+		$bd = new InterfazBD2();
+		$salida = $bd->consultar('SELECT * FROM ingsw.alumno AS alum JOIN ingsw.domicilio AS dom ON alum.do_id = dom.do_id JOIN ingsw.colonia AS col ON dom.co_id = col.co_id JOIN ingsw.delegacion_municipio AS del_mun ON col.demu_id = del_mun.demu_id JOIN ingsw.estado AS edo ON del_mun.es_id = edo.es_id WHERE al_id =' $alumno_id);
+		$bd->cerrarConexion();
+		return $salida[0];
+	}
+	
+	public function obtenerDeMu($es_id){
+		$bd = new InterfazBD2();
+		$salida = bd->consultar("SELECT * FROM delegacion_municipio WHERE es_id =$es_id");
+		$bd->cerrarConexion();
+		return $salida;
+	}
+	
+	public function obtenerColonia($demu_id){
+		$bd = new InterfazBD2();
+		$salida = bd->consultar("SELECT * FROM colonia WHERE demu_id =$demu_id");
+		$bd->cerrarConexion();
+		return $salida;
+	}
 }
 
 ?>
