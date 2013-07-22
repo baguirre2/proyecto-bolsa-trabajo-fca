@@ -18,7 +18,7 @@ class FrmMiDireccion{
 			</tr>
 			<tr>
 				<td>Entidad Federativa:</td>
-				<td ><select name="direccion[es_id]" id="es_id" onchage="obtenerDeMu();return false;">
+				<td ><select name="direccion[es_id]" id="es_id" onchange="obtenerDeMu();return false;">
 						<?php
 							foreach($catalogos['estados'] as $clave=> $valor ){
 								if($datos_dir['es_id'] == $clave){
@@ -33,7 +33,7 @@ class FrmMiDireccion{
 			</tr>
 			<tr>
 				<td>Delegación/Municipio:</td>
-				<td id="td_demu_id"><select name="direccion[demu_id]" id="demu_id" onchage="obtenerColonia();return false;">
+				<td id="td_demu_id"><select name="direccion[demu_id]" id="demu_id" onchange="obtenerColonia();return false;">
 						<?php
 							foreach($catalogos['delegaciones'] as $clave=> $valor ){
 								if($datos_dir['demu_id'] == $clave){
