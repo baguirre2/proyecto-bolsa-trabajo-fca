@@ -240,7 +240,8 @@ class CtlCurriculum {
 				break;
 				
 			case 'llenarListaEstudios';
-				$id_nivel = $GET['id'];				
+				$id_nivel = $GET['id'];			
+				
 				$this->listarEstudiosFCA($id_nivel, (isset($id_inac) ? $id_inac : ""));
 				break;
 
@@ -868,7 +869,7 @@ public function listarEstudiosFCA($nivel, $id_inac){
 			$query = "SELECT a.esfc_id FROM ingsw.estudio_fca as b JOIN ingsw.informacion_academica as a
 			ON a.esfc_id=b.esfc_id";
 		}
-		
+                
 		$resultados = $conexion->consultar($query);			
 		$esfc_id = $resultados[0]['esfc_id'];			
 		
@@ -1159,15 +1160,14 @@ public function listarEstudiosFCA($nivel, $id_inac){
     	$reclutador = new Reclutador();
     	$favoritos = $reclutador->obtenerFavoritos($idReclutador);
     	
-		$strTable = "<table> 
+		$strTable = "<table class='tablas_sort'> 
 				<thead> 
-					<tr>
-						<th colspan='4'> Resultados de Busqueda 
-					<tr> 
+			<tr> 
 						<th> Nombre del Alumno
 						<th> Nivel Educativo 
 						<th> Carrera
-						<th>";
+						<th>
+					</tr> 				</thead> <tbody>";
 		if ($favoritos != null) {
 			$infoAcademica1 =  new InfoAcademica();
 			$alumno1 = new Alumno();
@@ -1176,7 +1176,7 @@ public function listarEstudiosFCA($nivel, $id_inac){
 	    			$infoAcademica = $infoAcademica[0];
 	    			$infoAlumno = $alumno1->obtenerInfoPersonal($fav['al_id']);
 	    			$infoAlumno = $infoAlumno[0];
-					$strTable .= "<tbody>
+					$strTable .= "
 									<form id='$fav[al_id]'>
 									<tr>
 										<td> $infoAlumno[pe_nombre] $infoAlumno[pe_apellido_paterno] $infoAlumno[pe_apellido_materno] <input type='hidden' id='idAlumno' name='idAlumno' value='$fav[al_id]'>
@@ -1187,7 +1187,7 @@ public function listarEstudiosFCA($nivel, $id_inac){
 	    	}
 	    	$strTable .= "
 	    					<tr>
-	    					 	<td> <input type=\"button\" value=\"Imprimir\" id=\"Imprimir\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'ImprimirFavorito' , 'vacio' , 'contenido'); alert('Para imprimir al mostrarse la pantalla de impresión presione CTRL + P');\">";
+	    					 	<td> <input type=\"button\" value=\"Imprimir\" id=\"Imprimir\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'ImprimirFavorito' , 'vacio' , 'contenido'); \">";
 		} else {
 			$strTable = "<h1> No tienes Favoritos";
 		} 
@@ -1208,11 +1208,12 @@ public function listarEstudiosFCA($nivel, $id_inac){
     	$reclutador = new Reclutador();
     	$favoritos =  $reclutador->obtenerFavoritos($idReclutador);
     	$alumno = new Alumno();
-    	$strFavoritos = "<table width='1300'> <tr> <th colspan='4'> Favoritos de Reclutador";
+    	$strFavoritos = "<table class='tablas_sort'> <thead><tr> 
+ <th> Nombre <th> Correo Electrónico <th> Carrera / Posgrado <th> Telefonos</thead><tbody>";
 		foreach ($favoritos as $favorito) {
 			$strFavoritos .= $alumno->toStringContacto($favorito['al_id']);
 		}
-		echo $strFavoritos;
+		echo $strFavoritos . "</tbody></table>";
     }
 }
 
