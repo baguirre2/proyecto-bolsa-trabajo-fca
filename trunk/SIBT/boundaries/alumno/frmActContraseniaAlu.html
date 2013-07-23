@@ -1,0 +1,60 @@
+<!-- 
+ * Archivo: Formulario frmAluActContraseniaAlu.html
+ * Autor:	Liliana Luna
+ * Fecha:	21/Julio/2013
+ * Modificaciones: 
+ * -
+ * -
+ -->
+
+<?php
+/* */
+?>
+
+<!--<div id="resActualizarAlumno"></div>-->
+
+<h1>Actualizar Contrase&ntilde;a</h1>
+<form id="frmActContraseniaAlumno">
+    <table>
+        <tbody>
+        	<tr>
+    			<th colspan=2>Modificar contrase&ntilde;a
+                <input type="hidden" name="pe_id" value="<?php echo $datosAlumno['pe_id']; ?>" />
+                </th>
+    		</tr>
+            <tr>
+                <td>Nueva Contrase&ntilde;a: </td>
+                <td><input type="password" name="us_contrasenia" value="<?php echo $datosAlumno['us_contrasenia']; ?>" /></td>
+            </tr>
+            <tr>
+                <td>Confirmar Contraseña: </td>
+                <td><input type="password" name="conf_us_contrasenia" value="<?php echo $datosAlumno['us_contrasenia']; ?>" /></td>
+            </tr>
+          </tbody>
+    </table>
+    
+    <table>
+    	<tbody>
+            <tr> 	
+            	<td><input type="button" value="Actualizar contrase&ntilde;a" onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'confActContraseniaAlu', 'frmActContraseniaAlumno', 'contenido');"/></td>
+            	<td><input type="button" value="Cancelar" onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');"/></td>
+            	
+            </tr>
+         </tbody>
+    </table>
+    
+    <table>
+    	<tbody>
+    		<br/>
+            
+        </tbody>
+    </table>
+    
+    <table>
+    	<tbody>
+    			
+    	</tbody>
+    </table>
+    
+    
+</form>
