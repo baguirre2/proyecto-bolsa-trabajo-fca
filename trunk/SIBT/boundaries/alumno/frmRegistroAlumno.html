@@ -12,6 +12,9 @@
 //print_r($niveles_estudio);
 ?>
 
+<script type="text/javascript" src="./webroot/js/function_calendario.js">
+</script>
+
 <div id="resRegistroAlumno"></div>
 
 	<div class="inner-heading">
@@ -49,8 +52,8 @@
                 <td><input class="required letras" type="text" name="pe_apellido_materno" value="<?php echo isset($registro[0]['pe_apellido_materno'])? $registro[0]['pe_apellido_materno'] : ''; ?>" placeholder="Apellido Materno"/></td>
             </tr>
             <tr>
-                <td>Fecha de Nacimiento (aaaa-mm-dd):<span>*</span></td>
-                <td><input class="required fecha" type="text" name="al_fecha_nacimiento" value="<?php echo isset($registro[0]['coel_correo'])? $registro[0]['coel_correo'] : ''; ?>" placeholder="Fecha Nacimiento"/></td>
+                <td>Fecha de Nacimiento (dd-mm-aaaa):<span>*</span></td>
+                <td><input class="required fecha cal" type="text" name="al_fecha_nacimiento" value="<?php echo isset($registro[0]['coel_correo'])? $registro[0]['coel_correo'] : ''; ?>" placeholder="Fecha Nacimiento"/></td>
             </tr>
             <tr>
                 <td>Nacionalidad:<span>*</span></td>
