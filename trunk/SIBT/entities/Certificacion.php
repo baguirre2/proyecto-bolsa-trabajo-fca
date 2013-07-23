@@ -93,7 +93,7 @@ class Certificacion{
 				if($resultados[$i]['esau_id'] != 1){
 					$registros .= "<td><a href=\"#\"><i name=\"btnEditar\" value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'vacio', 'contenido', '".$resultados[$i]['ce_id']."');\" class=\"fontawesome-icon button circle-button green icon-edit\"></i></a>";
 					$registros .= ($resultados[$i]['ce_ruta_constancia'] != '' || $resultados[$i]['ce_ruta_constancia'] != null)?
-					"<a href=\"constancias/certs/".$resultados[$i]['ce_ruta_constancia']."\" data-lightbox=\"".$resultados[$i]['ce_id']."\" title=\"Certificación\"><i class=\"fontawesome-icon button circle-button blue icon-search\"/></a>"
+					"<a href=\"constancias/certs/".$resultados[$i]['ce_ruta_constancia']."\" data-lightbox=\"".$resultados[$i]['ce_id']."\" title=\"Certificación\"><i class=\"fontawesome-icon button circle-button blue icon-search\"></i></a>"
 							: "" ;
 				}else{
 					$registros .= "<td>";
