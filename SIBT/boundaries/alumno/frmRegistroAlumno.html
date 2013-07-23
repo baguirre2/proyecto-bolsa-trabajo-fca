@@ -15,6 +15,22 @@
 <script type="text/javascript" src="./webroot/js/function_calendario.js">
 </script>
 
+<script type="text/javascript">
+
+function ajaxCorreo (url, opc, div, id) {
+    $("#" + div).load(url + "?opc=" + opc + "&id=" + id + "&");
+}
+
+function validarCorreo(existe){
+	
+	$('etiqueta.error').remove();
+	if(!existe){
+		$('#coel_correo').after("<etiqueta class='error'>Este correo ya fue registrado</etiqueta>");
+		$('#coel_correo').focus();
+	}
+}
+</script>
+
 <div id="resRegistroAlumno"></div>
 
 	<div class="inner-heading">
@@ -61,7 +77,7 @@
             </tr>
             <tr>
                 <td>Correo:<span>*</span></td>
-                <td><input class=" required correo" type="text" name="coel_correo" value="<?php echo isset($registro[0]['coel_correo'])? $registro[0]['coel_correo'] : ''; ?>" placeholder="Correo Electrónico"/></td>
+                <td><input class="required correo" type="text" id="coel_correo" name="coel_correo" placeholder="Correo Electrónico" onblur="ajaxCorreo('controllers/gestionarAlumno/CtlAlumno.php', 'verificarCorreo', 'resRegistroAlumno', this.value);"/></td>
             </tr>
 <!-- 
             <tr>
