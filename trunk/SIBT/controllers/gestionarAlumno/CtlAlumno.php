@@ -153,7 +153,87 @@ class CtlAlumno {
                 	$frmDir = new FrmMiDireccion($catalogo, $mi_dir);
                 	break;
                 // ********* FIN Actualizar alumno ******
-                         
+
+               
+                case 'telefonosAlumno';
+                	$id_persona=$GET['pe_id'];
+                	$this->mostrarTelefonos($id_persona);
+                	break;
+                	break;
+                	
+                case 'telefonoFormRegistrar';
+                	require '../../boundaries/alumno/frmAluRegistrarTelefono.html';
+                	break;
+                	 
+                case 'correoFormRegistrar';
+                	require '../../boundaries/alumno/frmAluRegistrarCorreo.html';
+                	break;
+                	 
+                case 'alumno_registrar_telefono';
+                	$alumno = new Alumno();
+                	if ($GET['btnAceptar'] == 'Registrar') {
+                		if ($alumno->registrarTelefonoAlumno($GET, $idUsuario)) {
+                			echo "<h1 class=respuesta>Registro realizado con &Eacute;xito</h1><br/>";
+                		} else {
+                			echo "<h1 class=respuesta>Error al registrar tel&eacute;fono</h1><br/>";
+                		}
+                	}
+                	break;
+                	 
+                case 'alumno_registrar_correo';
+                	$alumno = new Alumno();
+                	if ($GET['btnAceptar'] == 'Registrar') {
+                		if ($alumno->registrarCorreoAlumno($GET, $idUsuario)) {
+                			echo "<h1 class=respuesta>Registro realizado con &Eacute;xito</h1><br/>";
+                		} else {
+                			echo "<h1 class=respuesta>Error al registrar el correo electr&oacute;nico</h1><br/>";
+                		}
+                	}
+                	break;
+                	
+                	              	 
+                case 'frmActContraseniaAlu';
+                	require '../../boundaries/alumno/frmActContraseniaAlu.html';
+                	break;
+                	
+                case 'correosAlumno';
+                	$id_persona=$GET['pe_id'];
+                	$this->mostrarCorreos($id_persona);
+                	break;
+               
+                case 'confBorrarTelefonoAlu';
+                	$id_tel=$_GET['id'];
+                	$this->confirmarBorradoTelefono($GET, $tipoUsuario, $id_tel);
+                	break;
+                	
+                case 'confBorrarCorreoAlu';
+                	$coel_id=$_GET['id'];
+                	$this->confirmarBorradoCorreo($GET, $tipoUsuario, $coel_id);
+                	break;
+                	 
+                case 'confActContraseniaAlu';
+                	$this->confirmarActualizacionContrasenia($GET, $tipoUsuario);
+                	break;
+                
+                case 'acepConfActContraseniaAlu';
+                	//echo "Adaptacion pendiente";
+                	$alumno = new Alumno();
+                	$alumno->actualizarContrasenia($GET, $idUsuario);
+                	break;
+                	
+                case 'acepConfBorradoTelefonoAlu';
+                	$id_tel=$_GET['id'];
+                	$alumno = new Alumno();
+                	$alumno->borrarTelefonoAlumno($GET, $tipoUsuario, $idUsuario, $id_tel);
+                	break;
+                	
+                case 'acepConfBorradoCorreoAlu';
+                	$id_correo=$_GET['id'];
+                	//$pe_id =  isset($GET['pe_id']) ? $GET['pe_id'] : "";
+                	//echo "pe_id en case de borrado: ".$pe_id ;
+                	$alumno = new Alumno();
+                	$alumno->borrarCorreoAlumno($GET, $tipoUsuario, $idUsuario, $id_correo);
+                	break;
         }
     }
 
@@ -305,6 +385,276 @@ class CtlAlumno {
 		}
 	}
 	// Fin Actualizar Alumno
+	
+	
+	/**
+	 *Funcion para mostrar los teléfonos del alumno
+	 *@author Liliana Luna
+	 *@param
+	 **/
+	public function mostrarTelefonos($id_persona){
+		echo "&nbsp;";
+		$resultados = $this->listarTelefonos(1,0, $id_persona);
+		$registros = "";
+		for ($i=0; $i <= count($resultados)-1; $i++) {
+			$tel_id = $resultados[$i]['te_id'];
+			$registros .= "<tr><td>".$resultados[$i]['te_telefono']."</td>";
+			$registros .= "<td><form id=\"frmListar\"><input type=\"button\" value=\"Borrar\" onclick=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'confBorrarTelefonoAlu', 'frmListar', 'contenido', $tel_id)\"></form></td></tr>";
+		}
+		echo "<table>
+    			<tr>
+    				<td><input type=\"button\" value=\"Agregar tel&eacute;fono\" onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'telefonoFormRegistrar', 'vacio', 'contenido')\"></td>
+    				<td><input type=\"button\" value=\"Regresar\" onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/></td>
+    			</tr></table>";
+		 
+		echo "<table class=\"tablas_sort\">
+						<thead>
+						<tr>
+						<th>Tel&eacute;fono</th>";
+		echo "<th>Opciones</th>";
+		echo "</tr>
+						</thead>
+						<tbody>".$registros."
+						</tbody></table>";
+	}
+	
+	/**
+	 *Funcion para listar los telefonos
+	 *@author Liliana Luna
+	 *@param opcion: determina si se listan todos los teléfonos o uno en específico.
+	 **/
+	public function listarTelefonos($opcion, $id_telefono, $id_persona){
+	
+		$conexion = new InterfazBD2();
+		if($opcion==1){
+			$query = "select T.te_telefono, T.te_id FROM ingsw.telefono AS T JOIN ingsw.persona AS P ON T.pe_id=P.pe_id
+			AND T.pe_id=$id_persona";
+		}
+			//CHECAR ESTA OPCIÓN
+			elseif ($opcion==2){
+			 
+			$query_otro = "SELECT esot_id FROM ingsw.informacion_academica where inac_id=$id_infoAca";
+			$resultados_otro = $conexion->consultar($query_otro);
+			 
+			$id_otro = $resultados_otro[0]['esot_id'];
+	
+			if($id_otro != ""){
+					$query = "SELECT * FROM ingsw.informacion_academica AS a JOIN ingsw.estudio_otro AS b
+					ON a.esot_id = b.esot_id AND al_id=$idAlum and inac_id=$id_infoAca";
+			}else{
+			$query = "SELECT * FROM ingsw.informacion_academica AS a JOIN ingsw.estudio_fca AS b
+			ON a.esfc_id = b.esfc_id AND al_id=$idAlum and inac_id=$id_infoAca";
+			}
+	
+			}
+			$resultados = $conexion->consultar($query);
+			if($resultados != false){
+			return $resultados;
+	}else{
+	return $resultados;
+	}
+	$conexion->cerrarConexion();
+	}
+	
+	
+	/**
+	*Funcion para mostrar los correos del alumno
+	*@author Liliana Luna
+	*@param
+	**/
+	public function mostrarCorreos($id_persona){
+		echo "&nbsp;";
+		$resultados = $this->listarCorreos(1,0, $id_persona);
+		$registros = "";
+		for ($i=0; $i <= count($resultados)-1; $i++) {
+		$coel_id = $resultados[$i]['coel_id'];
+		$registros .= "<tr><td>".$resultados[$i]['coel_correo']."</td>";
+		$registros .= "<td><form id=\"frmListar\"><input type=\"button\" value=\"Borrar\" onclick=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'confBorrarCorreoAlu', 'frmListar', 'contenido', $coel_id)\"></form></td></tr>";
+		}
+		echo "<table class=\"tablas_sort\">
+		<thead>
+		<tr>
+		<th>Correo electr&oacute;nico</th>";
+		echo "<th>Opciones</th>";
+		echo "</tr>
+		</thead>
+		<tbody>".$registros."
+		</tbody></table>";
+		echo "<table>
+		<tr>
+		<td><input type=\"button\" value=\"Agregar correo electr&oacute;nico\" onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'correoFormRegistrar', 'vacio', 'contenido')\"></td>
+	    				<td><input type=\"button\" value=\"Regresar\" onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/></td>
+	    			</tr></table>";
+    		}
+	
+    /**
+    *Funcion para listar los correos del alumno
+    *@author Liliana Luna
+    *@param opcion: determina si se listan todos los teléfonos o uno en específico.
+     **/
+    public function listarCorreos($opcion, $id_telefono, $id_persona){
+	
+    		$conexion = new InterfazBD2();
+    		if($opcion==1){
+    		$query = "select C.coel_correo, C.coel_id FROM ingsw.correo_electronico AS C
+    		JOIN ingsw.persona AS P ON C.pe_id=P.pe_id AND C.pe_id=$id_persona";
+	}
+	//CHECAR ESTA OPCIÓN
+	elseif ($opcion==2){
+		
+	$query_otro = "SELECT esot_id FROM ingsw.informacion_academica where inac_id=$id_infoAca";
+		$resultados_otro = $conexion->consultar($query_otro);
+			
+		$id_otro = $resultados_otro[0]['esot_id'];
+	
+		if($id_otro != ""){
+		$query = "SELECT * FROM ingsw.informacion_academica AS a JOIN ingsw.estudio_otro AS b
+		ON a.esot_id = b.esot_id AND al_id=$idAlum and inac_id=$id_infoAca";
+		}else{
+		$query = "SELECT * FROM ingsw.informacion_academica AS a JOIN ingsw.estudio_fca AS b
+		ON a.esfc_id = b.esfc_id AND al_id=$idAlum and inac_id=$id_infoAca";
+		}
+	
+		}
+		$resultados = $conexion->consultar($query);
+			if($resultados != false){
+					return $resultados;
+		}else{
+					return $resultados;
+		}
+					$conexion->cerrarConexion();
+		}
+		
+		
+		public function confirmarActualizacionContrasenia($GET, $tipoUsuario){
+		
+			if ($tipoUsuario == 5){
+		
+				$us_contrasenia = isset($GET['us_contrasenia']) ? $GET['us_contrasenia'] : "";
+				$conf_us_contrasenia =  isset($GET['conf_us_contrasenia']) ? $GET['conf_us_contrasenia'] : "";
+				$pe_id =  isset($GET['pe_id']) ? $GET['pe_id'] : "";
+		
+				//echo"Datos: $correo, $us_contrasenia, $conf_us_contrasenia, $us_id";
+				if ($us_contrasenia == $conf_us_contrasenia){
+					echo"
+					<form id = 'frmConfActAlu'>
+					<input type='hidden' value='$us_contrasenia' name='us_contrasenia' id = 'us_contrasenia' >
+					<input type='hidden' value='$conf_us_contrasenia' name='conf_us_contrasenia' id = 'conf_us_contrasenia' >
+					<input type='hidden' value='$pe_id' name='pe_id' id = 'pe_id' >
+					<table>
+					<tr>
+					<td colspan=\"2\"><center>Esta seguro que desea modificar su contrase&ntilde;a?</center></td>
+					</tr>
+					<tr>
+					<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'acepConfActContraseniaAlu', 'frmConfActAlu', 'contenido');\"/>
+					</td>
+					<td colspan=\"2\">
+					<input type= 'button' value='Cancelar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/>
+					</td>
+					</tr>
+					</table>
+					</form>";
+				} else {
+					echo"
+			<table>
+			<tr>
+			<td><center><h4>Verifica que tu contrasenia y su confirmacion sean iguales</h4></center></td>
+			</tr>
+			</table>
+			<table>
+			<tr>
+			<td><center><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/></center>
+							</td>
+						</tr>
+					</table>
+		
+				";
+				}
+			}
+		}
+		
+		public function confirmarBorradoTelefono($GET, $tipoUsuario, $id_tel){
+			 
+			if ($tipoUsuario == 5){
+		
+				//CHECAR, ¿ES NECESARIO?
+				$us_contrasenia = isset($GET['us_contrasenia']) ? $GET['us_contrasenia'] : "";
+						$conf_us_contrasenia =  isset($GET['conf_us_contrasenia']) ? $GET['conf_us_contrasenia'] : "";
+						$pe_id =  isset($GET['pe_id']) ? $GET['pe_id'] : "";
+		
+								//echo"Datos: $correo, $us_contrasenia, $conf_us_contrasenia, $us_id";
+								if ($us_contrasenia == $conf_us_contrasenia){
+								echo"
+									<form id = 'frmConfBorradoAlu'>
+									<input type='hidden' value='$us_contrasenia' name='us_contrasenia' id = 'us_contrasenia' >
+									<input type='hidden' value='$conf_us_contrasenia' name='conf_us_contrasenia' id = 'conf_us_contrasenia' >
+									<input type='hidden' value='$pe_id' name='pe_id' id = 'pe_id' >
+									<table>
+									<tr>
+									<td colspan=\"2\"><center>¿Est&aacute; seguro que desea borrar su tel&eacute;fono?</center></td>
+									</tr>
+									<tr>
+									<td><input type='button' value='Aceptar' onclick=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'acepConfBorradoTelefonoAlu', 'frmConfBorradoAlu', 'contenido', $id_tel);\"/>
+									</td>
+									<td colspan=\"2\">
+									<input type= 'button' value='Cancelar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/>
+    		</td>
+    		</tr>
+    		</table>
+    		</form>
+    		";
+								} else {
+								echo"
+    		<table>
+    		<tr>
+    		<td><center><h4>Verifica que tu contrasenia y su confirmacion sean iguales</h4></center></td>
+    		</tr>
+    		</table>
+    		<table>
+    			<tr>
+							<td><center><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/></center>
+							</td>
+						</tr>
+					</table>
+		
+				";
+								}
+			}
+		}
+		
+		public function confirmarBorradoCorreo($GET, $tipoUsuario, $coel_id){
+			
+		if ($tipoUsuario == 5){
+			
+		
+			echo"
+			<form id = 'frmConfBorradoAlu'>
+			<input type='hidden' value='$correo' name='coel_correo' id = 'coel_correo' >
+			<input type='hidden' value='$us_contrasenia' name='us_contrasenia' id = 'us_contrasenia' >
+			<input type='hidden' value='$conf_us_contrasenia' name='conf_us_contrasenia' id = 'conf_us_contrasenia' >
+			<input type='hidden' value='$pe_id' name='pe_id' id = 'pe_id' >
+			<table>
+			<tr>
+			<td colspan=\"2\"><center>¿Est&aacute; seguro que desea borrar su correo electr&oacute;nico?</center></td>
+			</tr>
+			<tr>
+			<td>
+			<input type='button' value='Aceptar' onclick=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'acepConfBorradoCorreoAlu', 'frmConfBorradoAlu', 'contenido', $coel_id);\"/>
+			</td>
+			<td colspan=\"2\">
+			<input type= 'button' value='Cancelar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/>
+			</td>
+			</tr>
+			</table>
+			</form>
+			";
+			
+		}
+		}	
+		
+
+	
+	
 
 }
 
