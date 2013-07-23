@@ -1,0 +1,52 @@
+<!-- 
+ * Archivo: Formulario frmAluRegistrarTelefono.html
+ * Autor:	Liliana Luna
+ * Fecha:	21/Julio/2013
+ * Modificaciones: 
+ -->
+
+<div id="resRegistroTelefono"></div>
+
+<div class="inner-heading">
+	   <div class="container">
+	       <div class="row">
+	           <div class="span12">
+	               <h1 class="animated fadeInDown delay1">Dar de alta un tel&eacute;fono</h1>
+	           </div>
+	       </div>
+	   </div>
+	</div>
+<form id="frmRegistroTelefono" name="frmRegistroTelefono">
+    <table>
+        <tbody>
+            <tr>
+                <td>Tel&eacute;fono:* </td>
+                <td><input class="required" type="text" name="txt_telefono" /></td>
+            </tr>
+            <tr>
+                <td>Extensi&oacute;n: </td>
+                <td><input type="text" name="txt_extension" /></td>
+            </tr>
+            <tr>
+                <td>Tipo de tel&eacute;fono:* </td>
+                <td>
+                	<select class="required" name="lst_tipo_tel" id="lst_tipo_tel" >
+  						<option value="1">Casa</option>
+  						<option value="2">Celular</option>
+  						<option value="3">Oficina</option>  
+					</select>
+				</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <table>
+    	<tbody>
+    		<br/>
+            <tr>
+               	<td><input type="button" name="btnAceptar" value="Registrar" onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'alumno_registrar_telefono', 'frmRegistroTelefono', 'contenido');"/></td>
+            	<td><input type="button" value="Cancelar" onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');"/></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
