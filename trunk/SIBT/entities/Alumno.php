@@ -2,7 +2,7 @@
 
 /*
  * Archivo: Class Alumno
- * Autor:	Emmanuel Garc�a C.
+ * Autor:	Emmanuel Garcï¿½a C.
  * Fecha:	Martes 25/Junio/2013
  * Modificaciones: 
  * -
@@ -45,7 +45,7 @@ class Alumno{
 	}
 	
 	public function listarEstudiosFCA($nivel) {
-		if($nivel == 0 ){	//Opción default del select superior
+		if($nivel == 0 ){	//OpciÃ³n default del select superior
 			echo "";
 		}else if($nivel == 5){
 			echo "<select name=\"esfc_id\" onchange=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'llenarListaEstadosAcademicos', 'vacio', 'estadosAcademicos', this.value);\">";
@@ -67,7 +67,7 @@ class Alumno{
 	}
 	
 	public function listarEstadosAcademicos($nivel){
-		if($nivel == 0){	//Opción default del select superior
+		if($nivel == 0){	//OpciÃ³n default del select superior
 			echo "";
 		}else{
 			$conexion = new InterfazBD2();
@@ -109,7 +109,7 @@ class Alumno{
 					/*
 					 if($id_alumno != false){
 	
-					//AQUI INSERTARÍA EN ESTUDIO_FCA EN VEZ DE INFO_ACADEMICA
+					//AQUI INSERTARÃ�A EN ESTUDIO_FCA EN VEZ DE INFO_ACADEMICA
 					$query_info_aca = "INSERT INTO ingsw.informacion_academica (al_id, esac_id, esot_id, esfc_id, esau_id, inac_universidad, inac_escuela, inac_fecha_inicio)
 					VALUES ('".$id_alumno."','".$GET['esac_id']."',null,'".$GET['esfc_id']."','1','0','0','01/01/1900')";
 	
@@ -149,8 +149,8 @@ class Alumno{
 	}
 	
 	/*
-	 * Función: EnviarCorreo
-	* Para env�ar el correo de registro del alumno
+	 * FunciÃ³n: EnviarCorreo
+	* Para envï¿½ar el correo de registro del alumno
 	* incluyendo sus datos de acceso como usuario.
 	* CONFIGURACIONES: Sobre php.ini
 	
@@ -176,25 +176,25 @@ class Alumno{
 		$mensaje .= "	Estimado alumno ".$nombre." <br/>";
 		$mensaje .= "	Se te notifica que tus datos de acceso son los siguientes:<br/>";
 		$mensaje .= "	Usuario ".$no_cta." <br/>";
-		$mensaje .= "	Contraseña ".$password." <br/><br/>";
+		$mensaje .= "	ContraseÃ±a ".$password." <br/><br/>";
 		$mensaje .= "	Sin m&aacutes por el momento quedamos a tus &oacuterdenes.<br/>";
 		$mensaje .= "	Departamento de bolsa de Trabajo FCA - UNAM<br/>";
 		$mensaje .= "	http://cetus.fca.unam.mx/sibt/ <br/>";
 		*/
 		//$mensaje = wordwrap($mensaje, 70, "\r\n");
 	
-		if(mail($correo, 'Datos de acceso SIBT', "UNIVERSIDAD NACIONAL AUTONÓMA DE MÉXICO
-				Facultad de Contaduría y Administración
+		if(mail($correo, 'Datos de acceso SIBT', "UNIVERSIDAD NACIONAL AUTONÃ“MA DE MÃ‰XICO
+				Facultad de ContadurÃ­a y AdministraciÃ³n
 				Departamento de Bolsa de Trabajo
 	
 				Estimado alumno $nombre has sido registraro en la bolsa de trabajo de la FCA
 				Se te notifica que tus datos de acceso son los siguientes:
 				Usuario $no_cta
-				Contraseña $password
+				ContraseÃ±a $password
 	
-				Sin más por el momento quedamos a tus órdenes.
+				Sin mÃ¡s por el momento quedamos a tus Ã³rdenes.
 	
-				Departamento de bolsa de Trabajo FCA – UNAM
+				Departamento de bolsa de Trabajo FCA â€“ UNAM
 				http://cetus.fca.unam.mx/sibt/")){
 				return true;
 		}else{
@@ -203,7 +203,7 @@ class Alumno{
 	}
 	
 	public function buscarAlumno($GET){
-		$conexion = new InterfazBD2();		//Iniciamos conexi�n.
+		$conexion = new InterfazBD2();		//Iniciamos conexiï¿½n.
 		
 		$cuenta = isset($GET['no_cuenta'])? $GET['no_cuenta'] :NULL;
 		$nombre = isset($GET['nombre_al'])? $GET['nombre_al'] :NULL;
@@ -225,7 +225,7 @@ class Alumno{
 	}
 
 	/**
-	 * @author Benjamín Aguirre García
+	 * @author BenjamÃ­n Aguirre GarcÃ­a
 	 * @param $idAlumno Id del Alumno
 	 */    	
 	public function toString ($idAlumno) {
@@ -240,11 +240,11 @@ class Alumno{
 					JOIN ingsw.tipo_telefono AS tite ON (tite.tite_id = te.tite_id) WHERE te.pe_id = $datos[pe_id]";
 		$telefonos = $conn->consultar($query);
 		$conn->cerrarConexion();
-		$strInfoAlumno = "<tr> <th> Información Personal </th> </tr> <input type='hidden' name='idAlumno' value='$datos[al_id]'>
+		$strInfoAlumno = "<tr> <th> InformaciÃ³n Personal </th> </tr> <input type='hidden' name='idAlumno' value='$datos[al_id]'>
 				<tr> <td> $datos[pe_nombre] $datos[pe_apellido_paterno] $datos[pe_apellido_materno]</td></td>
 				<tr> <td> Nacionalidad $datos[al_nacionalidad]</td></tr>
 				<tr> <td> Direccion: $datos[do_calle] N. $datos[do_num_exterior], $datos[co_nombre] CP. $datos[co_codigo_postal], $datos[demu_nombre], $datos[es_nombre].</td></tr>   
-				<tr> <td> Correo Electrónico: $correoE[coel_correo]</td></tr>
+				<tr> <td> Correo ElectrÃ³nico: $correoE[coel_correo]</td></tr>
 				<tr> <th> Telefonos </td></tr>
 		";
 		foreach ($telefonos AS $telefono) {
@@ -275,25 +275,25 @@ class Alumno{
                                                     VALUES ('1','".$id_persona."','".$noCta."','".$fecNac."','".$nacio."','1', $idCarrera)";
                         $conexion->insertar($query_alumno, 'al_id');
 
-                        //Se toma la hora del servidor en microsegundos, se le aplica un hash con el algoritmo ripemd160 y se extraen los primeros 8 caractares para la contrseña
+                        //Se toma la hora del servidor en microsegundos, se le aplica un hash con el algoritmo ripemd160 y se extraen los primeros 8 caractares para la contrseÃ±a
                         $pass = substr(hash('ripemd160', microtime()), 0, 8);
 
                         $query_usuario = "INSERT INTO ingsw.usuario (pe_id, us_nombre, us_contrasenia) VALUES ('".$id_persona."','".$noCta."', '$pass')";
                         $id_usuario = $conexion->insertar($query_usuario, 'us_id');
                         
                         //Con esto se envia el correo al alumno con sus datos de usuario
-                        mail ("$correo", "Registro Bolsa en la bolsa de trabajo", "UNIVERSIDAD NACIONAL AUTONÓMA DE MÉXICO
-                                                                                        Facultad de Contaduría y Administración<br>
+                        mail ("$correo", "Registro Bolsa en la bolsa de trabajo", "UNIVERSIDAD NACIONAL AUTONÃ“MA DE MÃ‰XICO
+                                                                                        Facultad de ContadurÃ­a y AdministraciÃ³n<br>
                                                                                         Departamento de Bolsa de Trabajo<br>
 
                                                                                         Estimado alumno $nom $apePat $apeMat has sido registraro en la bolsa de trabajo de la FCA<br>
                                                                                         Se te notifica que tus datos de acceso son los siguientes:
                                                                                         Usuario $noCta
-                                                                                        Contraseña $pass
+                                                                                        ContraseÃ±a $pass
 
-                                                                                        Sin más por el momento quedamos a tus órdenes.
+                                                                                        Sin mÃ¡s por el momento quedamos a tus Ã³rdenes.
 
-                                                                                        Departamento de bolsa de Trabajo FCA – UNAM
+                                                                                        Departamento de bolsa de Trabajo FCA â€“ UNAM
                                                                                         http://cetus.fca.unam.mx/sibt/");
                         
                         if($id_usuario != false){
@@ -480,7 +480,7 @@ class Alumno{
 		$calle = $direccion[];
 		$noExt = $direccion[];
 		$noInt = $direccion[];
-		$query = "UPDATE ingsw.domicilio SET co_id= $colonia, do_calle = $calle, do_num_exterior = $noExt, do_num_exter WHERE do_id = $";
+		$query = "UPDATE ingsw.domicilio SET co_id = $colonia, do_calle = $calle, do_num_exterior = $noExt, do_num_interior = $noInt WHERE do_id = $domicilio";
 		
 	}
 	// fin Actualizar Alumno
