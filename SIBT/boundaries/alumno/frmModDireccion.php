@@ -79,12 +79,13 @@ class FrmMiDireccion{
 		
 		<table>
 			<tr>
-				<td><input type="button" value="Registrar" onclick="funAJAX('controllers/gestionarAlumno/CtlAlumno.php','actMiDireccion','mi_direccion','res_mi_direccion');"/></td>
-				<td><input type="button" value="Regresar" onclick="funAJAX('controllers/gestionarAlumno/CtrlAlumno.php','actAlumno','vacio','contenido');"/></td>
+				<td><input type="button" value="Registrar" onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php','actMiDireccion','mi_direccion','res_mi_direccion');"/></td>
+				<td><input type="button" value="Regresar" onclick="ajax('controllers/gestionarAlumno/CtrlAlumno.php','actAlumno','vacio','contenido');"/></td>
 			</tr>
 		</table>
 	</fieldset>
 </form>
+<script src="webroot/js/frmMiDirAlumno.js"></script>
 <?php	
 	}
 }
