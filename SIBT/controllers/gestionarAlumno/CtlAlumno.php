@@ -17,16 +17,28 @@ class CtlAlumno {
 
         switch ($opc) {
 
-            case 'alumno_registrar';
-                $alumno = new Alumno();
-                if (!isset($GET['btnAceptar'])) {
-                    $niveles_estudio = $alumno->listarNivelesEstudio();
-                    include('../../boundaries/alumno/frmRegistroAlumno.html');
-                } else if ($GET['btnAceptar'] == 'Registrar') {
-                    $respuesta = $alumno->registrarAlumno($GET);
-                    echo "<h1 class=respuesta>".$respuesta."</h1><br/>";
-                }
-                break;
+        	case 'alumno_registrar';
+	        	$alumno = new Alumno();
+	        	if (!isset($GET['btnAceptar'])) {
+	        		$niveles_estudio = $alumno->listarNivelesEstudio();
+	        		include('../../boundaries/alumno/frmRegistroAlumno.html');
+	        	} else if ($GET['btnAceptar'] == 'Registrar') {
+	        		$respuesta = $alumno->registrarAlumno($GET);
+	        		echo "<h1 class=respuesta>".$respuesta."</h1><br/>";
+	        	}
+	        	break;
+        	
+        	case 'verificarCorreo';
+	        	$alumno = new Alumno();
+	        	$correo = $GET['id'];
+	        	$existe = $alumno->checarCorreo($correo);
+	        	 
+	        	if(!$existe){
+	        		echo '<script language="JavaScript"> validarCorreo(false); </script>';
+	        	}else{
+	        		echo '<script language="JavaScript"> validarCorreo(true); </script>';
+	        	}
+	        	break;
 
             case 'llenarListaEstudios';
                 $alumno = new Alumno();
@@ -388,7 +400,7 @@ class CtlAlumno {
 	
 	
 	/**
-	 *Funcion para mostrar los teléfonos del alumno
+	 *Funcion para mostrar los telï¿½fonos del alumno
 	 *@author Liliana Luna
 	 *@param
 	 **/
@@ -421,7 +433,7 @@ class CtlAlumno {
 	/**
 	 *Funcion para listar los telefonos
 	 *@author Liliana Luna
-	 *@param opcion: determina si se listan todos los teléfonos o uno en específico.
+	 *@param opcion: determina si se listan todos los telï¿½fonos o uno en especï¿½fico.
 	 **/
 	public function listarTelefonos($opcion, $id_telefono, $id_persona){
 	
@@ -430,7 +442,7 @@ class CtlAlumno {
 			$query = "select T.te_telefono, T.te_id FROM ingsw.telefono AS T JOIN ingsw.persona AS P ON T.pe_id=P.pe_id
 			AND T.pe_id=$id_persona";
 		}
-			//CHECAR ESTA OPCIÓN
+			//CHECAR ESTA OPCIï¿½N
 			elseif ($opcion==2){
 			 
 			$query_otro = "SELECT esot_id FROM ingsw.informacion_academica where inac_id=$id_infoAca";
@@ -490,7 +502,7 @@ class CtlAlumno {
     /**
     *Funcion para listar los correos del alumno
     *@author Liliana Luna
-    *@param opcion: determina si se listan todos los teléfonos o uno en específico.
+    *@param opcion: determina si se listan todos los telï¿½fonos o uno en especï¿½fico.
      **/
     public function listarCorreos($opcion, $id_telefono, $id_persona){
 	
@@ -499,7 +511,7 @@ class CtlAlumno {
     		$query = "select C.coel_correo, C.coel_id FROM ingsw.correo_electronico AS C
     		JOIN ingsw.persona AS P ON C.pe_id=P.pe_id AND C.pe_id=$id_persona";
 	}
-	//CHECAR ESTA OPCIÓN
+	//CHECAR ESTA OPCIï¿½N
 	elseif ($opcion==2){
 		
 	$query_otro = "SELECT esot_id FROM ingsw.informacion_academica where inac_id=$id_infoAca";
@@ -577,7 +589,7 @@ class CtlAlumno {
 			 
 			if ($tipoUsuario == 5){
 		
-				//CHECAR, ¿ES NECESARIO?
+				//CHECAR, ï¿½ES NECESARIO?
 				$us_contrasenia = isset($GET['us_contrasenia']) ? $GET['us_contrasenia'] : "";
 						$conf_us_contrasenia =  isset($GET['conf_us_contrasenia']) ? $GET['conf_us_contrasenia'] : "";
 						$pe_id =  isset($GET['pe_id']) ? $GET['pe_id'] : "";
@@ -591,7 +603,7 @@ class CtlAlumno {
 									<input type='hidden' value='$pe_id' name='pe_id' id = 'pe_id' >
 									<table>
 									<tr>
-									<td colspan=\"2\"><center>¿Est&aacute; seguro que desea borrar su tel&eacute;fono?</center></td>
+									<td colspan=\"2\"><center>ï¿½Est&aacute; seguro que desea borrar su tel&eacute;fono?</center></td>
 									</tr>
 									<tr>
 									<td><input type='button' value='Aceptar' onclick=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'acepConfBorradoTelefonoAlu', 'frmConfBorradoAlu', 'contenido', $id_tel);\"/>
@@ -635,7 +647,7 @@ class CtlAlumno {
 			<input type='hidden' value='$pe_id' name='pe_id' id = 'pe_id' >
 			<table>
 			<tr>
-			<td colspan=\"2\"><center>¿Est&aacute; seguro que desea borrar su correo electr&oacute;nico?</center></td>
+			<td colspan=\"2\"><center>ï¿½Est&aacute; seguro que desea borrar su correo electr&oacute;nico?</center></td>
 			</tr>
 			<tr>
 			<td>
