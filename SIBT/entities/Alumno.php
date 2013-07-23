@@ -516,6 +516,119 @@ class Alumno{
 		$bd->cerrarConexion();
 		return $salida;
 	}
+	
+	
+	
+	public function registrarTelefonoAlumno($GET, $idUsuario){
+	
+		$conexion = new InterfazBD2();
+		$estado = false;
+	
+		$query_persona = "SELECT pe_id FROM ingsw.usuario where us_id=$idUsuario";
+		$resultados_persona = $conexion->consultar($query_persona);
+			
+		$id_persona = $resultados_persona[0]['pe_id'];
+	
+		$query_telefono = "INSERT INTO ingsw.telefono (tite_id, pe_id, te_telefono)
+    			 		  VALUES (".$GET['lst_tipo_tel'].",$id_persona,'".$GET['txt_telefono']."')";
+		$id_tel = $conexion->insertar($query_telefono, 'te_id');
+			
+		if($id_tel != false){
+			$estado = true;
+		}
+		$conexion->cerrarConexion();
+		return $estado;
+	}
+	
+	public function borrarTelefonoAlumno($GET, $tipoUsuario, $idUsuario, $id_tel){
+		$conexion = new InterfazBD2();
+		if ($tipoUsuario == 5){
+				
+			$query_persona = "SELECT pe_id FROM ingsw.usuario where us_id=$idUsuario";
+			$resultados_persona = $conexion->consultar($query_persona);
+	
+			$id_persona = $resultados_persona[0]['pe_id'];
+				
+			//echo "$id_tel , $id_persona";
+	
+			$query = "DELETE FROM ingsw.telefono WHERE pe_id=".$id_persona." AND te_id=".$id_tel.";";
+	
+			if ($conexion->ejecutarQuery($query)){
+				echo "
+				<table>
+				  <tr>
+					<td>Se ha borrado el tel&eacute;fono correctamente</td>
+				  </tr>
+				  <tr>
+					<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/>
+					</td>
+				  </tr>
+				</table>
+			";
+					
+			} else {
+				echo "ERROR al borrar los datos";
+			}
+		}
+		$conexion->cerrarConexion();
+	}
+	
+	public function borrarCorreoAlumno($GET, $tipoUsuario, $idUsuario, $id_correo){
+		$conexion = new InterfazBD2();
+		if ($tipoUsuario == 5){
+	
+			$query_persona = "SELECT pe_id FROM ingsw.usuario where us_id=$idUsuario";
+			$resultados_persona = $conexion->consultar($query_persona);
+	
+			$id_persona = $resultados_persona[0]['pe_id'];
+	
+			echo "$id_correo, $id_persona";
+	
+			$query = "DELETE FROM ingsw.correo_electronico WHERE pe_id=".$id_persona." AND coel_id=".$id_correo.";";
+	
+			if ($conexion->ejecutarQuery($query)){
+			echo "
+			<table>
+				  <tr>
+					<td>Se ha borrado el correo electr&oacute;nico correctamente</td>
+				  </tr>
+				  <tr>
+					<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/>
+					</td>
+				  </tr>
+				</table>
+			";
+			
+			} else {
+			echo "ERROR al borrar los datos";
+			}
+		}
+			$conexion->cerrarConexion();
+	}
+	
+	public function registrarCorreoAlumno($GET, $idUsuario){
+	
+		$conexion = new InterfazBD2();
+		$estado = false;
+		
+		$query_persona = "SELECT pe_id FROM ingsw.usuario where us_id=$idUsuario";
+		$resultados_persona = $conexion->consultar($query_persona);
+			
+		$id_persona = $resultados_persona[0]['pe_id'];
+		
+		$query_correo = "INSERT INTO ingsw.correo_electronico(pe_id, coel_correo)
+		VALUES ($id_persona,'".$GET['txt_correo']."')";
+		$id_correo = $conexion->insertar($query_correo, 'coel_id');
+			
+		if($id_correo != false){
+		$estado = true;
+		}
+		$conexion->cerrarConexion();
+			return $estado;
+	}
+	
+	
+	
 }
 
 ?>
