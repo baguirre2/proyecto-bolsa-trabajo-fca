@@ -145,7 +145,7 @@ class CtlAlumno {
                 	$mi_dir->actualizarDireccion($_GET['direccion']);
                 	break;
                 
-                case 'actualizarAlumno':		//Pinta el formulario de Mi Direccion-Alumno.
+                case 'direccionAlumno':		//Pinta el formulario de Mi Direccion-Alumno.
                 	include '../../boundaries/alumno/frmModDireccion.php';
                 	$alumno = new Alumno();
                 	$catalogo = $alumno->obtenerCatalogoDir();
