@@ -109,7 +109,7 @@ class Alumno{
 					/*
 					 if($id_alumno != false){
 	
-					//AQUI INSERTARÃ�A EN ESTUDIO_FCA EN VEZ DE INFO_ACADEMICA
+					//AQUI INSERTARÍA EN ESTUDIO_FCA EN VEZ DE INFO_ACADEMICA
 					$query_info_aca = "INSERT INTO ingsw.informacion_academica (al_id, esac_id, esot_id, esfc_id, esau_id, inac_universidad, inac_escuela, inac_fecha_inicio)
 					VALUES ('".$id_alumno."','".$GET['esac_id']."',null,'".$GET['esfc_id']."','1','0','0','01/01/1900')";
 	
@@ -149,8 +149,8 @@ class Alumno{
 	}
 	
 	/*
-	 * FunciÃ³n: EnviarCorreo
-	* Para envï¿½ar el correo de registro del alumno
+	 * Función: EnviarCorreo
+	* Para envíar el correo de registro del alumno
 	* incluyendo sus datos de acceso como usuario.
 	* CONFIGURACIONES: Sobre php.ini
 	
@@ -176,29 +176,41 @@ class Alumno{
 		$mensaje .= "	Estimado alumno ".$nombre." <br/>";
 		$mensaje .= "	Se te notifica que tus datos de acceso son los siguientes:<br/>";
 		$mensaje .= "	Usuario ".$no_cta." <br/>";
-		$mensaje .= "	ContraseÃ±a ".$password." <br/><br/>";
+		$mensaje .= "	Contraseña ".$password." <br/><br/>";
 		$mensaje .= "	Sin m&aacutes por el momento quedamos a tus &oacuterdenes.<br/>";
 		$mensaje .= "	Departamento de bolsa de Trabajo FCA - UNAM<br/>";
 		$mensaje .= "	http://cetus.fca.unam.mx/sibt/ <br/>";
 		*/
 		//$mensaje = wordwrap($mensaje, 70, "\r\n");
 	
-		if(mail($correo, 'Datos de acceso SIBT', "UNIVERSIDAD NACIONAL AUTONÃ“MA DE MÃ‰XICO
-				Facultad de ContadurÃ­a y AdministraciÃ³n
+		if(mail($correo, 'Datos de acceso SIBT', "UNIVERSIDAD NACIONAL AUTONÓMA DE MÉXICO
+				Facultad de Contaduría y Administración
 				Departamento de Bolsa de Trabajo
 	
 				Estimado alumno $nombre has sido registraro en la bolsa de trabajo de la FCA
 				Se te notifica que tus datos de acceso son los siguientes:
 				Usuario $no_cta
-				ContraseÃ±a $password
+				Contraseña $password
 	
-				Sin mÃ¡s por el momento quedamos a tus Ã³rdenes.
+				Sin más por el momento quedamos a tus órdenes.
 	
-				Departamento de bolsa de Trabajo FCA â€“ UNAM
+				Departamento de bolsa de Trabajo FCA – UNAM
 				http://cetus.fca.unam.mx/sibt/")){
 				return true;
 		}else{
 				return false;
+		}
+	
+	}
+	
+	public function checarCorreo($correo){
+		$conexion = new InterfazBD2();
+		$query_verificar = "SELECT * FROM ingsw.correo_electronico WHERE coel_correo = '".$correo."'";
+	
+		if(!$conexion->consultar($query_verificar)){
+			return true;	//No hay algún correo así
+		}else{
+			return false;	//Ya existe ese correo
 		}
 	}
 	
