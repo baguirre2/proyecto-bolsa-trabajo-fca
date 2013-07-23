@@ -477,9 +477,9 @@ class Alumno{
 		$estado = $direccion[es_id]; 
 		$demu = $direccion[demu_id];
 		$colonia = $direccion[co_id];
-		$calle = $direccion[];
-		$noExt = $direccion[];
-		$noInt = $direccion[];
+		$calle = $direccion[do_calle];
+		$noExt = $direccion[do_num_exterior];
+		$noInt = $direccion[do_num_interior];
 		$query = "UPDATE ingsw.domicilio SET co_id = $colonia, do_calle = $calle, do_num_exterior = $noExt, do_num_interior = $noInt WHERE do_id = $domicilio";
 		
 	}
