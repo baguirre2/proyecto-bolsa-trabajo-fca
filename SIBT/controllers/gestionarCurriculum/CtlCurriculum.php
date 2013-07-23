@@ -122,7 +122,7 @@ class CtlCurriculum {
                 if (!isset($registro) && !isset($GET['ce_id'])) {
                 	$registro = $certificacion->buscarCertificacion($GET['id']);
                 	include('../../boundaries/curriculum/frmCurrRegistroCertificacion.html');
-                } else if ($GET['btnAceptar'] == 'Editar' && isset($GET['ce_id'])) {
+                } else if ($GET['btnAceptar'] == 'Actualizar' && isset($GET['ce_id'])) {
                 	if ($certificacion->editarCertificacion($GET)) {
                 		echo $certificacion->listarCertificaciones($idAlum, null, 2);
                 	} else {
