@@ -149,7 +149,7 @@ function validar2(formulario_id){
             }else if( ($(this).hasClass('correo')) && /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/.test($(this).val()) == false){
                     valido = false;
                     $(this).after("<etiqueta class='error'>Por favor introduzca un email v&aacutelido</etiqueta>");
-            }else if( ($(this).hasClass('fecha')) && /^((19|20)?[0-9]{2}[- /.](0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01]))*$/.test($(this).val()) == false){
+            }else if( ($(this).hasClass('fecha')) && /^((0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](19|20)?[0-9]{2})*$/.test($(this).val()) == false){
                     valido = false;
                     $(this).after("<etiqueta class='error'>Por favor introduzca una fecha v&aacutelida</etiqueta>");
             }else if( ($(this).hasClass('noCta')) && /^([0-9]{9})*$/.test($(this).val()) == false){
