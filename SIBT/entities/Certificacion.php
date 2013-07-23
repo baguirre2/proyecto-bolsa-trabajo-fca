@@ -66,7 +66,7 @@ class Certificacion{
 	}
 	
 	/*
-	* Metodo:	listarCertificaciones
+	 * Metodo:	listarCertificaciones
 	* Autor:	Emmanuel Garcia
 	* Descripcion:
 	* Esta funcion recibe el id del alumno que esta en sesion
@@ -91,9 +91,9 @@ class Certificacion{
 				$registros .= "<td>".$resultados[$i]['ce_anio']."</td>";
 	
 				if($resultados[$i]['esau_id'] != 1){
-					$registros .= "<td><input type=\"button\" name=\"btnEditar\" value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'vacio', 'contenido', '".$resultados[$i]['ce_id']."');\">";
+					$registros .= "<td><a href=\"#\"><i name=\"btnEditar\" value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_editar', 'vacio', 'contenido', '".$resultados[$i]['ce_id']."');\" class=\"fontawesome-icon button circle-button green icon-edit\"></i></a>";
 					$registros .= ($resultados[$i]['ce_ruta_constancia'] != '' || $resultados[$i]['ce_ruta_constancia'] != null)?
-					"<a href=\"constancias/certs/".$resultados[$i]['ce_ruta_constancia']."\" data-lightbox=\"".$resultados[$i]['ce_id']."\" title=\"Certificaci�n\"><i class=\"fontawesome-icon button circle-button green icon-file\"/></a>"
+					"<a href=\"constancias/certs/".$resultados[$i]['ce_ruta_constancia']."\" data-lightbox=\"".$resultados[$i]['ce_id']."\" title=\"Certificación\"><i class=\"fontawesome-icon button circle-button blue icon-search\"/></a>"
 							: "" ;
 				}else{
 					$registros .= "<td>";
@@ -101,14 +101,14 @@ class Certificacion{
 				$registros .= "</td></tr>";
 			}
 	
-		if(!isset($msg)){
+			if(!isset($msg)){
 				$msg = "";
 			}else if($msg == 1){
-				$msg = "<h2>Registro realizado con éxito</h2>";
+				$msg = "<h2>Registro realizado con &eacutexito</h2>";
 			}else if($msg == 2){
-				$msg = "<h2>Registro actualizado con éxito</h2>";
+				$msg = "<h2>Registro actualizado con &eacutexito</h2>";
 			}
-				
+	
 			$respuesta = $msg;
 			$respuesta.="<div class=\"inner-heading\">
 						   <div class=\"container\">
@@ -120,15 +120,15 @@ class Certificacion{
 						   </div>
 						</div>";
 			$respuesta.="<br/><input type=\"button\" name=\"Agregar\" value=\"Agregar Certificación\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'certi_registrar', 'vacio', 'contenido');\">";
-
-            $respuesta.="<table class=\"tablas_sort\">
+	
+			$respuesta.="<table class=\"tablas_sort\">
 	                        <thead>
 		                        <tr>
-			                        <th>Certificación</th>
-			                    	<th>Descripción</th>
-			                        <th>Institución</th>
-			                        <th>Duración</th>
-			                        <th>Año</th>
+			                        <th>Certificaci&oacuten</th>
+			                    	<th>Descripci&oacuten</th>
+			                        <th>Instituci&oacuten</th>
+			                        <th>Duraci&oacuten</th>
+			                        <th>Fecha</th>
 			                        <th>Acciones</th>
 		                        </tr>
 	                        </thead>
@@ -136,7 +136,7 @@ class Certificacion{
 	                    	</tbody>
                         </table>
                     ";
-			
+	
 			$conexion->cerrarConexion();
 			return $respuesta;
 		}else{
