@@ -788,7 +788,17 @@ input[type=submit], input[type=button]{
 	padding-bottom: 30px;
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 30px;
+	
 }
+
+.sidebar-wrap table td{
+     padding-right: 10px;
+}
+
+.sidebar-wrap input[type="button"] {
+     width: 100%;
+}
+
 .searchside {
 	margin-bottom: 30px;
 	padding-bottom: 10px;
