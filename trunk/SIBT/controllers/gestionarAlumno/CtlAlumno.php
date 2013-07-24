@@ -406,21 +406,34 @@ class CtlAlumno {
 	 *@author Liliana Luna
 	 *@param
 	 **/
-	public function mostrarTelefonos($id_persona){
-		echo "&nbsp;";
-		$resultados = $this->listarTelefonos(1,0, $id_persona);
+public function mostrarTelefonos($id_persona){
+		echo "<div class=\"inner-heading\">
+	   		<div class=\"container\">
+	       		<div class=\"row\">
+	           		<div class=\"span12\">
+	               		<h1 class=\"animated fadeInDown delay1\">Tel&eacute;fonos de alumno</h1>
+	           </div>
+	       </div>
+	   </div>";
+		$resultados = $this->listarTelefonos($id_persona);
 		$registros = "";
 		for ($i=0; $i <= count($resultados)-1; $i++) {
 			$tel_id = $resultados[$i]['te_id'];
 			$registros .= "<tr><td>".$resultados[$i]['te_telefono']."</td>";
-			$registros .= "<td><form id=\"frmListar\"><input type=\"button\" value=\"Borrar\" onclick=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'confBorrarTelefonoAlu', 'frmListar', 'contenido', $tel_id)\"></form></td></tr>";
+			/*$registros .= "<td>
+					<form id=\"frmListar\">
+						<input type=\"button\" value=\"Borrar\" onclick=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'confBorrarTelefonoAlu', 'frmListar', 'contenido', $tel_id)\">
+					</form></td></tr>";*/
+			$registros .= "<td>
+					<form id=\"frmListar\">
+						<a href=\"#\">
+							<i onclick=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'confBorrarTelefonoAlu', 'frmListar', 'contenido', $tel_id)\" class=\"fontawesome-icon button circle-button green icon-trash\">
+							</i>
+						</a>
+					</form></td></tr>";
 		}
-		echo "<table>
-    			<tr>
-    				<td><input type=\"button\" value=\"Agregar tel&eacute;fono\" onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'telefonoFormRegistrar', 'vacio', 'contenido')\"></td>
-    				<td><input type=\"button\" value=\"Regresar\" onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/></td>
-    			</tr></table>";
-		 
+		echo "&nbsp;";
+		echo " <input type=\"button\" value=\"Agregar tel&eacute;fono\" onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'telefonoFormRegistrar', 'vacio', 'contenido')\">";		 
 		echo "<table class=\"tablas_sort\">
 						<thead>
 						<tr>
@@ -435,32 +448,15 @@ class CtlAlumno {
 	/**
 	 *Funcion para listar los telefonos
 	 *@author Liliana Luna
-	 *@param opcion: determina si se listan todos los tel�fonos o uno en espec�fico.
+	 *@param $id_persona
 	 **/
-	public function listarTelefonos($opcion, $id_telefono, $id_persona){
+	public function listarTelefonos($id_persona){
 	
 		$conexion = new InterfazBD2();
-		if($opcion==1){
+		
 			$query = "select T.te_telefono, T.te_id FROM ingsw.telefono AS T JOIN ingsw.persona AS P ON T.pe_id=P.pe_id
-			AND T.pe_id=$id_persona";
-		}
-			//CHECAR ESTA OPCI�N
-			elseif ($opcion==2){
-			 
-			$query_otro = "SELECT esot_id FROM ingsw.informacion_academica where inac_id=$id_infoAca";
-			$resultados_otro = $conexion->consultar($query_otro);
-			 
-			$id_otro = $resultados_otro[0]['esot_id'];
-	
-			if($id_otro != ""){
-					$query = "SELECT * FROM ingsw.informacion_academica AS a JOIN ingsw.estudio_otro AS b
-					ON a.esot_id = b.esot_id AND al_id=$idAlum and inac_id=$id_infoAca";
-			}else{
-			$query = "SELECT * FROM ingsw.informacion_academica AS a JOIN ingsw.estudio_fca AS b
-			ON a.esfc_id = b.esfc_id AND al_id=$idAlum and inac_id=$id_infoAca";
-			}
-	
-			}
+			AND T.pe_id=$id_persona";		
+			
 			$resultados = $conexion->consultar($query);
 			if($resultados != false){
 			return $resultados;
@@ -477,14 +473,31 @@ class CtlAlumno {
 	*@param
 	**/
 	public function mostrarCorreos($id_persona){
-		echo "&nbsp;";
-		$resultados = $this->listarCorreos(1,0, $id_persona);
+		echo "<div class=\"inner-heading\">
+	   		<div class=\"container\">
+	       		<div class=\"row\">
+	           		<div class=\"span12\">
+	               		<h1 class=\"animated fadeInDown delay1\">Correos electr&oacute;nicos de alumno</h1>
+	           </div>
+	       </div>
+	   </div>";
+		$resultados = $this->listarCorreos($id_persona);
 		$registros = "";
 		for ($i=0; $i <= count($resultados)-1; $i++) {
 		$coel_id = $resultados[$i]['coel_id'];
 		$registros .= "<tr><td>".$resultados[$i]['coel_correo']."</td>";
-		$registros .= "<td><form id=\"frmListar\"><input type=\"button\" value=\"Borrar\" onclick=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'confBorrarCorreoAlu', 'frmListar', 'contenido', $coel_id)\"></form></td></tr>";
+		//$registros .= "<td><form id=\"frmListar\"><input type=\"button\" value=\"Borrar\" onclick=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'confBorrarCorreoAlu', 'frmListar', 'contenido', $coel_id)\"></form></td></tr>";
+		$registros .= "<td>
+			<form id=\"frmListar\">
+				<a href=\"#\">
+					<i onclick=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'confBorrarCorreoAlu', 'frmListar', 'contenido', $coel_id)\" class=\"fontawesome-icon button circle-button green icon-trash\">
+					</i>
+				</a>
+			</form></td></tr>";
 		}
+		
+		echo "<input type=\"button\" value=\"Agregar correo electr&oacute;nico\" onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'correoFormRegistrar', 'vacio', 'contenido')\">";
+		
 		echo "<table class=\"tablas_sort\">
 		<thead>
 		<tr>
@@ -494,42 +507,20 @@ class CtlAlumno {
 		</thead>
 		<tbody>".$registros."
 		</tbody></table>";
-		echo "<table>
-		<tr>
-		<td><input type=\"button\" value=\"Agregar correo electr&oacute;nico\" onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'correoFormRegistrar', 'vacio', 'contenido')\"></td>
-	    				<td><input type=\"button\" value=\"Regresar\" onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/></td>
-	    			</tr></table>";
+		
     		}
 	
     /**
     *Funcion para listar los correos del alumno
     *@author Liliana Luna
-    *@param opcion: determina si se listan todos los tel�fonos o uno en espec�fico.
+    *@param $id_persona.
      **/
-    public function listarCorreos($opcion, $id_telefono, $id_persona){
+    public function listarCorreos($id_persona){
 	
-    		$conexion = new InterfazBD2();
-    		if($opcion==1){
-    		$query = "select C.coel_correo, C.coel_id FROM ingsw.correo_electronico AS C
+    	$conexion = new InterfazBD2();
+    	$query = "select C.coel_correo, C.coel_id FROM ingsw.correo_electronico AS C
     		JOIN ingsw.persona AS P ON C.pe_id=P.pe_id AND C.pe_id=$id_persona";
-	}
-	//CHECAR ESTA OPCI�N
-	elseif ($opcion==2){
-		
-	$query_otro = "SELECT esot_id FROM ingsw.informacion_academica where inac_id=$id_infoAca";
-		$resultados_otro = $conexion->consultar($query_otro);
-			
-		$id_otro = $resultados_otro[0]['esot_id'];
 	
-		if($id_otro != ""){
-		$query = "SELECT * FROM ingsw.informacion_academica AS a JOIN ingsw.estudio_otro AS b
-		ON a.esot_id = b.esot_id AND al_id=$idAlum and inac_id=$id_infoAca";
-		}else{
-		$query = "SELECT * FROM ingsw.informacion_academica AS a JOIN ingsw.estudio_fca AS b
-		ON a.esfc_id = b.esfc_id AND al_id=$idAlum and inac_id=$id_infoAca";
-		}
-	
-		}
 		$resultados = $conexion->consultar($query);
 			if($resultados != false){
 					return $resultados;
