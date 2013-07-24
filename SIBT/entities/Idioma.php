@@ -113,6 +113,7 @@ class Idioma {
 			$update['idal_ruta_constancia'] = $rutaImg;
 			$update['idal_institucion'] = $institucion;
 			$update['idal_anio'] = $anio;
+			$insert['esau_id'] = 2;
 			$res = $conn->ejecutarUpdate("ingsw.idioma_alumno", $update, "WHERE idal_id = $idiomaAlumno");
 		} else {
 			$res = true;

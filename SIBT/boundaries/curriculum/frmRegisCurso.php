@@ -1,8 +1,9 @@
 <div id="Respuesta">
 	<?if (isset($errMsj)) { echo $errMsj; }?>
 </div>
-<div id="RegistrarCurso">
-	<form id="frmRegistrarCurso">
+
+<form id="frmRegistrarCurso" name="frmRegistrarCurso" method="post" enctype="multipart/form-data" action="index.php">
+	<input type="hidden" id='opc' name='opc' value='<? if (!isset($idCurso)) { echo "RegistrarCurso"; } else { echo "ActualizarCurso"; } ?>' />
 		<table>
 			<tr>
 				<th colspan="3"> <? if (!isset($idCurso)) { echo "Registrar Curso"; } else { echo "Actualizar Curso"; } ?> </th>
@@ -22,19 +23,19 @@
 				<td>Cargar Imagen</td>
 				<td>:</td>
 				<td> <?php 
-				if (isset($rutaImg)) { 
-					echo "<input type=\"text\" id=\"rutaImg\" name=\"rutaImg\"  value=\"=$rutaImg\" readonly> 
-					 	  <td> <input type=\"button\" value=\"Editar\" id=\"Editar\" name=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarRuta' , 'frmRegistrarCurso', 'contenido')\">";
-				} else {
-					echo "<input type=\"file\" id=\"rutaImg\" name=\"rutaImg\" class='required'>";
-				}
+//				$file = null;
+//				if (isset($file)) { 
+//					echo "<input type=\"text\" id=\"file\" name=\"file\"  value=\"$file\" readonly> 
+//					 	  <td> <input type=\"button\" value=\"Editar\" id=\"Editar\" name=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarRuta' , 'frmRegistrarCurso', 'contenido'); DoSubmit();\">";
+//				} else {
+					echo "<input type=\"file\" id=\"file\" name=\"file\" class='required'>";
+//				}
 				?></td>
 			</tr>
 			<tr>
-				<td> <input type="button" value="<? if (!isset($idCurso)) { echo "Registrar Curso"; } else { echo "Actualizar";} ?>" id="Guardar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', '<? if (!isset($idCurso)) { echo "RegistrarCurso"; } else { echo "ActualizarCurso"; } ?>', 'frmRegistrarCurso', 'contenido')"></td>
+				<td> <input type="submit" id="btnSubmit" name="btnSubmit" value="<? if (!isset($idCurso)) { echo "Registrar Curso"; } else { echo "Actualizar";} ?>" id="Guardar" ></td>
 				<td></td>
 				<td><input type="button" value="Cancelar" id="Cancelar" onclick="ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'Cursos', 'vacio', 'contenido')"></td>
 			</tr>
 		</table>
 	</form>
-<div>

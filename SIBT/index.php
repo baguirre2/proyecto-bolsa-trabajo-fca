@@ -1,5 +1,4 @@
 <?php
-
 //error_reporting (E_ALL & ~E_NOTICE);
 
 /**
@@ -89,7 +88,16 @@ $_SESSION['idUsuario'] = 1;
         	
         
             <div id="contenido" class="container">
-                  <?php include("boundaries/layout/bienvenido_banner.html"); ?>
+                  <?php 
+                  
+                                    
+                  if ($_POST['opc'] == "RegistrarCurso" || $_POST['opc'] == "ActualizarCurso" || $_POST['opc'] == "RegistrarIdioma" || $_POST['opc'] == "ActualizarIdioma") {
+                  	$_GET = $_POST;
+
+					include "./controllers/gestionarCurriculum/CtlCurriculum.php";	
+				  } else { 
+				  	include("boundaries/layout/bienvenido_banner.html"); 
+				  }?>
             </div><!--/container-->
         </div><!--/white-->
 
