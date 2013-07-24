@@ -875,7 +875,7 @@ public function mostrarInfoAcademica($idAlum){
 	   		<div class=\"container\">
 	       		<div class=\"row\">
 	           		<div class=\"span12\">
-	               		<h1 class=\"animated fadeInDown delay1\">Informaci&oacte;n acad&eacute;mica</h1>
+	               		<h1 class=\"animated fadeInDown delay1\">Informaci&oacute;n acad&eacute;mica</h1>
 	           </div>
 	       </div>
 	   </div>";
