@@ -1,6 +1,22 @@
 <?php
 
 session_start();
+
+if ($_POST['opc'] == "RegistrarCurso" || $_POST['opc'] == "ActualizarCurso" || $_POST['opc'] == "RegistrarIdioma" || $_POST['opc'] == "ActualizarIdioma") {
+
+include_once './entities/InfoLaboral.php';
+include_once './entities/Certificacion.php';
+include_once './entities/InterfazBD2.php';
+include_once './entities/Curso.php';
+include_once './entities/Idioma.php';
+include_once './entities/InfoAcademica.php';
+include_once './boundaries/curriculum/ResultadoCargaImagen.php';
+include_once './entities/Alumno.php';
+include_once './entities/Reclutador.php';
+	
+	
+} else {
+
 include_once '../../entities/InfoLaboral.php';
 include_once './../../entities/Certificacion.php';
 include_once '../../entities/InterfazBD2.php';
@@ -10,6 +26,8 @@ include_once '../../entities/InfoAcademica.php';
 include_once '../../boundaries/curriculum/ResultadoCargaImagen.php';
 include_once '../../entities/Alumno.php';
 include_once '../../entities/Reclutador.php';
+	
+}
 
 
 class CtlCurriculum {
@@ -19,7 +37,7 @@ class CtlCurriculum {
 	function __construct($GET, $FILES){
 
         $opc = $GET['opc'];
-
+		if (isset($carga)) { $opc = $carga; } 
         //En esta línea se obtendra el ID del alumno, por un objeto SESSION
         $idAlum = 1;
         //Se obtendrá el id del Reclutador por medio de un objeto SESSION.
@@ -165,8 +183,8 @@ class CtlCurriculum {
                 if (isset($_GET['anio'])) {
                     $anio = $_GET['anio'];
                 }
-                if (isset($_GET['rutaImg'])) {
-                    $rutaImg = $_GET['rutaImg'];
+                if (isset($_GET['file'])) {
+                    $file = $_GET['file'];
                 }
                 if (isset($_GET['institucion'])) {
                     $institucion = $_GET['institucion'];
@@ -186,7 +204,14 @@ class CtlCurriculum {
                 break;
 
             case "RegistrarCurso";
-                $this->registrarCurso($idAlum);
+				$nomFile = $FILES['file']['name'];
+				if($nomFile != ""){
+					new ResultadoCargaImagen(null);
+					$mensaje = $this->registrarCurso($idAlum);
+				}else{
+					new ResultadoCargaImagen("Error");
+				}
+                
                 break;
 
             case "Cursos";
@@ -447,18 +472,19 @@ class CtlCurriculum {
      */
 	function actualizarIdioma () {
 		
-		if (isset($_GET['anio'])) { $anio = $_GET['anio']; }
-		if (isset($_GET['rutaImg'])) { $rutaImg = $_GET['rutaImg']; }
-		if (isset($_GET['institucion'])) { $institucion = $_GET['institucion']; }		
-		$idIdioma = $_GET['idIdioma']; 
-		$porcentajeEscritura = $_GET['escritura']; 
-		$porcentajeLectura = $_GET['lectura']; 
-		$porcentajeOral = $_GET['oral']; 
-		$alumnoIdioma = $_GET['AlumnoIdioma'];	
+		if (isset($_POST['anio'])) { $anio = $_POST['anio']; }
+		$ruta = $this->uploadbyIMG();
+		if (isset($_POST['institucion'])) { $institucion = $_POST['institucion']; }		
+		$idIdioma = $_POST['idIdioma']; 
+		$porcentajeEscritura = $_POST['escritura']; 
+		$porcentajeLectura = $_POST['lectura']; 
+		$porcentajeOral = $_POST['oral']; 
+		$alumnoIdioma = $_POST['AlumnoIdioma'];	
 	    $idioma1 = new Idioma();
-	    
-	    if (isset($rutaImg)) {
-	    	$res = $idioma1->actualizar($idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $alumnoIdioma, $institucion, $anio, $rutaImg);
+	    print_r($_GET);
+	    print_r($_POST);
+	    if ($ruta != null) {
+	    	$res = $idioma1->actualizar($idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $alumnoIdioma, $institucion, $anio, $ruta);
 	    } else {
 	    	$idioma1->actualizar($idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $alumnoIdioma);
 	    }
@@ -466,7 +492,11 @@ class CtlCurriculum {
 	    	echo "Se ha actualizado la información del Idioma";
 	    } else {
 	    	$errMsj = "Ha ocurrido un error";
-	    	include '../../boundaries/curriculum/frmRegisIdioma.php';
+	    	if ($_POST['opc'] == "RegistrarIdioma" || $_POST['opc'] == "ActualizarIdioma") {
+	    		include './boundaries/curriculum/frmRegisIdioma.php';
+	    	} else {
+	    		include '../../boundaries/curriculum/frmRegisIdioma.php';
+	    	}
 	    }
 	}
 
@@ -483,7 +513,7 @@ class CtlCurriculum {
         $porcentajeLectura = $arrDatos[0]['niid_nivel_lectura'];
         $porcentajeOral = $arrDatos[0]['niid_nivel_oral'];
         $anio = $arrDatos[0]['idal_anio'];
-        $rutaImg = $arrDatos[0]['idal_ruta_constancia'];
+        $file = $arrDatos[0]['idal_ruta_constancia'];
         $institucion = $arrDatos[0]['idal_institucion'];
 		$idIdioma =  $arrDatos[0]['id_id'];
 		include '../../boundaries/curriculum/frmRegisIdioma.php';
@@ -497,26 +527,24 @@ class CtlCurriculum {
 	 */	
     function registrarIdioma($idAlum) {
 
-        if (isset($_GET['idIdioma'])) {
-            $idIdioma = $_GET['idIdioma'];
+        if (isset($_POST['idIdioma'])) {
+            $idIdioma = $_POST['idIdioma'];
         }
-        if (isset($_GET['escritura'])) {
-            $porcentajeEscritura = $_GET['escritura'];
+        if (isset($_POST['escritura'])) {
+            $porcentajeEscritura = $_POST['escritura'];
         }
-        if (isset($_GET['lectura'])) {
-            $porcentajeLectura = $_GET['lectura'];
+        if (isset($_POST['lectura'])) {
+            $porcentajeLectura = $_POST['lectura'];
         }
-        if (isset($_GET['oral'])) {
-            $porcentajeOral = $_GET['oral'];
+    	if (isset($_POST['oral'])) {
+            $porcentajeOral = $_POST['oral'];
         }
-        if (isset($_GET['anio'])) {
-            $anio = $_GET['anio'];
+        if (isset($_POST['anio'])) {
+            $anio = $_POST['anio'];
         }
-        if (isset($_GET['rutaImg'])) {
-            $rutaImg = $_GET['rutaImg'];
-        }
-        if (isset($_GET['institucion'])) {
-            $institucion = $_GET['institucion'];
+        $res = $this->uploadbyIMG();
+        if (isset($_POST['institucion'])) {
+            $institucion = $_POST['institucion'];
         }
         $err = false;
         if ($idIdioma == 0) {
@@ -526,10 +554,10 @@ class CtlCurriculum {
 
         if ($err == false) {
             $idioma1 = new Idioma();
-            if (!isset($rutaImg)) {
+            if ($res == null) {
                 $res = $idioma1->guardarIdiomaAlumno($idAlum, $idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura);
             } else {
-                $res = $idioma1->guardarIdiomaAlumno($idAlum, $idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $rutaImg, $institucion, $anio);
+                $res = $idioma1->guardarIdiomaAlumno($idAlum, $idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $res, $institucion, $anio);
             }
             if (!$res) {
                 $err = true;
@@ -537,7 +565,7 @@ class CtlCurriculum {
             }
         }
         if ($err) {
-            include '../../boundaries/curriculum/frmRegisIdioma.php';
+            include './boundaries/curriculum/frmRegisIdioma.php';
         } else {
             echo "El idioma ha sido registrado";
             $this->menuIdiomas($idAlum);
@@ -553,7 +581,11 @@ class CtlCurriculum {
     function menuIdiomas($idAlum) {
         $strIdiomas = $this->obtenerIdiomas($idAlum);
         if ($strIdiomas == null) {
-            include '../../boundaries/curriculum/frmRegisIdioma.php';
+        	if ($_POST['RegistrarIdioma'] || $_POST['ActualizarIdioma']) {
+        		include './boundaries/curriculum/frmRegisIdioma.php';
+        	} else {
+            	include '../../boundaries/curriculum/frmRegisIdioma.php';
+        	}
         } else {
             echo $strIdiomas;
             echo "	<table width='1000'> <tr>
@@ -595,7 +627,7 @@ class CtlCurriculum {
     					<form id='$row[cu_id]'>
     					<td align='center'> $row[cu_nombre] <input type='hidden' value='$row[cu_id]' name='idCurso' id='idCuso'> </td>
     					<td align='center'> $row[cu_fecha_conclusion] </td>
-    					<td> <input type=\"button\" value=\"Editar\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarCurso' , '$row[cu_id]', 'contenido')\" </td>
+    					<td> <input type=\"button\" value=\"Editar\" id=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarCurso' , '$row[cu_id]', 'contenido')\" </td>
     					</form>
 					</tr>";
             }
@@ -653,9 +685,9 @@ class CtlCurriculum {
      * 
      */
     function registrarCurso($idAlum) {
-        $nombreCurso = $_GET['nombreCurso'];
-        $fechaParticipacion = $_GET['fechaParticipacion'];
-        $rutaImg = $_GET['rutaImg'];
+        $nombreCurso = $_POST['nombreCurso'];
+        $fechaParticipacion = $_POST['fechaParticipacion'];
+        $file = $_POST['file'];
         $err = false;
         if (!isset($nombreCurso)) {
             $errMsj .= "Debe tener un nombre el Curso <br>";
@@ -665,13 +697,14 @@ class CtlCurriculum {
             $errMsj .= "Fecha Inválida <br>";
             $err = true;
         }
-        if (!isset($rutaImg)) {
-            $errMsj .= "Debes Ingresar una ruta <br>";
+        $res = $this->uploadbyIMG();
+        if (!isset($file)) {
+            $errMsj .= "Debes seleccionar una imagen <br>";
             $err = true;
         }
         if ($err == false) {
             $Cuso1 = new Curso();
-            if (!$Cuso1->guardar($idAlum, $nombreCurso, $fechaParticipacion, $rutaImg)) {
+            if (!$Cuso1->guardar($idAlum, $nombreCurso, $fechaParticipacion, $res)) {
                 $err = true;
                 $errMsj = "Ocurrió un error inesperado";
             }
@@ -692,11 +725,11 @@ class CtlCurriculum {
     function menuCursos($idAlum) {
         $strCursos = $this->obtenerCursos($idAlum);
         if ($strCursos == null) {
-            include '../../boundaries/curriculum/frmRegisCurso.php';
+            include './boundaries/curriculum/frmRegisCurso.php';
         } else {
             echo $strCursos;
             echo "	<table width='1000'> <tr>
-    					<td>  <input type=\"button\" value=\"Agregar Curso\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarCurso' , 'vacio', 'contenido')\">
+    					<td>  <input type=\"button\" value=\"Agregar Curso\" id=\"AgregarCurso\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarCurso' , 'vacio', 'contenido')\">
     					 <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')\"> </td>
 					</tr> </table>";
         }
@@ -714,6 +747,7 @@ class CtlCurriculum {
         if (isset($idCurso)) {
             $nombreCurso = $_GET['nombreCurso'];
             $fechaParticipacion = $_GET['fechaParticipacion'];
+            //$file = $_GET['file'];
             include '../../boundaries/curriculum/frmRegisCurso.php';
         }
         if (isset($alumnoIdioma)) {
@@ -722,7 +756,7 @@ class CtlCurriculum {
             $porcentajeLectura = $_GET['lectura'];
             $porcentajeOral = $_GET['oral'];
             $anio = $_GET['anio'];
-            $rutaImg = $_GET['rutaImg'];
+            //$file = $_GET['file'];
             $institucion = $_GET['institucion'];
             include '../../boundaries/curriculum/frmRegisIdioma.php';
         }
@@ -739,7 +773,7 @@ class CtlCurriculum {
         $curso = $curso1->obtenerCurso($idCurso);
         $nombreCurso = $curso[0]['cu_nombre'];
         $fechaParticipacion = $curso[0]['cu_fecha_conclusion'];
-        $rutaImg = $curso[0]['cu_ruta_constancia'];
+        $file = $curso[0]['cu_ruta_constancia'];
         include '../../boundaries/curriculum/frmRegisCurso.php';
     }
 
@@ -753,7 +787,7 @@ class CtlCurriculum {
         $idCurso = $_GET['idCurso'];
         $nombreCurso = $_GET['nombreCurso'];
         $fechaParticipacion = $_GET['fechaParticipacion'];
-        $rutaImg = $_GET['rutaImg'];
+        $file = $_GET['file'];
         $err = false;
         if (!isset($nombreCurso)) {
             $errMsj .= "Debe tener un nombre el Curso <br>";
@@ -763,19 +797,25 @@ class CtlCurriculum {
             $errMsj .= "Fecha Inválida <br>";
             $err = true;
         }
-        if (!isset($rutaImg)) {
-            $errMsj .= "Debes Ingresar una ruta <br>";
+    	if (isset($_GET['file'])) { $file = $_GET['file']; }
+        $res = $this->uploadbyIMG();
+        if ($res == false) {
+            $errMsj .= "Error al almacenar la imagen";
             $err = true;
         }
         if ($err == false) {
             $curso1 = new Curso();
-            if (!$curso1->actualizar($idCurso, $nombreCurso, $fechaParticipacion, $rutaImg)) {
+            if (!$curso1->actualizar($idCurso, $nombreCurso, $fechaParticipacion, $res)) {
                 $err = true;
                 $errMsj = "Ocurrió un error inesperado";
             }
         }
         if ($err) {
-            include '../../boundaries/curriculum/frmRegisCurso.php';
+        	if ($_POST['opc'] == "ActualizarCurso") {
+            	include './boundaries/curriculum/frmRegisCurso.php';
+        	} else {
+        		include '../../boundaries/curriculum/frmRegisCurso.php';
+        	}
         } else {
             echo "El curso ha sido modificado";
         }
@@ -1215,6 +1255,58 @@ public function listarEstudiosFCA($nivel, $id_inac){
 		}
 		echo $strFavoritos . "</tbody></table>";
     }
+    
+    
+    function uploadbyIMG() {
+$allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "PNG");
+$temp = explode(".", $_FILES["file"]["name"]);
+$extension = end($temp);
+ECHO $extension;
+if (($_FILES["file"]["size"] < 2000000000)  && in_array($extension, $allowedExts))
+  {
+  if ($_FILES["file"]["error"] > 0)
+    {
+    echo "Return Code: " . $_FILES["file"]["error"] . "<br>";
+    }
+  else
+    {
+
+    if (file_exists("./constancias/cursos/" . $_FILES["file"]["name"]))
+      {
+      echo $_FILES["file"]["name"] . " already exists. ";
+      }
+    else
+      {
+      move_uploaded_file($_FILES["file"]["tmp_name"],
+      "./constancias/cursos/" . $_FILES["file"]["name"]);
+      echo "Stored in: " . "./constancias/cursos/" . $_FILES["file"]["name"];
+      }
+    }
+      $res = "../../constancias/cursos/".$_FILES["file"]["name"];
+  		return $res; 
+  } else
+  {
+  echo "Invalid file";
+  return null;
+  
+  }
+  echo "     /* 
+     * libname postgres 'local// user 'benjamin' pass '        ' 5432 SIBT sch=ingsw'; 
+     * 
+     * data=onData.postgres.constancia noobs nonumber notext singlepass;
+     *	set=idal_ruta_constancia;
+     * run;
+     * 
+     * proc print data=postgres.constancia;
+     * 	where img is not null; 
+     * run;
+     * 
+     * 
+     *
+     */    ";
+  
+
+    	} 	
 }
 
 //new CtlCurriculum($_GET);

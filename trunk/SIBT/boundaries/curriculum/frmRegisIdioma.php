@@ -4,7 +4,8 @@
 	?>
 </div>
 <div id="RegistrarIdioma">
-	<form id="frmRegistrarIdioma">
+	<form id="frmRegistrarIdioma" name="frmRegistrarIdioma" method="post" enctype="multipart/form-data" action="index.php" >
+		<input type="hidden" id='opc' name='opc' value='<? if (!isset($alumnoIdioma)) { echo "RegistrarIdioma"; } else { echo "ActualizarIdioma"; } ?>' />
 		<table>
 			<tr>
 				<th colspan="4"> <? if (verify()) { echo "Registrar Idioma"; } else { echo "Actualizar Idioma"; } ?> </th>
@@ -32,7 +33,8 @@
 			<tr>
 				<th colspan="3"> Información de Constancia </th>
 			</tr>
-			<?php if ($_GET['opc'] == "AgregarConstancia" || isset($rutaImg)) { ?>			
+			<?php 
+//			if ($_GET['opc'] == "AgregarConstancia" || isset($file)) { ?>			
 			<tr>
 				<td> Institución </td>
 				<td> : </td>
@@ -46,28 +48,30 @@
 			<tr>
 				<td> Cargar Constancia </td>
 				<td> : </td>
-				<td><?php 
-					if ($_GET['opc'] != "EditarRuta" && isset($rutaImg)) { 
-						echo "<input type=\"text\" id=\"rutaImg\" name=\"rutaImg\"  value=\"$rutaImg\" readonly> 
-					 		  <td> <input type=\"button\" value=\"Editar\" id=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarRuta' , 'frmRegistrarIdioma', 'contenido')\">";
-					} else {
-						echo "<input type=\"file\" id=\"rutaImg\" name=\"rutaImg\" class='required'>";
-					}
+				<td><input type="file" id="file" name="file" class='required' /> <?php 
+//					if ($_GET['opc'] != "EditarRuta" && isset($file)) { 
+//						echo "<input type=\"text\" id=\"file\" name=\"file\"  value=\"$file\" readonly> 
+//					 		  <td> <input type=\"button\" value=\"Editar\" id=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarRuta' , 'frmRegistrarIdioma', 'contenido'); DoSubmit();\">";
+//					} else {
+						echo "";
+//					}
 				?> </td>
 			</tr>
-			<?php } else { ?>
+			<?php 
+//			} else { ?>
+<!--  			<tr>
+				<td colspan="2"> <input type="button" value="Agregar Constancia" id="Agregar Constancia" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarConstancia' , 'frmRegistrarIdioma', 'contenido')"> </td>  			
+			</tr> -->
+			<?php 
+//			} ?>
 			<tr>
-				<td colspan="2"> <input type="button" value="Agregar Constancia" id="Agregar Constancia" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarConstancia' , 'frmRegistrarIdioma', 'contenido')"> </td> 			
-			</tr>
-			<?php } ?>
-			<tr>
-				<td> <input type="button" value="<? if (!isset($alumnoIdioma)) { echo "Registrar Idioma"; } else { echo "Actualizar"; } ?>" id="Guardar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', '<? if (!isset($alumnoIdioma)) { echo "RegistrarIdioma"; } else { echo "ActualizarIdioma"; } ?>', 'frmRegistrarIdioma', 'contenido')"></td>
+				<td> <input type="submit" value="<? if (!isset($alumnoIdioma)) { echo "Registrar Idioma"; } else { echo "Actualizar"; } ?>" id="Guardar" ></td>
 				<td></td>
 				<td><input type="button" value="Cancelar" id="Cancelar" onclick="ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')"></td>
 			</tr>
 		</table>
 	</form>
-<div>
+</div>
 
 <?php
 
@@ -95,7 +99,12 @@
 	}
 	
 	function getIdiomas($value) {
-		include_once '../../entities/Idioma.php';
+		if ($_POST['opc'] == "RegistrarIdioma" || $_POST['opc'] == "ActualizarIdioma") {
+			include_once './entities/Idioma.php';	
+		} else {
+			include_once '../../entities/Idioma.php';	
+		}
+		
 		$idioma1 = new Idioma();
 		$arrIdiomas = $idioma1->obtenerIdiomas();
 		$strSelect = "<select name='idIdioma' id='idIdioma'> <option value='0' selected class='required numeric'> ---";

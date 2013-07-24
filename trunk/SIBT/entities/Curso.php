@@ -84,7 +84,7 @@ class Curso {
      */
     function actualizar($idCurso, $nombre, $fechaConclusion, $rutaImagen) {
         $conn = new InterfazBD2();
-        $update = "UPDATE ingsw.curso SET cu_nombre = '$nombre', cu_fecha_conclusion = '$fechaConclusion', cu_ruta_constancia = '$rutaImagen' WHERE cu_id = $idCurso;";
+        $update = "UPDATE ingsw.curso SET cu_nombre = '$nombre', cu_fecha_conclusion = '$fechaConclusion', cu_ruta_constancia = '$rutaImagen', esau_id = 2 WHERE cu_id = $idCurso;";
         $res = $conn->ejecutarQuery($update);
         $conn->cerrarConexion();
         if ($res) {
