@@ -204,14 +204,7 @@ class CtlCurriculum {
                 break;
 
             case "RegistrarCurso";
-				$nomFile = $FILES['file']['name'];
-				if($nomFile != ""){
-					new ResultadoCargaImagen(null);
-					$mensaje = $this->registrarCurso($idAlum);
-				}else{
-					new ResultadoCargaImagen("Error");
-				}
-                
+				$this->registrarCurso($idAlum);
                 break;
 
             case "Cursos";
@@ -625,7 +618,7 @@ class CtlCurriculum {
     					<form id='$row[cu_id]'>
     					<td align='center'> $row[cu_nombre] <input type='hidden' value='$row[cu_id]' name='idCurso' id='idCuso'> </td>
     					<td align='center'> $row[cu_fecha_conclusion] </td>
-    					<td> <input type=\"button\" value=\"Editar\" id=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarCurso' , '$row[cu_id]', 'contenido')\" </td>
+    					<td> <i value=\"Editar\" id=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarCurso' , '$row[cu_id]', 'contenido')\" class=\"fontawesome-icon button circle-button green icon-edit\" ></td>
     					</form>
 					</tr>";
             }
@@ -667,7 +660,7 @@ class CtlCurriculum {
     					<td align='center'> $row[niid_nivel_escrito] % </td>
     					<td align='center'> $row[niid_nivel_oral] % </td>
     					<td align='center'> $row[niid_nivel_lectura] % </td>
-    					<td> <input type=\"button\" value=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarIdioma' , '$row[idal_id]', 'contenido')\" </td>
+    					<td> <i value=\"Editar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EditarIdioma' , '$row[idal_id]', 'contenido')\" class=\"fontawesome-icon button circle-button green icon-edit\"></td>
     					</form>
 					</tr>";
             }
