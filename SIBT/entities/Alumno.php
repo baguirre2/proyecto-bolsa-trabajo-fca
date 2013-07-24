@@ -109,7 +109,7 @@ class Alumno{
 					/*
 					 if($id_alumno != false){
 	
-					//AQUI INSERTARÍA EN ESTUDIO_FCA EN VEZ DE INFO_ACADEMICA
+					//AQUI INSERTARA EN ESTUDIO_FCA EN VEZ DE INFO_ACADEMICA
 					$query_info_aca = "INSERT INTO ingsw.informacion_academica (al_id, esac_id, esot_id, esfc_id, esau_id, inac_universidad, inac_escuela, inac_fecha_inicio)
 					VALUES ('".$id_alumno."','".$GET['esac_id']."',null,'".$GET['esfc_id']."','1','0','0','01/01/1900')";
 	
@@ -406,7 +406,7 @@ class Alumno{
 	}
 	public function recuperarCarreras() {
 		$conexion = new InterfazBD2();
-		$query = "SELECT esfc_id, esfc_descripcion FROM INGSW.ESTUDIO_FCA WHERE esfc_descripcion LIKE 'Administraci_n' OR esfc_descripcion LIKE 'Contadur_a' OR esfc_descripcion LIKE 'Inform_tica';";
+		$query = "SELECT esfc_id, esfc_descripcion FROM INGSW.ESTUDIO_FCA WHERE esfc_descripcion LIKE 'Licenciatura%';";
 	
 		$carreras = $conexion->consultar($query);
 		if($carreras){
