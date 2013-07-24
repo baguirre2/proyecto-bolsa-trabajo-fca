@@ -269,33 +269,33 @@ class CtlCurriculum {
 				$this->imprimirFavoritos($idReclutador);
 				break;
 				
-			case 'carInfoAcademicaImagenRegistrar';
+			case 'carInfoAcademicaImagenEditar';
 				//obtenemos el nombre del archivo
 				$nomFile = $FILES['userfile']['name'];
 				if($nomFile != ""){
-					$mensaje = $this->cargarImagenConstancia($FILES['userfile'], $idAlum, 1);
+					$mensaje = $this->cargarImagenConstancia($FILES['userfile'], $idAlum, 2, $nomFile);
 					new ResultadoCargaImagen($mensaje);
 				}else{
-					//Ir� directo al registro
+					//Ir� directo a la edici�n
 					$informacionAcademica = new InfoAcademica();
-					$mensaje = $informacionAcademica->registrarGradoAcademico($idAlum);
+					$mensaje = $informacionAcademica->actualizarGradoAcademico($idAlum, $nomFile);
 					new ResultadoCargaImagen($mensaje);
 				}
-				break;
+				break;		
 				
 			case 'carInfoAcademicaImagenEditar';
 				//obtenemos el nombre del archivo
 				$nomFile = $FILES['userfile']['name'];
 				if($nomFile != ""){
-					$mensaje = $this->cargarImagenConstancia($FILES['userfile'], $idAlum, 2);
+					$mensaje = $this->cargarImagenConstancia($FILES['userfile'], $idAlum, 2, $nomFile);
 					new ResultadoCargaImagen($mensaje);
 				}else{
 					//Ir� directo a la edici�n
 					$informacionAcademica = new InfoAcademica();
-					$mensaje = $informacionAcademica->actualizarGradoAcademico($idAlum);
+					$mensaje = $informacionAcademica->actualizarGradoAcademico($idAlum, $nomFile);
 					new ResultadoCargaImagen($mensaje);
 				}
-				break;			
+				break;				
 				
             	                
 
@@ -993,7 +993,7 @@ public function listarEstudiosFCA($nivel, $id_inac){
 	 *@param Recibe el archivo a validar
 	 **/
 	
-	public function cargarImagenConstancia($file, $idAlum, $opcion) {
+	public function cargarImagenConstancia($file, $idAlum, $opcion, $nomFile) {
 	
 		//Cadena que se enviara como resultado
 		$res = "";
@@ -1002,11 +1002,11 @@ public function listarEstudiosFCA($nivel, $id_inac){
 	
 		if($opcion==1){
 			//primero se hace el registro			
-			$res .=$informacionAcademica->registrarGradoAcademico($idAlum);
+			$res .=$informacionAcademica->registrarGradoAcademico($idAlum, $nomFile);
 		}elseif($opcion==2){
 			//primero se hace la edici�n
 			$infoAc_id = $_POST['id'];			
-			$res .=$informacionAcademica->actualizarGradoAcademico($idAlum);
+			$res .=$informacionAcademica->actualizarGradoAcademico($idAlum, $nomFile);
 		}
 	
 		//directorio donde se almacenaran los archivos
