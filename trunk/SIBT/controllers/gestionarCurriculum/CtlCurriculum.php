@@ -481,8 +481,6 @@ class CtlCurriculum {
 		$porcentajeOral = $_POST['oral']; 
 		$alumnoIdioma = $_POST['AlumnoIdioma'];	
 	    $idioma1 = new Idioma();
-	    print_r($_GET);
-	    print_r($_POST);
 	    if ($ruta != null) {
 	    	$res = $idioma1->actualizar($idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $alumnoIdioma, $institucion, $anio, $ruta);
 	    } else {
@@ -1256,6 +1254,11 @@ public function listarEstudiosFCA($nivel, $id_inac){
 		echo $strFavoritos . "</tbody></table>";
     }
     
+    /**
+     * 
+     * Enter description here ...
+     * @author benjamin aguirre
+     */
     
     function uploadbyIMG() {
 $allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "PNG");
@@ -1290,22 +1293,6 @@ if (($_FILES["file"]["size"] < 2000000000)  && in_array($extension, $allowedExts
   return null;
   
   }
-  echo "     /* 
-     * libname postgres 'local// user 'benjamin' pass '        ' 5432 SIBT sch=ingsw'; 
-     * 
-     * data=onData.postgres.constancia noobs nonumber notext singlepass;
-     *	set=idal_ruta_constancia;
-     * run;
-     * 
-     * proc print data=postgres.constancia;
-     * 	where img is not null; 
-     * run;
-     * 
-     * 
-     *
-     */    ";
-  
-
     	} 	
 }
 
