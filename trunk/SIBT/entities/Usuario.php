@@ -34,12 +34,19 @@ class Usuario{
 		$interfazBD = new InterfazBD2();
 		$estado = false;
 		
+		$usuario .= substr($GET['pe_nombre'], 0, 1);
+		$usuario .= $GET['pe_apellido_paterno'];
+		$usuario .= substr($GET['pe_apellido_materno'], 0, 3);
+		$usuario= $this->quitarAcentos($usuario);
+		
+		$pass = hash('ripemd160', microtime());
+		$pass = substr($pass, 0, 8);
+		
 		$query_persona = "INSERT INTO ingsw.persona (pe_nombre, pe_apellido_paterno, pe_apellido_materno)
-    			 		  VALUES ('".$GET['rfc']."','NA','NA')";
+    			 		  VALUES ('".$GET['pe_nombre']."','".$GET['pe_apellido_paterno']."','".$GET['pe_apellido_materno']."')";
 		$id_persona = $interfazBD->insertar($query_persona, 'pe_id');
-		/*echo "ID Persona = ";	var_dump($id_persona);
-		echo "query = $query_persona";
-		echo"$id_persona";*/
+		
+		
 		if($id_persona != false){
 			
 			$query_correo = "INSERT INTO ingsw.correo_electronico (pe_id, coel_correo)
@@ -47,18 +54,48 @@ class Usuario{
 			
 			if($interfazBD->ejecutarQuery($query_correo) != false){
 				
-				$query_usuario = "INSERT INTO ingsw.usuario (pe_id, us_nombre, us_contrasenia) VALUES ('".$id_persona."','".$GET['rfc']."', 'xxxxxxxx')";
+				$query_usuario = "INSERT INTO ingsw.usuario (pe_id, us_nombre, us_contrasenia) VALUES ('".$id_persona."','".$usuario."', '".$pass."')";
 				$id_usuario = $interfazBD->insertar($query_usuario, 'us_id');
 				if($id_usuario != false){
 					$query_usuario_tipo = "INSERT INTO ingsw.usuario_tipo_usuario (tius_id, us_id) VALUES ('".$GET['tipoUsuario']."','".$id_usuario."')";
 					if($interfazBD->ejecutarQuery($query_usuario_tipo) != false){
+						$this->enviarEmail($GET['eMail'], $usuario, $pass);
 						$estado = true;
 					}
 				}
 			}
 		}
+						
 		$interfazBD->cerrarConexion();
 		return $estado;
+	}
+	//
+	function quitarAcentos ($cadena){
+    $originales = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖØÙÚÛÜİŞßàáâãäåæçèéêëìíîïğñòóôõöøùúûıışÿRr';
+    $modificadas = 'aaaaaaaceeeeiiiidnoooooouuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr';
+    $cadena = utf8_decode($cadena);
+    $cadena = strtr($cadena, $originales, $modificadas);
+    $cadena = strtolower($cadena);
+    return utf8_encode($cadena);
+	}
+	
+	//
+	
+	public function enviarEmail($mail, $usuario, $pass){	
+		$titulo = 'SIBT';
+		$mensaje = "Has sido dado de alta como usuario en el sistema de bolsa de trabajo de la Facultad de Contaduría y Administración, con el nombre de usuario: '".$usuario."' y el password: '".$pass."'";
+		$headers  = "MIME-Version: 1.0\n";
+  		$headers .= "Content-type: text/plain; charset=iso-8859-1\n";
+	   	$headers .= "X-Priority: 3\n";
+	   	$headers .= "X-MSMail-Priority: Normal\n";
+	   	$headers .= "X-Mailer: php\n";
+	   	$headers .= "From: SIBT <sibt@dominio.com>\n";
+		
+		if (mail($mail, $titulo, $mensaje, $headers)){
+			return true;
+		} else {
+			return false;
+		}		
 	}
 	// Fin Registrar Usuario	
 	
@@ -66,7 +103,7 @@ class Usuario{
 	
 	public function obtenerUsuariosCoordDirAsis() {
 		$interfazBD = new InterfazBD2();
-		$query = "SELECT TU.tius_descripcion, U.us_id, U.us_nombre FROM INGSW.USUARIO_TIPO_USUARIO UTU INNER JOIN INGSW.USUARIO U ON(U.us_id=UTU.us_id) INNER JOIN INGSW.TIPO_USUARIO TU ON(TU.tius_id=UTU.tius_id) INNER JOIN INGSW.PERSONA P ON(P.pe_id=U.pe_id);";
+			$query = "SELECT TU.tius_descripcion, U.us_id, U.us_nombre FROM INGSW.USUARIO_TIPO_USUARIO UTU INNER JOIN INGSW.USUARIO U ON(U.us_id=UTU.us_id) INNER JOIN INGSW.TIPO_USUARIO TU ON(TU.tius_id=UTU.tius_id) INNER JOIN INGSW.PERSONA P ON(P.pe_id=U.pe_id) WHERE TU.tius_id = '1' OR TU.tius_id = '2' OR TU.tius_id = '3' ;";
 		$usuarios = $interfazBD->consultar($query);
 		if($usuarios){
 			$interfazBD->cerrarConexion();
@@ -79,7 +116,7 @@ class Usuario{
 	
 	public function obtenerDatosUsuario($id) {
 		$interfazBD = new InterfazBD2();
-		$query = "SELECT P.pe_id, U.us_id, TU.tius_id, TU.tius_descripcion, U.us_nombre,  CE.coel_correo FROM INGSW.USUARIO_TIPO_USUARIO UTU INNER JOIN INGSW.USUARIO U ON(U.us_id=UTU.us_id) INNER JOIN INGSW.TIPO_USUARIO TU ON(TU.tius_id=UTU.tius_id) INNER JOIN INGSW.PERSONA P ON(P.pe_id=U.pe_id) INNER JOIN INGSW.CORREO_ELECTRONICO CE ON(P.pe_id=CE.pe_id) WHERE ".$id." =  U.us_id;";
+		$query = "SELECT P.pe_id, P.pe_nombre, P.pe_apellido_paterno, P.pe_apellido_materno, U.us_id, TU.tius_id, TU.tius_descripcion, U.us_nombre,  CE.coel_correo FROM INGSW.USUARIO_TIPO_USUARIO UTU INNER JOIN INGSW.USUARIO U ON(U.us_id=UTU.us_id) INNER JOIN INGSW.TIPO_USUARIO TU ON(TU.tius_id=UTU.tius_id) INNER JOIN INGSW.PERSONA P ON(P.pe_id=U.pe_id) INNER JOIN INGSW.CORREO_ELECTRONICO CE ON(P.pe_id=CE.pe_id) WHERE ".$id." =  U.us_id;";
 		$datos = $interfazBD->consultar($query);
 		if($datos){
 			$interfazBD->cerrarConexion();
@@ -98,16 +135,18 @@ class Usuario{
 		$eMail = $GET['eMail'];
 		$pe_id =  isset($GET['pe_id']) ? $GET['pe_id'] : "";
 		$us_id =  isset($GET['us_id']) ? $GET['us_id'] : "";
+		$pe_nombre = $GET['pe_nombre'];
+		$pe_apellido_paterno = $GET['pe_apellido_paterno'];
+		$pe_apellido_materno = $GET['pe_apellido_materno'];
 	
 		// echo "Datos2: $usuario, $tius_id, $eMail, $pe_id, $us_id";
 	
-		$query = "UPDATE INGSW.USUARIO SET us_nombre='".$usuario."' WHERE pe_id = '".$pe_id."'; UPDATE INGSW.USUARIO_TIPO_USUARIO SET tius_id='".$tius_id."' WHERE us_id='".$us_id."'; UPDATE INGSW.CORREO_ELECTRONICO SET coel_correo= '".$eMail."' WHERE pe_id='".$pe_id."';
-" ;
+		$query = "UPDATE INGSW.USUARIO SET us_nombre='".$usuario."' WHERE pe_id = '".$pe_id."'; UPDATE INGSW.USUARIO_TIPO_USUARIO SET tius_id='".$tius_id."' WHERE us_id='".$us_id."'; UPDATE INGSW.CORREO_ELECTRONICO SET coel_correo= '".$eMail."' WHERE pe_id='".$pe_id."'; UPDATE INGSW.PERSONA SET pe_nombre= '".$pe_nombre."', pe_apellido_paterno= '".$pe_apellido_paterno."', pe_apellido_materno= '".$pe_apellido_materno."' WHERE pe_id='".$pe_id."'; " ;
 		if ($conexion->ejecutarQuery($query)){
 			echo"
 			<table>
 			  <tr>
-				<td colspan=\"2\">Se ha modificado la información exitosamente</td>
+				<td colspan=\"2\">Se ha modificado la informaci&oacute;n exitosamente. </td>
 			  </tr>
 			  <tr>
 				<td colspan=\"2\">
@@ -139,7 +178,7 @@ class Usuario{
 			echo"
 			<table>
 			  <tr>
-				<td colspan=\"2\">El usuario ha sido dado de baja satistactoriamente</td>
+				<td colspan=\"2\">El usuario ha sido dado de baja satistactoriamente.</td>
 			  </tr>
 			  <tr>
 				<td colspan=\"2\">

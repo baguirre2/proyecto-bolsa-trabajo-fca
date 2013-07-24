@@ -1,4 +1,4 @@
-<!-- 
+ <!-- 
  * Archivo: Formulario frmRegistroUsuario
  * Autor:	Victor M. Morales Reyes
  * Fecha:	Martes 27/Junio/2013
@@ -13,8 +13,16 @@
     <table>
         <tbody>
             <tr>
-                <td>RFC:<span>*</span> </td>
-                <td><input type="text" name="rfc" class="required" value=""  placeholder="RFC"/></td>
+                <td>Nombre:<span>*</span> </td>
+                <td><input type="text" name="pe_nombre" class="required" value=""  placeholder="Nombre"/></td>
+            </tr>
+			<tr>
+                <td>A. Paterno:<span>*</span> </td>
+                <td><input type="text" name="pe_apellido_paterno" class="required" value=""  placeholder="Apellido Paterno"/></td>
+            </tr>
+			<tr>
+                <td>A. Materno:<span>*</span> </td>
+                <td><input type="text" name="pe_apellido_materno" class="required" value=""  placeholder="Apellido Materno"/></td>
             </tr>
             <tr>
                <td>Tipo de Usuario:<span>*</span></td>
@@ -31,8 +39,8 @@
 	            </td>
             </tr>
             <tr>
-                <td>Correo Electrónico:<span>*</span></td>
-                <td><input type="text" name="eMail" value="" class="required" placeholder="Correo Electrónico"/></td>
+                <td>Correo Electr&oacute;nico:<span>*</span></td>
+                <td><input type="text" name="eMail" value="" class="required" placeholder="Correo Electr&oacute;nico"/></td>
             </tr>
             <tr>
                	<td><input type="button" name="btnAceptar" value="Registrar" onclick="ajax('controllers/gestionarUsuario/CtlUsuario.php', 'registrar_usuario', 'frmRegistroUsuario', 'contenido');"/></td>
