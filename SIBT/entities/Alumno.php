@@ -615,8 +615,6 @@ class Alumno{
 			$resultados_persona = $conexion->consultar($query_persona);
 	
 			$id_persona = $resultados_persona[0]['pe_id'];
-				
-			//echo "$id_tel , $id_persona";
 	
 			$query = "DELETE FROM ingsw.telefono WHERE pe_id=".$id_persona." AND te_id=".$id_tel.";";
 	
@@ -627,11 +625,10 @@ class Alumno{
 					<td>Se ha borrado el tel&eacute;fono correctamente</td>
 				  </tr>
 				  <tr>
-					<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/>
+					<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumnoAlu', 'vacio', 'contenido');\"/>
 					</td>
 				  </tr>
-				</table>
-			";
+				</table>";
 					
 			} else {
 				echo "ERROR al borrar los datos";
@@ -647,9 +644,7 @@ class Alumno{
 			$query_persona = "SELECT pe_id FROM ingsw.usuario where us_id=$idUsuario";
 			$resultados_persona = $conexion->consultar($query_persona);
 	
-			$id_persona = $resultados_persona[0]['pe_id'];
-	
-			echo "$id_correo, $id_persona";
+			$id_persona = $resultados_persona[0]['pe_id'];		
 	
 			$query = "DELETE FROM ingsw.correo_electronico WHERE pe_id=".$id_persona." AND coel_id=".$id_correo.";";
 	
@@ -660,11 +655,10 @@ class Alumno{
 					<td>Se ha borrado el correo electr&oacute;nico correctamente</td>
 				  </tr>
 				  <tr>
-					<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/>
+					<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumnoAlu', 'vacio', 'contenido');\"/>
 					</td>
 				  </tr>
-				</table>
-			";
+				</table>";
 			
 			} else {
 			echo "ERROR al borrar los datos";
@@ -692,6 +686,30 @@ class Alumno{
 		}
 		$conexion->cerrarConexion();
 			return $estado;
+	}
+	
+	public function actualizarContrasenia($GET, $idUsuario){
+		$conexion = new InterfazBD2();
+		$us_contrasenia = isset($GET['us_contrasenia']) ? $GET['us_contrasenia'] : "";
+		$query = "UPDATE INGSW.USUARIO SET us_contrasenia='".$us_contrasenia."' WHERE us_id ='".$idUsuario."';";
+	
+		if ($conexion->ejecutarQuery($query)){
+			echo "
+				<table>
+				  <tr>
+					<td>Se ha actualizado la contrase&ntilde;a correctamente</td>
+				  </tr>
+				  <tr>
+					<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumnoAlu', 'vacio', 'contenido');\"/>
+					</td>
+				  </tr>
+				</table>
+			";
+		} else {
+			echo "ERROR al actualizar los datos";
+		}
+	
+		$conexion->cerrarConexion();
 	}
 	
 	
