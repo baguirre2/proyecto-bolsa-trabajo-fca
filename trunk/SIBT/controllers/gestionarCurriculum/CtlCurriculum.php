@@ -870,8 +870,15 @@ if ($this->cambiarEstadoConst($GET['id'], $GET['tipo'], TRUE)) {
 	 *@author Liliana Luna
 	 *@param
 	 **/
-	public function mostrarInfoAcademica($idAlum){
-		echo "&nbsp;";
+public function mostrarInfoAcademica($idAlum){
+		echo "<div class=\"inner-heading\">
+	   		<div class=\"container\">
+	       		<div class=\"row\">
+	           		<div class=\"span12\">
+	               		<h1 class=\"animated fadeInDown delay1\">Informaci&oacte;n acad&eacute;mica</h1>
+	           </div>
+	       </div>
+	   </div>";
 		$resultados = $this->listarGradosAcademicos(1,0, $idAlum);
 		$registros = "";
 		for ($i=0; $i <= count($resultados)-1; $i++) {
@@ -879,22 +886,27 @@ if ($this->cambiarEstadoConst($GET['id'], $GET['tipo'], TRUE)) {
 			$registros .= "<tr><td>".$resultados[$i]['esfc_descripcion']."</td>";			
 			$registros .= "<td>".$resultados[$i]['inac_fecha_inicio']."</td>";
 			$registros .= "<td>".$resultados[$i]['esac_tipo']."</td>";
-			$registros .= ($resultados[$i]['esau_id'] != 1)? "<td><form id=\"frmListar\"><input type=\"button\" value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'infoAcademicaFormEditar', 'frmListar', 'contenido', $infoAc_id)\"></form></td></tr>" : "<td></td></tr>";
-		}
-		echo "				
-				<table class=\"tablas_sort\">
+			/*$registros .= ($resultados[$i]['esau_id'] != 1)? 	"<td><form id=\"frmListar\">
+						<input type=\"button\" value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'infoAcademicaFormEditar', 'frmListar', 'contenido', $infoAc_id)\">
+					</form></td></tr>" : "<td></td></tr>";*/
+			$registros .= ($resultados[$i]['esau_id'] != 1)? 	"<td><form id=\"frmListar\">
+						<a href=\"#\">
+							<i onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'infoAcademicaFormEditar', 'frmListar', 'contenido', 6)\" class=\"fontawesome-icon button circle-button green icon-edit\">
+							</i>
+						</a>
+						</form></td></tr>" : "<td></td></tr>";
+		}		
+		echo "<input type=\"button\" value=\"Agregar grado academico\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'infoAcademicaFormRegistrar', 'vacio', 'contenido')\">";		
+		echo "<table class=\"tablas_sort\">
 						<thead>
 						<tr>
 						<th>Nombre de estudio</th>						
 						<th>Fecha de inicio</th>
 						<th>Estado</th>";
-		echo ($resultados[$i-1]['esau_id'] != 1)? "<th>Edici&oacute;n</th>" : "";
-		echo "</tr>
-						</thead>
+		echo "<th>Edici&oacute;n</th>";
+		echo "</tr>	</thead>
 						<tbody>".$registros."
-						</tbody>";
-		echo "</table>";
-		echo "<input type=\"button\" value=\"Agregar grado academico\" onclick=\"ajax('controllers/gestionarCurriculum/CtlCurriculum.php', 'infoAcademicaFormRegistrar', 'vacio', 'contenido')\">";
+						</tbody></table>";		
 	}
 
     /**
