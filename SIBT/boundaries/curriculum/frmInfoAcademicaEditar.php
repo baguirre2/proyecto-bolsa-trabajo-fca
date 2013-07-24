@@ -1,7 +1,15 @@
 <div id="resFrmEditar"></div>
 <form enctype="multipart/form-data" action="controllers/gestionarCurriculum/CtlCurriculum.php" name="frmEditar" id="frmEditar" method="POST" >	
 	<input type="hidden" name="opc" value="carInfoAcademicaImagenEditar" />
-
+	<div class="inner-heading">
+	   		<div class="container">
+	       		<div class="row">
+	           		<div class="span12">
+	               		<h1 class="animated fadeInDown delay1">Editar grado acad&eacute;mico</h1>
+	           </div>
+	       </div>
+	   </div>
+	</div>
 	<?php
 		//$id_infoAcademica = $_GET[id_infoAca];		
 		//echo "Id info academica en formulario: ".$id_infoAca;
