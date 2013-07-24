@@ -26,8 +26,13 @@ class Certificacion{
 		$imagen = isset($GET['nombreImagen']) ? $GET['nombreImagen'] : null;
 	
 		$alumno = ($alumno != NULL)? $alumno : 1;
+		$fecha = $GET['ce_anio'];
+		$dia = substr($fecha, 0, 2);
+		$mes = substr($fecha, 3, 2);
+		$anio = substr($fecha, 6, 4);
+		$fecha = $anio.'/'.$mes.'/'.$dia;
 		$query = "INSERT INTO ingsw.certificacion (al_id, esau_id, ce_nombre, ce_descripcion, ce_empresa, ce_duracion, ce_anio, ce_ruta_constancia)
-    			 VALUES (".$alumno.", 2,'".$GET['ce_nombre']."','".$GET['ce_descripcion']."','".$GET['ce_empresa']."','".$GET['ce_duracion']."','".$GET['ce_anio']."','".$imagen."')";
+    			 VALUES (".$alumno.", 2,'".$GET['ce_nombre']."','".$GET['ce_descripcion']."','".$GET['ce_empresa']."','".$GET['ce_duracion']."','".$fecha."','".$imagen."')";
 	
 		//echo $query;
 		if($conexion->insertar($query) != false){
