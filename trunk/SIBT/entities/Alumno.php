@@ -272,20 +272,22 @@ class Alumno{
         public function registrarAlumnoPorArchivo($nom, $apePat, $apeMat, $correo, $noCta, $nacio, $fecNac, $idCarrera){
 		$conexion = new InterfazBD2();
 		$estado = false;
+                
+                if ( (count($conexion->consultar("SELECT * FROM ingsw.correo_electronico WHERE coel_correo='$correo'")) < 1) && (count($conexion->consultar("SELECT * FROM ingsw.usuario WHERE us_nombre='$noCta'")) < 1) ) {
 		
-		$query_persona = "INSERT INTO ingsw.persona (pe_nombre, pe_apellido_paterno, pe_apellido_materno)
-    			 		  VALUES ('".$nom."','".$apePat."','".$apeMat."')";
-		$id_persona = $conexion->insertar($query_persona, 'pe_id');
-		//echo "ID Persona = ";	var_dump($id_persona);
-		
-		if($id_persona != false){
-			$query_correo = "INSERT INTO ingsw.correo_electronico (pe_id, coel_correo)
-    			 		     VALUES ('".$id_persona."','".$correo."')";
-			
-                    if($conexion->ejecutarQuery($query_correo) != false){
-                        $query_alumno = "INSERT INTO ingsw.alumno (do_id, pe_id, al_num_cuenta, al_fecha_nacimiento, al_nacionalidad, al_curriculum_visible, esfc_id) 
-                                                    VALUES ('1','".$id_persona."','".$noCta."','".$fecNac."','".$nacio."','1', $idCarrera)";
-                        $conexion->insertar($query_alumno, 'al_id');
+                    $query_persona = "INSERT INTO ingsw.persona (pe_nombre, pe_apellido_paterno, pe_apellido_materno)
+                                            VALUES ('".$nom."','".$apePat."','".$apeMat."')";
+                    $id_persona = $conexion->insertar($query_persona, 'pe_id');
+                    //echo "ID Persona = ";	var_dump($id_persona);
+
+                    if($id_persona != false){
+                            $query_correo = "INSERT INTO ingsw.correo_electronico (pe_id, coel_correo)
+                                                VALUES ('".$id_persona."','".$correo."')";
+
+                        if($conexion->ejecutarQuery($query_correo) != false){
+                            $query_alumno = "INSERT INTO ingsw.alumno (do_id, pe_id, al_num_cuenta, al_fecha_nacimiento, al_nacionalidad, al_curriculum_visible, esfc_id) 
+                                                        VALUES ('1','".$id_persona."','".$noCta."','".$fecNac."','".$nacio."','1', $idCarrera)";
+                            $conexion->insertar($query_alumno, 'al_id');
 
                         //Se toma la hora del servidor en microsegundos, se le aplica un hash con el algoritmo ripemd160 y se extraen los primeros 8 caractares para la contrseÃ±a
                         $pass = substr(hash('ripemd160', microtime()), 0, 8);
@@ -294,32 +296,35 @@ class Alumno{
                         $id_usuario = $conexion->insertar($query_usuario, 'us_id');
                         
                         //Con esto se envia el correo al alumno con sus datos de usuario
-                        mail ("$correo", "Registro Bolsa en la bolsa de trabajo", "UNIVERSIDAD NACIONAL AUTONÃ“MA DE MÃ‰XICO
-                                                                                        Facultad de ContadurÃ­a y AdministraciÃ³n<br>
+                        mail ("$correo", "Registro Bolsa en la bolsa de trabajo", "UNIVERSIDAD NACIONAL AUTONÓMA DE MÉXICO
+                                                                                        Facultad de Contaduría y Administración<br>
                                                                                         Departamento de Bolsa de Trabajo<br>
 
                                                                                         Estimado alumno $nom $apePat $apeMat has sido registraro en la bolsa de trabajo de la FCA<br>
                                                                                         Se te notifica que tus datos de acceso son los siguientes:
                                                                                         Usuario $noCta
-                                                                                        ContraseÃ±a $pass
+                                                                                        Contraseña $pass
 
-                                                                                        Sin mÃ¡s por el momento quedamos a tus Ã³rdenes.
+                                                                                        Sin mÃ¡s por el momento quedamos a tus Órdenes.
 
-                                                                                        Departamento de bolsa de Trabajo FCA â€“ UNAM
+                                                                                        Departamento de bolsa de Trabajo FCA  UNAM
                                                                                         http://cetus.fca.unam.mx/sibt/");
-                        
-                        if($id_usuario != false){
 
-                            $query_usuario_tipo = "INSERT INTO ingsw.usuario_tipo_usuario (tius_id, us_id) VALUES ('5','".$id_usuario."')";
+                            if($id_usuario != false){
 
-                            if($conexion->ejecutarQuery($query_usuario_tipo) != false){
-                                $estado = true;
+                                $query_usuario_tipo = "INSERT INTO ingsw.usuario_tipo_usuario (tius_id, us_id) VALUES ('5','".$id_usuario."')";
+
+                                if($conexion->ejecutarQuery($query_usuario_tipo) != false){
+                                    $estado = true;
+                                }
                             }
                         }
                     }
-		}
-		$conexion->cerrarConexion();
-		return $estado;
+                    $conexion->cerrarConexion();
+                    return $estado;
+                } else {
+                    return false;
+                }
 	}
 	
 	public function toStringContacto($idAlumno) {
@@ -528,6 +533,56 @@ class Alumno{
 		$bd->cerrarConexion();
 		return $salida;
 	}
+        
+        //Autor: García Solis Eduardo
+        //Param: idConstancia
+        //Retorna los datos del alumno
+    public function getIdByIdConstac ($idConsta, $tipoCosnt) {
+        $conn = new InterfazBD();
+        
+        switch ($tipoCosnt) {
+            case 'cert';
+                
+                $sql = "SELECT al.al_id 
+                        FROM ingsw.certificacion AS cer 
+                        JOIN ingsw.alumno AS al ON (cer.al_id=al.al_id) JOIN ingsw.persona AS pe ON (al.pe_id=pe.pe_id) 
+                        JOIN ingsw.correo_electronico AS co ON (pe.pe_id=co.pe_id) 
+                        WHERE cer.ce_id=";
+                break;
+            
+            case 'infoLab';
+                
+                $sql = "SELECT al.al_id FROM ingsw.informacion_academica AS ia 
+                        JOIN ingsw.alumno AS al ON (ia.inac_id=al.al_id) JOIN ingsw.persona AS pe ON (al.pe_id=pe.pe_id) 
+                        JOIN ingsw.correo_electronico AS co ON (pe.pe_id=co.pe_id) 
+                        WHERE ia.inac_id=";
+                break;
+            
+            case 'curs';
+                
+                $sql = "SELECT al.al_id FROM ingsw.curso AS cu JOIN ingsw.alumno AS al ON (cu.al_id=al.al_id) 
+                        JOIN ingsw.persona AS pe ON (al.pe_id=pe.pe_id) JOIN ingsw.correo_electronico AS co ON (pe.pe_id=co.pe_id) 
+                        WHERE cu.cu_id=";
+                break;
+            
+            case 'idio';
+                $sql = "SELECT al.al_id 
+                            FROM ingsw.idioma_alumno AS idal 
+                                    JOIN ingsw.alumno AS al ON (idal.al_id=al.al_id) 
+                                    JOIN ingsw.nivel_idioma AS niid ON (idal.niid_id=niid.niid_id) 
+                                    JOIN ingsw.idioma AS idio ON (niid.id_id=idio.id_id)
+                                    JOIN ingsw.persona AS pe ON (al.pe_id=pe.pe_id) 
+                                    JOIN ingsw.correo_electronico AS co ON (pe.pe_id=co.pe_id) 
+                                    WHERE idal.idal_id=";
+                break;
+        }
+        
+        $alum = $conn->consultar($sql.$idConsta);
+        
+        $conn->cerrarConexion();
+        
+        return $alum[0]['al_id'];
+    }
 	
 	
 	

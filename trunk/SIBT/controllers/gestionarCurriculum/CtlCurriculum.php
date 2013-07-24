@@ -26,6 +26,7 @@ include_once '../../entities/InfoAcademica.php';
 include_once '../../boundaries/curriculum/ResultadoCargaImagen.php';
 include_once '../../entities/Alumno.php';
 include_once '../../entities/Reclutador.php';
+include_once '../../boundaries/curriculum/ListaInfoLaboral.php';
 	
 }
 
@@ -528,7 +529,7 @@ if ($this->cambiarEstadoConst($GET['id'], $GET['tipo'], TRUE)) {
                                 </div>
                     </div>';
 	    } else {
-	    	$errMsj = "Ha ocurrido un error";
+	    	//$errMsj = "Ha ocurrido un error";
 	    	if ($_POST['opc'] == "RegistrarIdioma" || $_POST['opc'] == "ActualizarIdioma") {
 	    		include './boundaries/curriculum/frmRegisIdioma.php';
 	    	} else {

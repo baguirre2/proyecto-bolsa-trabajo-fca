@@ -11,15 +11,16 @@ class ListaConstancias {
         
         <? if ($listCerts != FALSE) {
         ?>
-<div class=\"inner-heading\">
-						   <div class=\"container\">
-						       <div class=\"row\">
-						           <div class=\"span12\">
-						               <h1 class=\"animated fadeInDown delay1\">Constancias</h1>
-						           </div>
-						       </div>
-						   </div>
-						</div>
+<div class="inner-heading">
+	    <div class="container">
+	        <div class="row">
+	            <div class="span12">
+	                <h1 class="animated fadeInDown delay1">Validar Constancias</h1> <!--El span sirve para colocar una palabra a resaltar en negritas--> 
+	                <p class="animated fadeInDown delay2"></p>
+	            </div>
+	        </div>
+	    </div>
+</div>
 <form id="frmCert" name="frmCert">
     <input type="hidden" name="tipo" id="tipo" value="cert"/>
         <table class="tablas_sort">
@@ -41,7 +42,11 @@ class ListaConstancias {
                             <td>$row[pe_nombre] $row[pe_apellido_paterno] $row[pe_apellido_materno]</td>
                             <td>$row[ce_nombre]</td>
                             <td>$row[ce_empresa]</td>
-                            <td><input type='button' value='Ver' onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstMostrar', 'frmCert', 'contenido', $row[ce_id])\"/></td>
+                            <td><a href=\"#\">
+<i onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstMostrar', 'frmCert', 'contenido', $row[ce_id])\" class=\"fontawesome-icon button circle-button green icon-search\">
+</i>
+</a>
+                    </td>
                         </tr>";
                 }
                 ?>
@@ -73,7 +78,12 @@ class ListaConstancias {
                             <td>$row[pe_nombre] $row[pe_apellido_paterno] $row[pe_apellido_materno]</td>
                             <td>$row[inac_universidad]</td>
                             <td>$row[inac_escuela]</td>
-                            <td><input type='button' value='Ver' onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstMostrar', 'frmInfoLab', 'contenido', $row[inac_id])\"/></td>
+                            <td>
+                    
+                    <a href=\"#\">
+<i onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstMostrar', 'frmInfoLab', 'contenido', $row[inac_id])\" class=\"fontawesome-icon button circle-button green icon-search\">
+</i>
+</a></td>
                         </tr>";
                 }
                 ?>
@@ -103,7 +113,13 @@ class ListaConstancias {
                     echo "<tr>
                             <td>$row[pe_nombre] $row[pe_apellido_paterno] $row[pe_apellido_materno]</td>
                             <td>$row[cu_nombre]</td>
-                            <td><input type='button' value='Ver' onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstMostrar', 'frmCurs', 'contenido', $row[cu_id])\"/></td>
+                            <td>
+                    
+                    <a href=\"#\">
+<i onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstMostrar', 'frmCurs', 'contenido', $row[cu_id])\" class=\"fontawesome-icon button circle-button green icon-search\">
+</i>
+</a>
+                    </td>
                         </tr>";
                 }
                 ?>
@@ -139,7 +155,14 @@ class ListaConstancias {
                             <td>$row[niid_nivel_oral]</td>
                             <td>$row[niid_nivel_escrito]</td>
                             <td>$row[niid_nivel_lectura]</td>
-                            <td><input type='button' value='Ver' onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstMostrar', 'frmIdio', 'contenido', $row[idal_id])\"/></td>
+                            <td>
+                    
+                    <a href=\"#\">
+<i onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'valiEstMostrar', 'frmIdio', 'contenido', $row[idal_id])\" class=\"fontawesome-icon button circle-button green icon-search\">
+</i>
+</a>
+                    
+</td>
                         </tr>";
                 }
                 ?>

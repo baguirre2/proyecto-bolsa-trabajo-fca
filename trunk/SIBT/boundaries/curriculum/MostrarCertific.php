@@ -1,10 +1,26 @@
 <?php
 
+include_once '../../entities/Alumno.php';
+
 class MostrarCertific {
     
-    public function __construct($certificado) {
+    public function __construct($certificado, $idAlumno) {
+        
+        $alumno = new Alumno();
+        $alumno = $alumno->obtenerInfoPersonal($idAlumno);
+        $alumno = $alumno[0];        
         
         ?>
+<div class="inner-heading">
+	    <div class="container">
+	        <div class="row">
+	            <div class="span12">
+	                <h1 class="animated fadeInDown delay1">Constancia de certificación</h1>
+	                <p class="animated fadeInDown delay2"></p>
+	            </div>
+	        </div>
+	    </div>
+</div>
 <form id="frmCons">
     <input type="hidden" name="tipo" id="tipo" value="cert"/>
         <table>
@@ -14,6 +30,9 @@ class MostrarCertific {
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td>Nombre: <? echo ($alumno['pe_nombre']." ".$alumno['pe_apellido_paterno']." ".$alumno['pe_apellido_materno']) ?></td>
+                </tr>
                 <tr>
                     <td>Nombre de la certificación: </td>
                     <td><? echo ($certificado['ce_nombre']) ?></td>

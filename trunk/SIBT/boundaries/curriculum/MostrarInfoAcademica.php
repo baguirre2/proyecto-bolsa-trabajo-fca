@@ -1,10 +1,25 @@
 <?php
 
+include_once '../../entities/Alumno.php';
+
 class MostrarInfoAcademica {
     
-    public function __construct($infoAcademica) {
-        
+    public function __construct($infoAcademica, $idAlumno) {
+                
+        $alumno = new Alumno();
+        $alumno = $alumno->obtenerInfoPersonal($idAlumno);
+        $alumno = $alumno[0];
         ?>
+<div class="inner-heading">
+	    <div class="container">
+	        <div class="row">
+	            <div class="span12">
+	                <h1 class="animated fadeInDown delay1">Constancia de información académica</h1>
+	                <p class="animated fadeInDown delay2"></p>
+	            </div>
+	        </div>
+	    </div>
+</div>
 <form id="frmCons">
     <input type="hidden" name="tipo" id="tipo" value="infoLab"/>
         <table>
@@ -15,30 +30,22 @@ class MostrarInfoAcademica {
             </thead>
             <tbody>
                 <tr>
+                    <td>Nombre: <? echo ($alumno['pe_nombre']." ".$alumno['pe_apellido_paterno']." ".$alumno['pe_apellido_materno']) ?></td>
+                </tr>
+                <tr>
                     <td>Universidad: </td>
-                    <td><? echo ($infoAcademica['ce_nombre']) ?></td>
+                    <td><? echo ($infoAcademica['inac_universidad']) ?></td>
                 </tr>
                 <tr>
                     <td>Escuela: </td>
-                    <td><? echo ($infoAcademica['ce_empresa']) ?></td>
-                </tr>
-                <? if ($infoAcademica['ce_descripcion'] != "") {
-                    echo "<tr>
-                        <td>Descripción: </td> 
-                        <td>$infoAcademica[ce_descripcion]</td>
-                    </tr>";
-                }
-                ?>
-                <tr>
-                    <td>Duración: </td>
-                    <td><? echo ($infoAcademica['ce_duracion']) ?></td>
+                    <td><? echo ($infoAcademica['inac_escuela']) ?></td>
                 </tr>
                 <tr>
-                    <td>Año de Certificación: </td>
-                    <td><? echo ($infoAcademica['ce_anio']) ?></td>
+                    <td>Promedio: </td>
+                    <td><? echo ($infoAcademica['inac_promedio']) ?></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><img src="constancias/certs/cert<? echo ($infoAcademica['ce_ruta_constancia']) ?>" width="550"/></td>
+                    <td colspan="2"><img src="constancias/titulos_grados/<? echo ($infoAcademica['inac_ruta_constancia']) ?>" width="550"/></td>
                 </tr>
                 <tr>
                     <td colspan="2">

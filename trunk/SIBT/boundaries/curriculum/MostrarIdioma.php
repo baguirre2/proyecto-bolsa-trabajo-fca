@@ -1,10 +1,26 @@
 <?php
 
+include_once '../../entities/Alumno.php';
+
 class MostrarIdioma {
 
-    public function __construct($idioma) {
+    public function __construct($idioma, $idAlumno) {
+        
+        $alumno = new Alumno();
+        $alumno = $alumno->obtenerInfoPersonal($idAlumno);
+        $alumno = $alumno[0];
         
         ?>
+<div class="inner-heading">
+	    <div class="container">
+	        <div class="row">
+	            <div class="span12">
+	                <h1 class="animated fadeInDown delay1">Constancia de idioma</h1>
+	                <p class="animated fadeInDown delay2"></p>
+	            </div>
+	        </div>
+	    </div>
+</div>
 <form id="frmCons">
     <input type="hidden" name="tipo" id="tipo" value="idio"/>
         <table>
@@ -14,6 +30,9 @@ class MostrarIdioma {
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td>Nombre: <? echo ($alumno['pe_nombre']." ".$alumno['pe_apellido_paterno']." ".$alumno['pe_apellido_materno']) ?></td>
+                </tr>
                 <tr>
                     <td>Idioma: </td>
                     <td><? echo ($idioma['id_nombre']) ?></td>

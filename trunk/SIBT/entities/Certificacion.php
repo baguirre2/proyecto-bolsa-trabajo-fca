@@ -198,10 +198,21 @@ class Certificacion{
 	}
         
         //Métovo para cambiar el campo esau_id al ID de autoriazo
-    public function cambiarEstado ($idInfoAcade, $idEstado) {
+    public function cambiarEstado ($idCertiricacion, $idEstado) {
         $conn = new InterfazBD();
         
-        $res = $conn->insertar("UPDATE ingsw.certificacion SET esau_id=$idEstado WHERE ce_id=$idInfoAcade");
+        $res = $conn->insertar("UPDATE ingsw.certificacion SET esau_id=$idEstado WHERE ce_id=$idCertiricacion");
+        
+        $alum = $conn->consultar("SELECT coel_correo, ce_nombre, pe_nombre, pe_apellido_paterno, pe_apellido_materno 
+	FROM ingsw.certificacion AS cer 
+                JOIN ingsw.alumno AS al ON (cer.al_id=al.al_id) JOIN ingsw.persona AS pe ON (al.pe_id=pe.pe_id) 
+                JOIN ingsw.correo_electronico AS co ON (pe.pe_id=co.pe_id) 
+		WHERE cer.ce_id=$idCertiricacion");
+        
+        $alum = $alum[0];
+        
+        mail($alum['coel_correo'], "Constancia ". ($idEstado == 1? "Aceptada" : "Rechazada" ), "Buen día $alum[pe_nombre] $alum[pe_apellido_paterno] $alum[pe_apellido_materno]:<br>
+                    Se te informa que tu constancia de la Certificación $alum[ce_nombre] ha sido ". ($idEstado == 1? "Aceptada" : "Rechazada" ));
         
         $conn->cerrarConexion();
         
