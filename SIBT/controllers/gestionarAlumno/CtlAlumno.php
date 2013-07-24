@@ -554,7 +554,7 @@ public function mostrarTelefonos($id_persona){
 					<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'acepConfActContraseniaAlu', 'frmConfActAlu', 'contenido');\"/>
 					</td>
 					<td colspan=\"2\">
-					<input type= 'button' value='Cancelar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/>
+					<input type= 'button' value='Cancelar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumnoAlu', 'vacio', 'contenido');\"/>
 					</td>
 					</tr>
 					</table>
