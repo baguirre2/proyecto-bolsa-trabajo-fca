@@ -187,20 +187,52 @@ class CtlAlumno {
                 	$alumno = new Alumno();
                 	if ($GET['btnAceptar'] == 'Registrar') {
                 		if ($alumno->registrarTelefonoAlumno($GET, $idUsuario)) {
-                			echo "<h1 class=respuesta>Registro realizado con &Eacute;xito</h1><br/>";
+                			echo "<table>
+				  					<tr>
+										<td>Registro realizado con &Eacute;xito</td>
+				  					</tr>
+				  					<tr>
+										<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumnoAlu', 'vacio', 'contenido');\"/>
+										</td>
+				  					</tr>
+								</table>";                			
                 		} else {
-                			echo "<h1 class=respuesta>Error al registrar tel&eacute;fono</h1><br/>";
+                			echo "<table>
+				  					<tr>
+										<td>Error al registrar tel&eacute;fono</td>
+				  					</tr>
+				  					<tr>
+										<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumnoAlu', 'vacio', 'contenido');\"/>
+										</td>
+				  					</tr>
+								</table>";                			
                 		}
                 	}
                 	break;
                 	 
-                case 'alumno_registrar_correo';
+               case 'alumno_registrar_correo';
                 	$alumno = new Alumno();
                 	if ($GET['btnAceptar'] == 'Registrar') {
                 		if ($alumno->registrarCorreoAlumno($GET, $idUsuario)) {
-                			echo "<h1 class=respuesta>Registro realizado con &Eacute;xito</h1><br/>";
+                			echo "<table>
+				  					<tr>
+										<td>Registro realizado con &Eacute;xito</td>
+				  					</tr>
+				  					<tr>
+										<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumnoAlu', 'vacio', 'contenido');\"/>
+										</td>
+				  					</tr>
+								</table>";    
                 		} else {
-                			echo "<h1 class=respuesta>Error al registrar el correo electr&oacute;nico</h1><br/>";
+                			echo "<table>
+				  					<tr>
+										<td>Error al registrar el correo electr&oacute;nico</td>
+				  					</tr>
+				  					<tr>
+										<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumnoAlu', 'vacio', 'contenido');\"/>
+										</td>
+				  					</tr>
+								</table>";               			
                 		}
                 	}
                 	break;
@@ -215,36 +247,38 @@ class CtlAlumno {
                 	$this->mostrarCorreos($id_persona);
                 	break;
                
-                case 'confBorrarTelefonoAlu';
+                case 'confBorrarTelefonoAlu';                	
                 	$id_tel=$_GET['id'];
+                	$tipoUsuario=5;                	
                 	$this->confirmarBorradoTelefono($GET, $tipoUsuario, $id_tel);
                 	break;
                 	
-                case 'confBorrarCorreoAlu';
+               case 'confBorrarCorreoAlu';
                 	$coel_id=$_GET['id'];
+                	$tipoUsuario=5;
                 	$this->confirmarBorradoCorreo($GET, $tipoUsuario, $coel_id);
                 	break;
                 	 
                 case 'confActContraseniaAlu';
+                	$tipoUsuario=5;
                 	$this->confirmarActualizacionContrasenia($GET, $tipoUsuario);
                 	break;
                 
-                case 'acepConfActContraseniaAlu';
-                	//echo "Adaptacion pendiente";
+                case 'acepConfActContraseniaAlu';                	
                 	$alumno = new Alumno();
                 	$alumno->actualizarContrasenia($GET, $idUsuario);
                 	break;
                 	
                 case 'acepConfBorradoTelefonoAlu';
                 	$id_tel=$_GET['id'];
+                	$tipoUsuario=5;
                 	$alumno = new Alumno();
                 	$alumno->borrarTelefonoAlumno($GET, $tipoUsuario, $idUsuario, $id_tel);
                 	break;
                 	
                 case 'acepConfBorradoCorreoAlu';
                 	$id_correo=$_GET['id'];
-                	//$pe_id =  isset($GET['pe_id']) ? $GET['pe_id'] : "";
-                	//echo "pe_id en case de borrado: ".$pe_id ;
+                	$tipoUsuario=5;
                 	$alumno = new Alumno();
                 	$alumno->borrarCorreoAlumno($GET, $tipoUsuario, $idUsuario, $id_correo);
                 	break;
@@ -538,15 +572,12 @@ public function mostrarTelefonos($id_persona){
 		}
 		
 		
-		public function confirmarActualizacionContrasenia($GET, $tipoUsuario){
-		
-			if ($tipoUsuario == 5){
-		
+	public function confirmarActualizacionContrasenia($GET, $tipoUsuario){		
+			if ($tipoUsuario == 5){		
 				$us_contrasenia = isset($GET['us_contrasenia']) ? $GET['us_contrasenia'] : "";
 				$conf_us_contrasenia =  isset($GET['conf_us_contrasenia']) ? $GET['conf_us_contrasenia'] : "";
 				$pe_id =  isset($GET['pe_id']) ? $GET['pe_id'] : "";
-		
-				//echo"Datos: $correo, $us_contrasenia, $conf_us_contrasenia, $us_id";
+						
 				if ($us_contrasenia == $conf_us_contrasenia){
 					echo"
 					<form id = 'frmConfActAlu'>
@@ -555,7 +586,7 @@ public function mostrarTelefonos($id_persona){
 					<input type='hidden' value='$pe_id' name='pe_id' id = 'pe_id' >
 					<table>
 					<tr>
-					<td colspan=\"2\"><center>Esta seguro que desea modificar su contrase&ntilde;a?</center></td>
+					<td colspan=\"2\"><center>&iquest;Est&aacute; seguro que desea modificar su contrase&ntilde;a?</center></td>
 					</tr>
 					<tr>
 					<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'acepConfActContraseniaAlu', 'frmConfActAlu', 'contenido');\"/>
@@ -585,87 +616,46 @@ public function mostrarTelefonos($id_persona){
 			}
 		}
 		
-		public function confirmarBorradoTelefono($GET, $tipoUsuario, $id_tel){
-			 
-			if ($tipoUsuario == 5){
-		
-				//CHECAR, �ES NECESARIO?
-				$us_contrasenia = isset($GET['us_contrasenia']) ? $GET['us_contrasenia'] : "";
-						$conf_us_contrasenia =  isset($GET['conf_us_contrasenia']) ? $GET['conf_us_contrasenia'] : "";
-						$pe_id =  isset($GET['pe_id']) ? $GET['pe_id'] : "";
-		
-								//echo"Datos: $correo, $us_contrasenia, $conf_us_contrasenia, $us_id";
-								if ($us_contrasenia == $conf_us_contrasenia){
-								echo"
-									<form id = 'frmConfBorradoAlu'>
-									<input type='hidden' value='$us_contrasenia' name='us_contrasenia' id = 'us_contrasenia' >
-									<input type='hidden' value='$conf_us_contrasenia' name='conf_us_contrasenia' id = 'conf_us_contrasenia' >
-									<input type='hidden' value='$pe_id' name='pe_id' id = 'pe_id' >
-									<table>
-									<tr>
-									<td colspan=\"2\"><center>�Est&aacute; seguro que desea borrar su tel&eacute;fono?</center></td>
-									</tr>
-									<tr>
-									<td><input type='button' value='Aceptar' onclick=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'acepConfBorradoTelefonoAlu', 'frmConfBorradoAlu', 'contenido', $id_tel);\"/>
-									</td>
-									<td colspan=\"2\">
-									<input type= 'button' value='Cancelar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/>
-    		</td>
-    		</tr>
-    		</table>
-    		</form>
-    		";
-								} else {
-								echo"
-    		<table>
-    		<tr>
-    		<td><center><h4>Verifica que tu contrasenia y su confirmacion sean iguales</h4></center></td>
-    		</tr>
-    		</table>
-    		<table>
-    			<tr>
-							<td><center><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/></center>
-							</td>
-						</tr>
-					</table>
-		
-				";
-								}
+	public function confirmarBorradoTelefono($GET, $tipoUsuario, $id_tel){			 
+			if ($tipoUsuario == 5){								
+				echo"<form id = 'frmConfBorradoAlu'>									
+						<table>
+							<tr>
+								<td colspan=\"2\"><center>&iquest;Est&aacute; seguro que desea borrar su tel&eacute;fono?</center></td>
+							</tr>
+							<tr>
+							<td><input type='button' value='Aceptar' onclick=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'acepConfBorradoTelefonoAlu', 'frmConfBorradoAlu', 'contenido', $id_tel);\"/>
+								</td>
+								<td colspan=\"2\">
+									<input type= 'button' value='Cancelar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumnoAlu', 'vacio', 'contenido');\"/>
+    							</td>
+    						</tr>
+    					</table>
+    			</form>";								
 			}
 		}
 		
-		public function confirmarBorradoCorreo($GET, $tipoUsuario, $coel_id){
+	public function confirmarBorradoCorreo($GET, $tipoUsuario, $coel_id){
 			
-		if ($tipoUsuario == 5){
-			
-		
-			echo"
-			<form id = 'frmConfBorradoAlu'>
-			<input type='hidden' value='$correo' name='coel_correo' id = 'coel_correo' >
-			<input type='hidden' value='$us_contrasenia' name='us_contrasenia' id = 'us_contrasenia' >
-			<input type='hidden' value='$conf_us_contrasenia' name='conf_us_contrasenia' id = 'conf_us_contrasenia' >
-			<input type='hidden' value='$pe_id' name='pe_id' id = 'pe_id' >
-			<table>
-			<tr>
-			<td colspan=\"2\"><center>�Est&aacute; seguro que desea borrar su correo electr&oacute;nico?</center></td>
-			</tr>
-			<tr>
-			<td>
-			<input type='button' value='Aceptar' onclick=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'acepConfBorradoCorreoAlu', 'frmConfBorradoAlu', 'contenido', $coel_id);\"/>
-			</td>
-			<td colspan=\"2\">
-			<input type= 'button' value='Cancelar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/>
-			</td>
-			</tr>
-			</table>
-			</form>
-			";
-			
+		if ($tipoUsuario == 5){		
+			echo "<form id = 'frmConfBorradoAlu'>			
+				<table>
+					<tr>
+						<td colspan=\"2\"><center>&iquest;Est&aacute; seguro que desea borrar su correo electr&oacute;nico?</center></td>
+					</tr>
+					<tr>
+						<td>
+							<input type='button' value='Aceptar' onclick=\"ajaxConId('controllers/gestionarAlumno/CtlAlumno.php', 'acepConfBorradoCorreoAlu', 'frmConfBorradoAlu', 'contenido', $coel_id);\"/>
+						</td>
+						<td colspan=\"2\">
+							<input type= 'button' value='Cancelar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumnoAlu', 'vacio', 'contenido');\"/>
+						</td>
+					</tr>
+				</table>
+			</form>";		
 		}
-		}	
+	}	
 		
-
-	
 	
 
 }
