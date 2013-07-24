@@ -2,11 +2,28 @@
 /**
  * @author lalo
  */
+
+include_once '../../entities/Alumno.php';
+
 class MostrarCurso {
     
-    public function __construct($curso) {
+    public function __construct($curso, $idAlumno) {
+        
+        $alumno = new Alumno();
+        $alumno = $alumno->obtenerInfoPersonal($idAlumno);
+        $alumno = $alumno[0];        
         
         ?>
+<div class="inner-heading">
+	    <div class="container">
+	        <div class="row">
+	            <div class="span12">
+	                <h1 class="animated fadeInDown delay1">Constancia de curso</h1>
+	                <p class="animated fadeInDown delay2"></p>
+	            </div>
+	        </div>
+	    </div>
+</div>
 <form id="frmCons">
     <input type="hidden" name="tipo" id="tipo" value="curs"/>
         <table>
@@ -16,6 +33,9 @@ class MostrarCurso {
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td>Nombre: <? echo ($alumno['pe_nombre']." ".$alumno['pe_apellido_paterno']." ".$alumno['pe_apellido_materno']) ?></td>
+                </tr>
                 <tr>
                     <td>Nombre: </td>
                     <td><? echo ($curso['cu_nombre']) ?></td>

@@ -259,7 +259,8 @@ class CtlAlumno {
         //Cadena que se enviara como resultado
         $res = "";
         //directorio donde se almacenaran los archivos 
-        $directorio = '/opt/lampp/htdocs/SIBT/controllers/gestionarAlumno/files/';
+        //RIGEL --> $directorio = '/opt/lampp/htdocs/SIBT/controllers/gestionarAlumno/files/';
+        $directorio = 'files/';
 
         //extensiones permitidos a subir 
         $extPermit = Array("csv", "CSV", "txt");
@@ -291,27 +292,33 @@ class CtlAlumno {
         } else if ($bandera != 'error') {
 
             move_uploaded_file($file['tmp_name'], $directorio . $nomFile);
-            $res .= "<h4>El archivo es valido y fue cargado con exito.</h4>";
-            $res .="<h4>Archivo: $nomFile</h4>";
+            //$res .= "<h4>El archivo es valido y fue cargado con exito.</h4>";
+            //$res .="<h4>Archivo: $nomFile</h4>";
 
             $manCSV = new ManejadorCSV();
 
-            $CSV = $manCSV->abrirArchivo("/opt/lampp/htdocs/SIBT/controllers/gestionarAlumno/files/$nomFile"); //<---Aquí le das la dirección del archivo, una vez que se cargo al servidor
+            //RIGEL-->$CSV = $manCSV->abrirArchivo("/opt/lampp/htdocs/SIBT/controllers/gestionarAlumno/files/$nomFile"); //<---Aquí le das la dirección del archivo, una vez que se cargo al servidor
+            $CSV = $manCSV->abrirArchivo("files/$nomFile"); //<---Aquí le das la dirección del archivo, una vez que se cargo al servidor
             
             //Número de alumno ingresados
             $eCont = 0;
+            $eCont2 = 0;
 
             while (( $regis = $manCSV->extraerRegistro($CSV)) != FALSE) {
                 
                 //echo "<h1>CONTROL</h1>";
 
-                $manCSV->procesarRegistro($regis);
-                
-                $eCont++;
+                if ($manCSV->procesarRegistro($regis)) {
+                    $eCont++;
+                } else {
+                    $eCont2++;
+                }
             }
             $manCSV->cerrarArchivo($CSV);
             
-            $res .= "El numero de alumno ingresados son $eCont";
+            $res .= " - El numero de alumnos registrados fue $eCont - Se omitierón $eCont2 registros(Correo/No. Cta. ya registrados)";
+            
+            return $res;
         }
     }
     

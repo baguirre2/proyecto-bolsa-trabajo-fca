@@ -31,7 +31,7 @@ class Idioma {
 		$insert['niid_nivel_escrito'] = $nivelEscrito;
 		$insert['niid_nivel_lectura'] = $nivelLectura;
 		$res = $conn->ejecutarInsert("ingsw.nivel_idioma", $insert, "niid_id");
-		echo $res;
+		//echo $res;
 		if ($res == null) {
 			$conn->cerrarConexion();
 			return false;
@@ -187,6 +187,20 @@ class Idioma {
         $conn = new InterfazBD();
         
         $res = $conn->insertar("UPDATE ingsw.idioma_alumno SET esau_id=$idEstado WHERE idal_id=$idIdioma");
+        
+        $alum = $conn->consultar("SELECT coel_correo, id_nombre, pe_nombre, pe_apellido_paterno, pe_apellido_materno 
+	FROM ingsw.idioma_alumno AS idal 
+                JOIN ingsw.alumno AS al ON (idal.al_id=al.al_id) 
+                JOIN ingsw.nivel_idioma AS niid ON (idal.niid_id=niid.niid_id) 
+                JOIN ingsw.idioma AS idio ON (niid.id_id=idio.id_id)
+                JOIN ingsw.persona AS pe ON (al.pe_id=pe.pe_id) 
+                JOIN ingsw.correo_electronico AS co ON (pe.pe_id=co.pe_id) 
+		WHERE idal.idal_id=$idIdioma");
+        
+        $alum = $alum[0];
+        
+        mail($alum['coel_correo'], "Constancia ". ($idEstado == 1? "Aceptada" : "Rechazada" ), "Buen día $alum[pe_nombre] $alum[pe_apellido_paterno] $alum[pe_apellido_materno]:<br>
+                    Se te informa que tu constancia del Idioma $alum[id_nombre] ha sido ". ($idEstado == 1? "Aceptada" : "Rechazada" ));
         
         $conn->cerrarConexion();
         

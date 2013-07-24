@@ -66,6 +66,16 @@ class InfoAcademica {
         
         $res = $conn->insertar("UPDATE ingsw.informacion_academica SET esau_id=$idEstado WHERE inac_id=$idInfoAcade");
         
+        $alum = $conn->consultar("SELECT coel_correo, inac_universidad, inac_escuela, pe_nombre, pe_apellido_paterno, pe_apellido_materno FROM ingsw.informacion_academica AS ia 
+                JOIN ingsw.alumno AS al ON (ia.inac_id=al.al_id) JOIN ingsw.persona AS pe ON (al.pe_id=pe.pe_id) 
+                JOIN ingsw.correo_electronico AS co ON (pe.pe_id=co.pe_id) 
+		WHERE ia.inac_id=$idInfoAcade");
+        
+        $alum = $alum[0];
+        
+        mail($alum['coel_correo'], "Constancia ". ($idEstado == 1? "Aceptada" : "Rechazada" ), "Buen dÃ­a $alum[pe_nombre] $alum[pe_apellido_paterno] $alum[pe_apellido_materno]:<br>
+                    Se te informa que tu constancia de la InformaciÃ³n AcadÃ©mica $alum[inac_universidad] - $alum[inac_escuela] ha sido ". ($idEstado == 1? "Aceptada" : "Rechazada" ));
+        
         $conn->cerrarConexion();
         
         return $res;        
@@ -112,6 +122,27 @@ class InfoAcademica {
 					JOIN ingsw.alumno AS al ON (al.al_id = inac.al_id)
 					JOIN ingsw.persona AS pe ON (al.pe_id = pe.pe_id)
 					WHERE inac.esfc_id = $idEstudiosFCA;";
+    	$res = $conn->consultar($query);
+    	$conn->cerrarConexion();
+    	return $res;
+    }
+    
+    	/**
+	 * Busca y regresa los alumnos que tengan cierto grado escolar en la FCA.
+	 * @author Eduardo GarcÃ­a
+	 * @param $idInfoAcademica
+	 */        
+    public function obtenerByID($idInfoLab) {
+    	
+    	$conn = new InterfazBD2();
+    	
+    	$query = "SELECT * FROM ingsw.informacion_academica AS inac 
+					JOIN ingsw.estudio_fca AS esfc ON (inac.esfc_id = esfc.esfc_id)
+					JOIN ingsw.nivel_estudio AS nies ON (esfc.nies_id = nies.nies_id)
+					JOIN ingsw.estado_academico AS esac ON (inac.esac_id = esac.esac_id)
+					JOIN ingsw.alumno AS al ON (al.al_id = inac.al_id)
+					JOIN ingsw.persona AS pe ON (al.pe_id = pe.pe_id)
+					WHERE inac.inac_id = $idInfoLab";
     	$res = $conn->consultar($query);
     	$conn->cerrarConexion();
     	return $res;
@@ -196,7 +227,7 @@ class InfoAcademica {
     
     	//Si el grado es ajeno a la FCA
     	if($otro != ""){
-    		//Si no hay fecha de término
+    		//Si no hay fecha de tï¿½rmino
     		if($fechaTermino == ""){
     			$query = "INSERT INTO ingsw.informacion_academica (inac_id, al_id, esac_id, esfc_id, esau_id, esot_id, inac_universidad, inac_escuela, inac_promedio, inac_fecha_inicio, inac_ruta_constancia)
     			VALUES ( $inac_id_insertar, $idAlum, $esac_id, null, 2, $esot_id, '$universidad', '$escuela', $promedio, '$fechaInicio', '$nomFile') ";
@@ -206,7 +237,7 @@ class InfoAcademica {
     		}
     		 
     	}else{    		 
-    		//Si no hay fecha de término
+    		//Si no hay fecha de tï¿½rmino
     		if($fechaTermino == ""){
     			$query = "INSERT INTO ingsw.informacion_academica (inac_id, al_id, esac_id, esfc_id, esau_id, esot_id, inac_universidad, inac_escuela, inac_promedio, inac_fecha_inicio, inac_ruta_constancia)
     			VALUES ( $inac_id_insertar, $idAlum, $esac_id, $esfc_id, 2, $esot_id, '$universidad', '$escuela', $promedio, '$fechaInicio', '$nomFile') ";
@@ -221,7 +252,7 @@ class InfoAcademica {
     	if(($resultado == false) || ($resultado ==0)){
     		echo "<h1>No registrado. Error</h1>";
     	}else{
-    		$res="El grado académico ha sido registrado.";    		
+    		$res="El grado acadï¿½mico ha sido registrado.";    		
     	}
     	$conexion->cerrarConexion();
     	return $res;
@@ -254,7 +285,7 @@ class InfoAcademica {
     	if($resultado == false){
     		echo "<h1>No actualizado. Error</h1>";
     	}else{    		
-    		$res="El grado académico ha sido actualizado.";
+    		$res="El grado acadï¿½mico ha sido actualizado.";
     	}
     	$conexion->cerrarConexion();
     	return $res;

@@ -125,6 +125,15 @@ class Curso {
         
         $res = $conn->insertar("UPDATE ingsw.curso SET esau_id=$idEstado WHERE cu_id=$idCurso");
         
+        $alum = $conn->consultar("SELECT coel_correo, cu_nombre, pe_nombre, pe_apellido_paterno, pe_apellido_materno FROM ingsw.curso AS cu JOIN ingsw.alumno AS al ON (cu.al_id=al.al_id) 
+	JOIN ingsw.persona AS pe ON (al.pe_id=pe.pe_id) JOIN ingsw.correo_electronico AS co ON (pe.pe_id=co.pe_id) 
+		WHERE cu.cu_id=$idCurso");
+        
+        $alum = $alum[0];
+        
+        mail($alum['coel_correo'], "Constancia ". ($idEstado == 1? "Aceptada" : "Rechazada" ), "Buen día $alum[pe_nombre] $alum[pe_apellido_paterno] $alum[pe_apellido_materno]:<br>
+                    Se te informa que tu constancia del Curso $alum[cu_nombre] ha sido ". ($idEstado == 1? "Aceptada" : "Rechazada" ));
+        
         $conn->cerrarConexion();
         
         return $res;        

@@ -44,7 +44,7 @@ class ManejadorCSV {
         
         $alumNew = new Alumno();
         
-        $alumNew->registrarAlumnoPorArchivo($nombre, $apePat, $apeMat, $correo, $noCta, $nacion, $fecNac, $carrera);
+        return $alumNew->registrarAlumnoPorArchivo($nombre, $apePat, $apeMat, $correo, $noCta, $nacion, $fecNac, $carrera);
     }
 }
 ?>
