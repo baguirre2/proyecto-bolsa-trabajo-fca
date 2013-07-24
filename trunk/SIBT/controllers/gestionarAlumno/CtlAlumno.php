@@ -12,7 +12,7 @@ class CtlAlumno {
         $opc = $GET['opc'];
         
         // 2 para coordinador y 5 para alumno
-        $tipoUsuario = 2;
+        
         $idUsuario = 12;
 
         switch ($opc) {
@@ -85,17 +85,19 @@ class CtlAlumno {
                 case 'casoInicia';
                 break;
                 	
-                case 'actAlumno';
-                if($tipoUsuario == 2){
-                	require '../../boundaries/alumno/frmAluBuscCoord.html';
-                } else if ($tipoUsuario == 5){
+                case 'actAlumnoAlu';
+                	$tipoUsuario = 5;
                 	$alumno = new Alumno();
                 	if($datosAlumno = $alumno->recuperarDatosAlumno($idUsuario) ){
                 		require '../../boundaries/alumno/frmAluActAlumno.html';
                 	} else {
-                		echo "ERROR al obtener la informaci�n";
+                		echo "ERROR al obtener la informacion";
                 	}
-                }
+                
+                break;
+				case 'actAlumnoResp';
+	                $tipoUsuario = 2;
+                	require '../../boundaries/alumno/frmAluBuscCoord.html';
                 break;
                 case 'buscAlumno';
                 $alumno = new Alumno();

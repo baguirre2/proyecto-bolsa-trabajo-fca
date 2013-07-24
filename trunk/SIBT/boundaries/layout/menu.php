@@ -69,7 +69,11 @@
                             </li>
                         </ul>
                     </li>
-                    
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">Gestionar ALUMNO<b class="caret"></b></a>
+                         <ul class="dropdown-menu">
+                            <li><a href='#' onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumnoResp', 'vacio', 'contenido')">Actualizar Datos Alumno</a></li>
+                        </ul>
+                    </li>
                     
           <?php  break;
             
@@ -103,7 +107,7 @@
 
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">Gestionar ALUMNO<b class="caret"></b></a>
                          <ul class="dropdown-menu">
-                            <li><a href='#' onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido')">Actualizar Datos Alumno</a></li>
+                            <li><a href='#' onclick="ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumnoAlu', 'vacio', 'contenido')">Actualizar Datos Alumno</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">Grupos<b class="caret"></b></a>
