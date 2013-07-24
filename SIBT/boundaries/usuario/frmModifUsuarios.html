@@ -19,7 +19,19 @@
                 <input type="text" name="usuario" class="required" value="<? echo $datosUsuarios['us_nombre']; ?>" /></td>
             </tr>
             <tr>
-               <td>Tipo de Usuario:<span>*</span></td>
+                <td>Nombre:<span>*</span> </td>
+                <td><input type="text" name="pe_nombre" class="required" value="<? echo $datosUsuarios['pe_nombre']; ?>"  placeholder="Nombre"/></td>
+            </tr>
+			<tr>
+                <td>A. Paterno:<span>*</span> </td>
+                <td><input type="text" name="pe_apellido_paterno" class="required" value="<? echo $datosUsuarios['pe_apellido_paterno']; ?>"  placeholder="Apellido Paterno"/></td>
+            </tr>
+			<tr>
+                <td>A. Materno:<span>*</span> </td>
+                <td><input type="text" name="pe_apellido_materno" class="required" value="<? echo $datosUsuarios['pe_apellido_materno']; ?>"  placeholder="Apellido Materno"/></td>
+            </tr>
+            <tr>
+               <td>Tipo de Usuario: </td>
     			<td>
 		    		<select name="tipoUsuario" class="required">
 		    		<option value="<? echo $datosUsuarios['tius_id'];  ?>"><? echo $datosUsuarios['tius_descripcion'];  ?></option>
@@ -33,7 +45,7 @@
 	            </td>
             </tr>
             <tr>
-                <td>Correo ElectrÃ³nico:<span>*</span></td>
+                <td>Correo Electrónico:<span>*</span></td>
                 <td><input type="text" name="eMail" value="<? echo $datosUsuarios['coel_correo']; ?>" class="required" /></td>
             </tr>
             <tr>
@@ -42,7 +54,7 @@
             </tr>
             <!-- Funcionalidad AJAX para que dependiendo de: -->
     		<!-- Nivel Estudio seleccionado, aparezcan los Estudios FCA relacionados -->
-    		<!-- Estudio FCA seleccionado, aparezcan los Estados AcadÃ©micos -->   		
+    		<!-- Estudio FCA seleccionado, aparezcan los Estados Académicos -->   		
         </tbody>
     </table>
 </form>

@@ -30,9 +30,21 @@ class CtlUsuario {
             	break;
             case 'registrar_usuario';
 				$usuario = new Usuario();
-            	
-				if ($consultaTipo = $usuario->registrarUsuario($GET)){
-					echo "<h1>El usuario ha sido agregado<h1>";
+            	$registrado = $usuario->registrarUsuario($GET);
+				if ($registrado){
+					
+					echo"
+			<table>
+			  <tr>
+				<td colspan=\"2\"><h1>El usuario ha sido agregado.</h1></td>
+			  </tr>
+			  <tr>
+				<td colspan=\"2\">
+				<input type= 'button' value='Aceptar' onclick=\"ajax('controllers/gestionarUsuario/CtlUsuario.php', 'agregar_usuario', 'vacio', 'contenido'); \" />
+				</td>
+			  </tr>
+			</table>
+		";
 				}
 				
             	break;
@@ -92,6 +104,9 @@ class CtlUsuario {
     	$eMail = $GET['eMail'];
     	$pe_id = $GET['pe_id'];
     	$us_id = $GET['us_id'];
+		$pe_nombre = $GET['pe_nombre'];
+		$pe_apellido_paterno = $GET['pe_apellido_paterno'];
+		$pe_apellido_materno = $GET['pe_apellido_materno'];
     
     	// Datos: $usuario, $tipoUsuario, $eMail, $pe_id, $us_id
     	echo"
@@ -101,9 +116,12 @@ class CtlUsuario {
     	<input type='hidden' value='$eMail' name='eMail' >
     	<input type='hidden' value='$pe_id' name='pe_id' >
     	<input type='hidden' value='$us_id' name='us_id' >
+		<input type='hidden' value='$pe_nombre' name='pe_nombre' >
+		<input type='hidden' value='$pe_apellido_paterno' name='pe_apellido_paterno' >
+		<input type='hidden' value='$pe_apellido_materno' name='pe_apellido_materno' >
     	<table>
     	<tr>
-    	<td colspan=\"2\">¿Esta seguro que desea modificar la información del usuario?</td>
+    	<td colspan=\"2\">&iquest;Esta seguro que desea modificar la informaci&oacute;n del usuario?</td>
     	</tr>
     	<tr>
     	<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarUsuario/CtlUsuario.php', 'acepModifUsuario', 'frmConfModifUsu', 'contenido');\"/>
@@ -133,7 +151,7 @@ class CtlUsuario {
     <input type='hidden' value='$pe_id' name='pe_id' >
     <table>
     <tr>
-    <td colspan=\"2\">¿Esta seguro que desea dar de baja al usuario?</td>
+    <td colspan=\"2\">&iquest;Esta seguro que desea dar de baja al usuario?</td>
     </tr>
     <tr>
     <td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarUsuario/CtlUsuario.php', 'acepBajaUsuario', 'frmConfModifUsu', 'contenido');\"/>
