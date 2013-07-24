@@ -165,6 +165,7 @@ class CtlCurriculum {
 
             case "ActualizarIdioma";
                 $this->actualizarIdioma();
+                $this->menuIdiomas($idAlum);
                 break;
 
             case "AgregarConstancia";
@@ -374,9 +375,27 @@ class CtlCurriculum {
             //Valida la constancia cuyo ID es recibido
             case 'valEstaValidar';
                 if ($this->cambiarEstadoConst($GET['id'], $GET['tipo'], TRUE)) {
-                    echo "<h1>Se ha cambiado el estado de la constancia</h1>";                    
+                    echo '<div class="inner-heading">
+	    <div class="container">
+	        <div class="row">
+	            <div class="span12">
+	                <h1 class="animated fadeInDown delay1">Se ha cambiado el estado de la constancia</h1>
+	                <p class="animated fadeInDown delay2"></p>
+	            </div>
+	        </div>
+	    </div>
+</div>';
                 } else {
-                    echo "<h1>Ha ocurrido un error al cambiar el estado de la constancia</h1>";                    
+                    echo '<div class="inner-heading">
+	    <div class="container">
+	        <div class="row">
+	            <div class="span12">
+	                <h1 class="animated fadeInDown delay1">Ha ocurrido un error al cambiar el estado de la constancia</h1>
+	                <p class="animated fadeInDown delay2"></p>
+	            </div>
+	        </div>
+	    </div>
+</div>';
                 }
                 
                 $this->listarConstancias();
@@ -385,11 +404,28 @@ class CtlCurriculum {
             //Rechaza la constancia cuyo ID es recibido
             case 'valEstaRechazar';
                 
-                
-                if ($this->cambiarEstadoConst($GET['id'], $GET['tipo'], FALSE)) {
-                    echo "<h1>Se ha cambiado el estado de la constancia</h1>";                    
+if ($this->cambiarEstadoConst($GET['id'], $GET['tipo'], TRUE)) {
+                    echo '<div class="inner-heading">
+	    <div class="container">
+	        <div class="row">
+	            <div class="span12">
+	                <h1 class="animated fadeInDown delay1">Se ha cambiado el estado de la constancia</h1>
+	                <p class="animated fadeInDown delay2"></p>
+	            </div>
+	        </div>
+	    </div>
+</div>';
                 } else {
-                    echo "<h1>Ha ocurrido un error al cambiar el estado de la constancia</h1>";                    
+                    echo '<div class="inner-heading">
+	    <div class="container">
+	        <div class="row">
+	            <div class="span12">
+	                <h1 class="animated fadeInDown delay1">Ha ocurrido un error al cambiar el estado de la constancia</h1>
+	                <p class="animated fadeInDown delay2"></p>
+	            </div>
+	        </div>
+	    </div>
+</div>';
                 }
                 
                 $this->listarConstancias();
@@ -480,7 +516,17 @@ class CtlCurriculum {
 	    	$idioma1->actualizar($idIdioma, $porcentajeOral, $porcentajeEscritura, $porcentajeLectura, $alumnoIdioma);
 	    }
 	    if ($res) {
-	    	echo "Se ha actualizado la información del Idioma";
+                
+	    	echo '<div class="inner-heading">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="span12">
+                                            <h1 class="animated fadeInDown delay1">Se ha actualizado la información del Idioma</h1>
+                                            <p class="animated fadeInDown delay2"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>';
 	    } else {
 	    	$errMsj = "Ha ocurrido un error";
 	    	if ($_POST['opc'] == "RegistrarIdioma" || $_POST['opc'] == "ActualizarIdioma") {
@@ -558,7 +604,16 @@ class CtlCurriculum {
         if ($err) {
             include './boundaries/curriculum/frmRegisIdioma.php';
         } else {
-            echo "El idioma ha sido registrado";
+            echo '<div class="inner-heading">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="span12">
+                                        <h1 class="animated fadeInDown delay1">El idioma ha sido registrado</h1>
+                                        <p class="animated fadeInDown delay2"></p>
+                                    </div>
+                                </div>
+                            </div>
+                </div>';
             $this->menuIdiomas($idAlum);
         }
     }
@@ -578,11 +633,9 @@ class CtlCurriculum {
             	include '../../boundaries/curriculum/frmRegisIdioma.php';
         	}
         } else {
+            echo "<input type=\"button\" value=\"Agregar Idioma\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarIdioma' , 'vacio', 'contenido')\">
+    					 <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')\"> ";
             echo $strIdiomas;
-            echo "	<table width='1000'> <tr>
-    					<td>  <input type=\"button\" value=\"Agregar Idioma\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarIdioma' , 'vacio', 'contenido')\">
-    					 <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')\"> </td>
-					</tr> </table>";
         }
     }
 
@@ -636,7 +689,7 @@ class CtlCurriculum {
      */
     function obtenerIdiomas($idAlumno) {
         $strIdiomas = "
-    		<table width='1000'> 
+    		<table width='1000' class='tablas_sort'> 
     			<thead>
     				<tr> 
     					<th colspan='5'> Idiomas </th> 	
@@ -991,8 +1044,8 @@ public function listarEstudiosFCA($nivel, $id_inac){
         $listCert = new Certificacion();
         $listCert = $listCert->listarPorEstado(2);
 
-        //$listInfAca = new InfoAcademica();
-        //$listInfAca = $listInfAca->listarPorEstado(2);
+        $listInfAca = new InfoAcademica();
+        $listInfAca = $listInfAca->listarPorEstado(2);
 
         $listCurs = new Curso();
         $listCurs = $listCurs->listarPorEstado(2);
@@ -1001,10 +1054,13 @@ public function listarEstudiosFCA($nivel, $id_inac){
         $listIdio = $listIdio->listarPorEstado(2);
 
         //new ListaConstancias($listCert, $listInfAca, $listIdio, $listCurs);
-        new ListaConstancias($listCert, false, $listIdio, $listCurs);
+        new ListaConstancias($listCert, $listInfAca, $listIdio, $listCurs);
     }
 
     public function mostrarConstancia($tipoCosnt, $idConsta) {
+        
+        $idAlumno = new Alumno();
+        $idAlumno = $idAlumno->getIdByIdConstac($idConsta, $tipoCosnt);
         
         switch ($tipoCosnt) {
             case 'cert';
@@ -1012,15 +1068,15 @@ public function listarEstudiosFCA($nivel, $id_inac){
                 
                 $certificado = new Certificacion();
                 $certificado = $certificado->buscarCertificacion($idConsta);
-                new MostrarCertific($certificado[0]);
+                new MostrarCertific($certificado[0], $idAlumno);
                 break;
             
             case 'infoLab';
-                include_once '../../boundaries/curriculum/MostrarCertific.php';
+                include_once '../../boundaries/curriculum/MostrarInfoAcademica.php';
                 
-                $certificado = new Certificacion();
-                $certificado = $certificado->buscarCertificacion($idConsta);
-                new MostrarCertific($certificado[0]);
+                $infoAca = new InfoAcademica();
+                $infoAca = $infoAca->obtenerByID($idConsta);
+                new MostrarInfoAcademica($infoAca[0], $idAlumno);
                 break;
             
             case 'curs';
@@ -1028,7 +1084,7 @@ public function listarEstudiosFCA($nivel, $id_inac){
                 
                 $curso = new Curso();
                 $curso = $curso->obtenerCurso($idConsta);
-                new MostrarCurso($curso[0]);
+                new MostrarCurso($curso[0], $idAlumno);
                 break;
             
             case 'idio';
@@ -1036,7 +1092,7 @@ public function listarEstudiosFCA($nivel, $id_inac){
                 
                 $idioma = new Idioma();
                 $idioma = $idioma->obtenerDatosIdioma($idConsta);
-                new MostrarIdioma($idioma[0]);
+                new MostrarIdioma($idioma[0], $idAlumno);
                 break;
         }
     }
@@ -1254,38 +1310,38 @@ public function listarEstudiosFCA($nivel, $id_inac){
      */
     
     function uploadbyIMG() {
-$allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "PNG");
-$temp = explode(".", $_FILES["file"]["name"]);
-$extension = end($temp);
-ECHO $extension;
-if (($_FILES["file"]["size"] < 2000000000)  && in_array($extension, $allowedExts))
-  {
-  if ($_FILES["file"]["error"] > 0)
-    {
-    echo "Return Code: " . $_FILES["file"]["error"] . "<br>";
-    }
-  else
-    {
+            $allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "PNG");
+            $temp = explode(".", $_FILES["file"]["name"]);
+            $extension = end($temp);
+            //ECHO $extension;
+            if (($_FILES["file"]["size"] < 2000000000)  && in_array($extension, $allowedExts))
+            {
+            if ($_FILES["file"]["error"] > 0)
+                {
+              //  echo "Return Code: " . $_FILES["file"]["error"] . "<br>";
+                }
+            else
+                {
 
-    if (file_exists("./constancias/cursos/" . $_FILES["file"]["name"]))
-      {
-      echo $_FILES["file"]["name"] . " already exists. ";
-      }
-    else
-      {
-      move_uploaded_file($_FILES["file"]["tmp_name"],
-      "./constancias/cursos/" . $_FILES["file"]["name"]);
-      echo "Stored in: " . "./constancias/cursos/" . $_FILES["file"]["name"];
-      }
-    }
-      $res = "../../constancias/cursos/".$_FILES["file"]["name"];
-  		return $res; 
-  } else
-  {
-  echo "Invalid file";
-  return null;
-  
-  }
+                if (file_exists("./constancias/cursos/" . $_FILES["file"]["name"]))
+                {
+                //echo $_FILES["file"]["name"] . " already exists. ";
+                }
+                else
+                {
+                move_uploaded_file($_FILES["file"]["tmp_name"],
+                "./constancias/cursos/" . $_FILES["file"]["name"]);
+                //echo "Stored in: " . "./constancias/cursos/" . $_FILES["file"]["name"];
+                }
+                }
+                $res = "../../constancias/cursos/".$_FILES["file"]["name"];
+                            return $res; 
+            } else
+            {
+            //echo "Invalid file";
+            return null;
+
+            }
     	} 	
 }
 
