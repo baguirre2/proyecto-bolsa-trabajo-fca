@@ -8,7 +8,6 @@
    </div>
 </div>
 <?
-echo "<h1>Mi objetivo Profesional</h1>";
 $objProf = new InterfazBD2();
 //$contador = 0;
 $res = $objProf->consultar("select * from ingsw.alumno where al_id = $idAlum");

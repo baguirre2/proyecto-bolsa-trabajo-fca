@@ -450,7 +450,7 @@ class Alumno{
 					<td>Se han actualizado los datos correctamente</td>
 				  </tr>
 				  <tr>
-					<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/>
+					<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumnoResp', 'vacio', 'contenido');\"/>
 					</td>
 				  </tr>
 				</table>
