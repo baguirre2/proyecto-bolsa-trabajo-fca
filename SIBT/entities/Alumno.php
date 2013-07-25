@@ -532,8 +532,8 @@ class Alumno{
 		$bd = InterfazBD2();
 		$cat_dir = array();
 		$cat_dir['estados']= $bd->toCatalogo("ingsw.estado ");
-		$cat_dir['delegaciones'] = $bd->toCatalogo("ingsw.delegacion_municipio");
-		$cat_dir['colonias'] = $bd->toCatalogo("ingsw.colonia");
+		$cat_dir['delegaciones'] = $bd->consultar("SELECT * FROM ingsw.delegacion_municipio;");
+		$cat_dir['colonias'] = $bd->consultar("SELECT * FROM ingsw.colonia;");
 		
 		return $cat_dir;
 	}
