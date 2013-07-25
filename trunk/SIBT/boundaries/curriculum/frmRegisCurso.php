@@ -1,7 +1,15 @@
 <div id="Respuesta">
 	<?if (isset($errMsj)) { echo $errMsj; }?>
 </div>
-
+	<div class="inner-heading">
+	   		<div class="container">
+	       		<div class="row">
+	           		<div class="span12">
+	               		<h1 class="animated fadeInDown delay1"><? if (!isset($idCurso)) { echo "Registrar Curso"; } else { echo "Actualizar Curso"; } ?></h1>
+	           </div>
+	       </div>
+	   </div>
+	</div>
 <form id="frmRegistrarCurso" name="frmRegistrarCurso" method="post" enctype="multipart/form-data" action="index.php">
 	<input type="hidden" id='opc' name='opc' value='<? if (!isset($idCurso)) { echo "RegistrarCurso"; } else { echo "ActualizarCurso"; } ?>' />
 		<table>

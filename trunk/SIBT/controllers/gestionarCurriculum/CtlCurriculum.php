@@ -634,8 +634,17 @@ if ($this->cambiarEstadoConst($GET['id'], $GET['tipo'], TRUE)) {
             	include '../../boundaries/curriculum/frmRegisIdioma.php';
         	}
         } else {
+			echo "	<div class=\"inner-heading\">
+	   		<div class=\"container\">
+	       		<div class=\"row\">
+	           		<div class=\"span12\">
+	               		<h1 class=\"animated fadeInDown delay1\">Idiomas</h1>
+	           			</div>
+	       			</div>
+	   				</div>
+				</div>";
             echo "<input type=\"button\" value=\"Agregar Idioma\" id=\"Cancelar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarIdioma' , 'vacio', 'contenido')\">
-    					 <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')\"> ";
+    			  <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')\"> ";
             echo $strIdiomas;
         }
     }
@@ -649,11 +658,9 @@ if ($this->cambiarEstadoConst($GET['id'], $GET['tipo'], TRUE)) {
      */
     function obtenerCursos($idAlumno) {
         $strCursos = "
-    		<table width='1000'> 
+    		<table class='tablas_sort'> 
     			<thead>
     				<tr> 
-    					<th colspan='3'> Cursos </th> 	
-    				</tr> <tr> 
     					<th> Nombre del Curso </th> <th> Fecha de Participación </th> <th>   </th> 
     				</tr> 
   				</thead>
@@ -690,11 +697,9 @@ if ($this->cambiarEstadoConst($GET['id'], $GET['tipo'], TRUE)) {
      */
     function obtenerIdiomas($idAlumno) {
         $strIdiomas = "
-    		<table width='1000' class='tablas_sort'> 
+    		<table class='tablas_sort'> 
     			<thead>
-    				<tr> 
-    					<th colspan='5'> Idiomas </th> 	
-    				</tr> <tr> 
+   				<tr> 
     					<th> Idioma </th> <th> Escritura </th> <th> Lectura </th> <th> Oral </th> <th>   </th> 
     				</tr> 
   				</thead>
@@ -772,11 +777,18 @@ if ($this->cambiarEstadoConst($GET['id'], $GET['tipo'], TRUE)) {
         if ($strCursos == null) {
             include './boundaries/curriculum/frmRegisCurso.php';
         } else {
+			echo "	<div class=\"inner-heading\">
+	   		<div class=\"container\">
+	       		<div class=\"row\">
+	           		<div class=\"span12\">
+	               		<h1 class=\"animated fadeInDown delay1\">Cursos</h1>
+	           			</div>
+	       			</div>
+	   				</div>
+				</div>";          
+            echo "<input type=\"button\" value=\"Agregar Curso\" id=\"AgregarCurso\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarCurso' , 'vacio', 'contenido')\">
+    			  <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')\"> </td>";
             echo $strCursos;
-            echo "	<table width='1000'> <tr>
-    					<td>  <input type=\"button\" value=\"Agregar Curso\" id=\"AgregarCurso\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarCurso' , 'vacio', 'contenido')\">
-    					 <input type=\"button\" value=\"Regresar\" id=\"Regresar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 1 , 'vacio', 'contenido')\"> </td>
-					</tr> </table>";
         }
     }
 
@@ -1232,7 +1244,7 @@ public function listarEstudiosFCA($nivel, $id_inac){
     public function agregarEliminarFavorito($idAlumno, $idReclutador, $agregar) {
     	$btnAgregar = "<input type=\"button\" value=\"Agregar a Favoritos\" id=\"Agregar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'AgregarAFavoritos' , 'frmCurriculum', 'Respuesta')\">";
     	$btnEliminar = "<input type=\"button\" value=\"Eliminar de Favoritos\" id=\"Eliminar\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'EliminarDeFavoritos' , 'frmCurriculum', 'Respuesta')\">";
-    	$btnImprimir = "<input type=\"button\" value=\"Imprimir\" id=\"Imprimir\" onclick=\"ajax('./controllers/gestionarCurriculum/CtlCurriculum.php', 'ImprimirFavorito' , 'frmCurriculum', 'Respuesta')\">";    	
+   	
     	$reclutador = new Reclutador();
     	if ($agregar) {
 	    	if ($reclutador->agregarFavorito($idReclutador, $idAlumno)) {
@@ -1244,7 +1256,7 @@ public function listarEstudiosFCA($nivel, $id_inac){
     		if ($reclutador->eliminarFavorito($idReclutador, $idAlumno)) {
 	    		echo "<b><p>".$btnAgregar;
 	    	} else {
-	    		echo "<b><p> No se pudo eliminar de Favoritos".$btnImprimir.$btnEliminar;
+	    		echo "<b><p> No se pudo eliminar de Favoritos".$btnEliminar;
 	    	}    				
     	}
     }
