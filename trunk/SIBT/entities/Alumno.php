@@ -488,18 +488,42 @@ class Alumno{
 		$conexion->cerrarConexion();
 	}
 	
-	public function actualizarDireccion($direccion){
+	public function actualizarDireccion($GET){
 		$bd = new InterfazBD2();
-		$domicilio = $direccion[do_id];
-		$cp = $direccion[co_codigo_postal];
-		$estado = $direccion[es_id]; 
-		$demu = $direccion[demu_id];
-		$colonia = $direccion[co_id];
-		$calle = $direccion[do_calle];
-		$noExt = $direccion[do_num_exterior];
-		$noInt = $direccion[do_num_interior];
-		$query = "UPDATE ingsw.domicilio SET co_id = $colonia, do_calle = $calle, do_num_exterior = $noExt, do_num_interior = $noInt WHERE do_id = $domicilio";
+		$domicilio = $GET['do_id'];
+		$cp = $GET['co_codigo_postal'];
+		$estado = $GET['es_id']; 
+		$demu = $GET['demu_id'];
+		$colonia = $GET['co_id'];
+		$calle = $GET['do_calle'];
+		$noExt = $GET['do_num_exterior'];
+		$noInt = isset($GET['do_num_interior']) ? $GET['do_num_interior']: "";
+		$query = "UPDATE ingsw.domicilio SET co_id = '$colonia', do_calle = '$calle', do_num_exterior = '$noExt', do_num_interior = '$noInt' WHERE do_id = $domicilio";
 		
+		if ($bd->ejecutarQuery($query)){
+				echo "
+				<table>
+				  <tr>
+					<td>Se han actualizado los datos correctamente</td>
+				  </tr>
+				  <tr>
+					<td><input type='button' value='Aceptar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'actAlumno', 'vacio', 'contenido');\"/>
+					</td>
+				  </tr>
+				</table>";
+					
+			} else {
+				echo "<table>
+						  <tr>
+							<td><span style='color:red;'>ERROR al actualizar los datos</span></td>
+						  </tr>
+						  <tr>
+							<td><input type='button' value='Regresar' onclick=\"ajax('controllers/gestionarAlumno/CtlAlumno.php', 'direccionAlumno', 'vacio', 'contenido');\"/>
+							</td>
+						  </tr>
+						</table>";
+			}
+		$bd->cerrarConexion();
 	}
 	// fin Actualizar Alumno
 	
@@ -508,7 +532,7 @@ class Alumno{
 		$bd = InterfazBD2();
 		$cat_dir = array();
 		$cat_dir['estados']= $bd->toCatalogo("ingsw.estado ");
-		$cat_dir['delegaciones'] = $db->toCatalogo("ingsw.delegacion_municipio");
+		$cat_dir['delegaciones'] = $bd->toCatalogo("ingsw.delegacion_municipio");
 		$cat_dir['colonias'] = $bd->toCatalogo("ingsw.colonia");
 		
 		return $cat_dir;
@@ -534,7 +558,15 @@ class Alumno{
 		$bd->cerrarConexion();
 		return $salida;
 	}
-        
+    
+	function obtenerEstadoDelegacionColonia($cp){
+		$db = new InterfazBD2();
+		$tmp['estado'] = $db->consultar("SELECT es_nombre as nombre FROM ingsw.colonia JOIN ingsw.delegacion_municipio ON (ingsw.colonia.demu_id = ingsw.delegacion_municipio.demu_id) JOIN ingsw.estado ON (ingsw.delegacion_municipio.es_id = ingsw.estado.es_id) WHERE co_codigo_postal='$cp'");
+		$tmp['delegacion'] = $db->consultar("SELECT demu_nombre as nombre FROM ingsw.colonia JOIN ingsw.delegacion_municipio ON (ingsw.colonia.demu_id = ingsw.delegacion_municipio.demu_id) WHERE co_codigo_postal='$cp'");
+		$tmp['colonias'] =$db->consultar("SELECT co_nombre as nombre,co_id as id FROM ingsw.colonia WHERE co_codigo_postal='$cp'");
+		$db->cerrarConexion();
+		return $tmp;
+	}
         //Autor: García Solis Eduardo
         //Param: idConstancia
         //Retorna los datos del alumno
