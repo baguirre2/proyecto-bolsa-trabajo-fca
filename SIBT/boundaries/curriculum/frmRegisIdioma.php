@@ -3,6 +3,15 @@
 	if (isset($errMsj)) { echo $errMsj; }          
 	?>
 </div>
+	<div class="inner-heading">
+	   		<div class="container">
+	       		<div class="row">
+	           		<div class="span12">
+	               		<h1 class="animated fadeInDown delay1"><? if (!isset($alumnoIdioma)) { echo "Registrar Idioma"; } else { echo "Actualizar Idioma"; } ?></h1>
+	           </div>
+	       </div>
+	   </div>
+	</div>
 <div id="RegistrarIdioma">
 	<form id="frmRegistrarIdioma" name="frmRegistrarIdioma" method="post" enctype="multipart/form-data" action="index.php" >
 		<input type="hidden" id='opc' name='opc' value='<? if (!isset($alumnoIdioma)) { echo "RegistrarIdioma"; } else { echo "ActualizarIdioma"; } ?>' />
