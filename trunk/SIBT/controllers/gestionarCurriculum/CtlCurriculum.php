@@ -353,7 +353,7 @@ class CtlCurriculum {
             case 'crearObj';
                 $transaccionBD = new InterfazBD2();
                 $transaccionBD->ejecutarQuery("UPDATE ingsw.alumno SET al_objetivos_profesionales = '$GET[objProfAgre]' WHERE al_id = $idAlum");
-                echo "<h3>Tus objetivo profesional se ha creado.</h3>";
+                echo "<h3>Tu objetivo profesional se ha creado.</h3>";
                 include '../../boundaries/curriculum/objProf.php';
                 break;
 
