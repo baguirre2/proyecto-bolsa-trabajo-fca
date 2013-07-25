@@ -112,7 +112,7 @@ class CtlAlumno {
                 if($datosAlumno = $alumno->recuperarDatosAlumno($id) ){
                 	require_once '../../boundaries/alumno/frmAluActCoord.html';
                 } else {
-                	echo "ERROR al obtener la informaci�n";
+                	echo "ERROR al obtener la informaciï¿½n";
                 }
                 
                 
@@ -128,17 +128,26 @@ class CtlAlumno {
                 break;
                 
                 
-                case 'llenarDir':		//Llena el formulario para modificar direccion.
+				case 'direccionAlumno':		//Llena el formulario para modificar direccion.
                 	include '../../boundaries/alumno/frmModDireccion.php';
-                	$alum_id = $_GET['id'];
+                	$alum_id = $GET['id'];
                 	$alumno = new Alumno();
                 	$cata_dir = $alumno->obtenerCatalogoDir();
-                	$datos_dir = $alumno->obtenerMiDireccion($alumno_id);
-                	$frm = new FrmMiDireccion($cata_dir ,$datos_dir);
+                	$datos_dir = $alumno->obtenerMiDireccion($alum_id);
+                	$frm = new FrmMiDireccion($cata_dir ,$datos_dir, $alum_id);
                 	
                 	break;
+
+               	
+               	case 'obtenerDatosCP':			//Busca el CP e incluye estado y municipio/delegaci�n.
+               		include '../../boundaries/alumno/divEstadoColonia.php';
+               		$alumno = new Alumno();
+               		$arr_datos = $alumno->obtenerEstadoDelegacionColonia($GET['cp']);
+               	
+                	new DivEstadoColonia($arr_datos);
+                	break;
                 
-                
+                	
                 case 'obDeMu';			//Obtiene Delegación/Municipio de manera dinámica [a través de JS].
                 	include '../../boundaries/alumno/divMiDireccion.php';
                 	$dir = new Alumno();
@@ -158,15 +167,7 @@ class CtlAlumno {
                 
                 case 'actMiDireccion':		//Ejecuta QUERY
                 	$mi_dir = new Alumno();
-                	$mi_dir->actualizarDireccion($_GET['direccion']);
-                	break;
-                
-                case 'direccionAlumno':		//Pinta el formulario de Mi Direccion-Alumno.
-                	include '../../boundaries/alumno/frmModDireccion.php';
-                	$alumno = new Alumno();
-                	$catalogo = $alumno->obtenerCatalogoDir();
-                	$mi_dir = $alumno->obtenerMiDireccion($_GET['id_alumno']);
-                	$frmDir = new FrmMiDireccion($catalogo, $mi_dir);
+                	$mi_dir->actualizarDireccion($GET);
                 	break;
                 // ********* FIN Actualizar alumno ******
 
@@ -287,7 +288,7 @@ class CtlAlumno {
         }
     }
 
-    //Autor: García Solis Eduardo
+    //Autor: GarcÃ­a Solis Eduardo
     //Descrip: Procesa el archivo con los registros de los alumnos y genera una cadena con los resultados obtenidos.
     //Param: Recibe el archivo a procesar
     public function procesarArchivo($file) {
@@ -335,8 +336,8 @@ class CtlAlumno {
 
             //RIGEL-->$CSV = $manCSV->abrirArchivo("/opt/lampp/htdocs/SIBT/controllers/gestionarAlumno/files/$nomFile"); //<---Aquí le das la dirección del archivo, una vez que se cargo al servidor
             $CSV = $manCSV->abrirArchivo("files/$nomFile"); //<---Aquí le das la dirección del archivo, una vez que se cargo al servidor
-            
-            //Número de alumno ingresados
+
+            //NÃºmero de alumno ingresados
             $eCont = 0;
             $eCont2 = 0;
 
