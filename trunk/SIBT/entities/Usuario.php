@@ -103,7 +103,8 @@ class Usuario{
 	
 	public function obtenerUsuariosCoordDirAsis() {
 		$interfazBD = new InterfazBD2();
-			$query = "SELECT TU.tius_descripcion, U.us_id, U.us_nombre FROM INGSW.USUARIO_TIPO_USUARIO UTU INNER JOIN INGSW.USUARIO U ON(U.us_id=UTU.us_id) INNER JOIN INGSW.TIPO_USUARIO TU ON(TU.tius_id=UTU.tius_id) INNER JOIN INGSW.PERSONA P ON(P.pe_id=U.pe_id) WHERE TU.tius_id = '1' OR TU.tius_id = '2' OR TU.tius_id = '3' ;";
+			// $query = "SELECT TU.tius_descripcion, U.us_id, U.us_nombre FROM INGSW.USUARIO_TIPO_USUARIO UTU INNER JOIN INGSW.USUARIO U ON(U.us_id=UTU.us_id) INNER JOIN INGSW.TIPO_USUARIO TU ON(TU.tius_id=UTU.tius_id) INNER JOIN INGSW.PERSONA P ON(P.pe_id=U.pe_id) WHERE TU.tius_id = '1' OR TU.tius_id = '2' OR TU.tius_id = '3' ;";
+		$query = "select tius_descripcion, us_id, us_nombre from (SELECT TU.tius_descripcion, U.us_id, U.us_estado, U.us_nombre FROM INGSW.USUARIO_TIPO_USUARIO UTU INNER JOIN INGSW.USUARIO U ON(U.us_id=UTU.us_id) LEFT JOIN INGSW.TIPO_USUARIO TU ON(TU.tius_id=UTU.tius_id)  WHERE TU.tius_id = '1' or TU.tius_id = '2' or TU.tius_id = '3') as foo where us_estado = true;";
 		$usuarios = $interfazBD->consultar($query);
 		if($usuarios){
 			$interfazBD->cerrarConexion();
@@ -173,7 +174,8 @@ class Usuario{
 	
 		//echo "$pe_id, $us_id";
 	
-		$query = "DELETE FROM INGSW.USUARIO WHERE pe_id='".$pe_id."'; DELETE FROM INGSW.CORREO_ELECTRONICO WHERE pe_id='".$us_id."';" ;
+		// $query = "DELETE FROM INGSW.USUARIO WHERE pe_id='".$pe_id."'; DELETE FROM INGSW.CORREO_ELECTRONICO WHERE pe_id='".$us_id."';" ;
+		$query = "UPDATE INGSW.USUARIO SET us_estado='f' WHERE pe_id = '".$pe_id."';";
 		if ($conexion->ejecutarQuery($query)){
 			echo"
 			<table>

@@ -369,7 +369,8 @@ class Alumno{
 		$aPaterno = isset($GET['pe_apellido_paterno']) ? $GET['pe_apellido_paterno'] : "";
 		$aMaterno =  isset($GET['pe_apellido_materno']) ? $GET['pe_apellido_materno'] : "";
 	
-		$query = "SELECT AL.al_num_cuenta, P.pe_nombre, P.pe_apellido_paterno, P.pe_apellido_materno, CE.coel_correo, EF.esfc_descripcion, U.us_contrasenia, U.us_id FROM INGSW.PERSONA P INNER JOIN INGSW.ALUMNO AL ON(P.pe_id=AL.pe_id) INNER JOIN INGSW.CORREO_ELECTRONICO CE ON(P.pe_id=CE.pe_id) INNER JOIN INGSW.USUARIO U ON(P.pe_id=U.pe_id) LEFT JOIN INGSW.ESTUDIO_FCA EF ON(EF.esfc_id=AL.esfc_id) WHERE AL.al_num_cuenta = '".$numCuenta."' OR P.pe_nombre = '".$nombre."' OR P.pe_apellido_paterno = '".$aPaterno."' OR P.pe_apellido_materno ='".$aMaterno."';";
+		// $query = "SELECT AL.al_num_cuenta, P.pe_nombre, P.pe_apellido_paterno, P.pe_apellido_materno, CE.coel_correo, EF.esfc_descripcion, U.us_contrasenia, U.us_id FROM INGSW.PERSONA P INNER JOIN INGSW.ALUMNO AL ON(P.pe_id=AL.pe_id) INNER JOIN INGSW.CORREO_ELECTRONICO CE ON(P.pe_id=CE.pe_id) INNER JOIN INGSW.USUARIO U ON(P.pe_id=U.pe_id) LEFT JOIN INGSW.ESTUDIO_FCA EF ON(EF.esfc_id=AL.esfc_id) WHERE AL.al_num_cuenta = '".$numCuenta."' OR P.pe_nombre = '".$nombre."' OR P.pe_apellido_paterno = '".$aPaterno."' OR P.pe_apellido_materno ='".$aMaterno."';";
+		$query = "SELECT AL.al_num_cuenta, P.pe_nombre, P.pe_apellido_paterno, P.pe_apellido_materno, EF.esfc_descripcion, U.us_contrasenia, U.us_id FROM INGSW.PERSONA P INNER JOIN INGSW.ALUMNO AL ON(P.pe_id=AL.pe_id) INNER JOIN INGSW.USUARIO U ON(P.pe_id=U.pe_id) LEFT JOIN INGSW.ESTUDIO_FCA EF ON(EF.esfc_id=AL.esfc_id) WHERE AL.al_num_cuenta = '".$numCuenta."' OR P.pe_nombre = '".$nombre."' OR P.pe_apellido_paterno = '".$aPaterno."' OR P.pe_apellido_materno ='".$aMaterno."';";
 	
 		$alumnos = $conexion->consultar($query);
 	

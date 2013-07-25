@@ -6,8 +6,15 @@
  * -
  * -
  -->
-<h1>Consultar Usuarios</h1>
-
+<div class="inner-heading">
+   <div class="container">
+       <div class="row">
+           <div class="span12">
+               <h1 class="animated fadeInDown delay1">Lista de Usuarios.</h1> <!--El span sirve para colocar una palabra a resaltar en negritas--> 
+           </div>
+       </div>
+   </div>
+</div>
     <table class='tablas_sort'>
     <thead>
         	<tr>
@@ -26,8 +33,8 @@
             <tr>           
             	<td><center><?php echo $consultaUsuarios[$contador]['us_nombre'] ; ?></center></td>
 				<td><center><?php echo $consultaUsuarios[$contador]['tius_descripcion'] ; ?></center></td>
-   			  	<td><center><input type="image" src="http://rigel.fca.unam.mx/~li302183784/IngOO/Imagenes/Modificar.gif" onclick="ajaxConId('controllers/gestionarUsuario/CtlUsuario.php', 'modifUsuario', 'vacio', 'contenido', <?php echo "'".$consultaUsuarios[$contador]['us_id']."' "; ?>  );"/></center></td>
-                <td><center><input type="image" src="http://rigel.fca.unam.mx/~li302183784/IngOO/Imagenes/baja.png" onclick="ajaxConId('controllers/gestionarUsuario/CtlUsuario.php', 'confBajaUsuario', 'vacio', 'contenido', <?php echo "'".$consultaUsuarios[$contador]['us_id']."' "; ?>  );"/></center></td>
+   			  	<td><center><a><i onclick="ajaxConId('controllers/gestionarUsuario/CtlUsuario.php', 'modifUsuario', 'vacio', 'contenido', <?php echo "'".$consultaUsuarios[$contador]['us_id']."' "; ?>  );" class="fontawesome-icon button circle-button green icon-edit" /></a></center></td>
+                <td><center><a><i onclick="ajaxConId('controllers/gestionarUsuario/CtlUsuario.php', 'confBajaUsuario', 'vacio', 'contenido', <?php echo "'".$consultaUsuarios[$contador]['us_id']."' "; ?>  );" class="fontawesome-icon button circle-button red icon-minus-sign"/></center></td>
             </tr>
    
      <?php $contador = $contador + 1; }  ?>

@@ -118,9 +118,11 @@ class CtlAlumno {
                 
                 break;
                 case 'confActAlu';
+                $tipoUsuario = 2;
                 $this->confirmarActualizacion($GET, $tipoUsuario);
                 break;
                 case 'acepConfActAlu';
+                $tipoUsuario = 2;
                 $alumno = new Alumno();
                 $alumno->actualizarAlumno($GET, $tipoUsuario);
                 break;
