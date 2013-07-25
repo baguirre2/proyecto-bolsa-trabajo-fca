@@ -24,8 +24,8 @@
             var cp = $('#co_codigo_postal').val();
             if(cp != ''){
                 if(cp.length  == 5){
-                    $.get('controllers/gestionarOfertaTrabajo/CtlOferta.php',{'opc':55,'cp':cp},function(data){
-                        $('#datos_cp').empty();
+                    $.get('controllers/gestionarAlumno/CtlAlumno.php',{'opc':'obtenerDatosCP','cp':cp},function(data){
+                    	$('#datos_cp').empty();
                         $('#datos_cp').append(data);
                         
                     });
@@ -35,4 +35,4 @@
                 }    
                 
             }
-    }
+        }
