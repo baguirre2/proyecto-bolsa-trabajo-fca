@@ -897,7 +897,13 @@ public function mostrarInfoAcademica($idAlum){
 		for ($i=0; $i <= count($resultados)-1; $i++) {
 			$infoAc_id = $resultados[$i]['inac_id'];
 			$registros .= "<tr><td>".$resultados[$i]['esfc_descripcion']."</td>";			
-			$registros .= "<td>".$resultados[$i]['inac_fecha_inicio']."</td>";
+			$fecha_bd=$resultados[$i]['inac_fecha_inicio'];
+			$dia = substr($fecha_bd, -2);
+			$mes = substr($fecha_bd, -5, 2);
+			$anio =  substr($fecha_bd, -10, 4);
+			$nueva_fecha=$dia."-".$mes."-".$anio;
+				
+			$registros .= "<td>".$nueva_fecha."</td>";
 			$registros .= "<td>".$resultados[$i]['esac_tipo']."</td>";
 			/*$registros .= ($resultados[$i]['esau_id'] != 1)? 	"<td><form id=\"frmListar\">
 						<input type=\"button\" value=\"Editar\" onclick=\"ajaxConId('controllers/gestionarCurriculum/CtlCurriculum.php', 'infoAcademicaFormEditar', 'frmListar', 'contenido', $infoAc_id)\">
