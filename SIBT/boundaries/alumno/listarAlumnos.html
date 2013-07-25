@@ -1,6 +1,15 @@
-
+<div class="inner-heading">
+   <div class="container">
+       <div class="row">
+           <div class="span12">
+               <h1 class="animated fadeInDown delay1">Resultados de la B&uacute;squeda.</h1> <!--El span sirve para colocar una palabra a resaltar en negritas--> 
+           </div>
+       </div>
+   </div>
+</div>
 	
-		<table >
+		<table class='tablas_sort'>
+		<thead>
   			<tr>
    				<th>Num. Cuenta &nbsp; </th>
     			<th>Nombre(s) &nbsp; </th>
@@ -10,8 +19,9 @@
 				<th>Corr. Electr&oacute;nico &nbsp; </th>
 				<th>Modificar &nbsp; </th>
 				<th>Ver Detalle &nbsp;</th>
-				</form>
   			</tr>
+  		</thead>
+        <tbody>
 		 <?
          	$contador = 0; 
 			while ($contador < count($alumnos)) {
@@ -45,4 +55,5 @@
 				
 			}
             ?>
+            </tbody>
             </table>

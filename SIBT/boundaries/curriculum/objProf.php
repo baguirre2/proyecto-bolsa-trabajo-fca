@@ -1,4 +1,12 @@
-
+<div class="inner-heading">
+   <div class="container">
+       <div class="row">
+           <div class="span12">
+               <h1 class="animated fadeInDown delay1">Mi objetivo Profesional.</h1> <!--El span sirve para colocar una palabra a resaltar en negritas--> 
+           </div>
+       </div>
+   </div>
+</div>
 <?
 echo "<h1>Mi objetivo Profesional</h1>";
 $objProf = new InterfazBD2();
