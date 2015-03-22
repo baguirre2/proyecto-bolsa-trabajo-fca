@@ -1,0 +1,1 @@
+Éste SVN sirve para trabajar de manera remota el proyecto de la Bolsa de Trabajo de la FCA, para la materia de Ingeniería de Software Orientada a Objetos, impartida por el Profesor Gabriel Guevara Gutierrez.
